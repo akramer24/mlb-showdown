@@ -17,8 +17,8 @@ const NavBar = ({ handleClick, isLoggedIn }) => (
       <Nav>
         <NavDropdown eventKey={1} title="Players" id="basic-nav-dropdown">
           <MenuItem eventKey={1.1}>All</MenuItem>
-          <MenuItem eventKey={1.2}>Batters</MenuItem>
-          <MenuItem eventKey={1.3}>Pitchers</MenuItem>
+          <MenuItem eventKey={1.2} onClick={() => navTo('/players/batters')}>Batters</MenuItem>
+          <MenuItem eventKey={1.3} onClick={() => navTo('/players/pitchers')}>Pitchers</MenuItem>
         </NavDropdown>
       </Nav>
       <Nav pullRight>

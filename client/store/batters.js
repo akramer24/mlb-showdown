@@ -1,8 +1,14 @@
 import axios from 'axios';
 
+const defaultState = {
+  batters: [],
+  singleBatter: {}
+}
+
 const GET_BATTERS = 'GET_BATTERS';
 const CREATE_BATTER = 'CREATE_BATTER';
 const REMOVE_BATTER = 'REMOVE_BATTER';
+const GET_BATTER = 'GET_BATTER';
 
 export function getBatters(batters) {
   return {
@@ -25,6 +31,13 @@ export function removeBatter(batter) {
   }
 }
 
+export function getBatter(batter) {
+  return {
+    type: GET_BATTER,
+    batter
+  }
+}
+
 export function fetchBatters() {
   return function thunk(dispatch) {
     return axios.get('/api/batters')
@@ -34,26 +47,38 @@ export function fetchBatters() {
   }
 }
 
-export function fetchUserBatters(id) {
+// export function fetchUserBatters(id) {
+//   return function thunk(dispatch) {
+//     return axios.get(`/api/users/${id}/batters`)
+//       .then(res => res.data)
+//       .then(batters => dispatch(getBatters(batters)))
+//       .catch(err => console.error(err))
+//   }
+// }
+
+export function fetchBatter(id) {
   return function thunk(dispatch) {
-    return axios.get(`/api/users/${id}/batters`)
+    return axios.get(`/api/batters/${id}`)
       .then(res => res.data)
-      .then(batters => dispatch(getBatters(batters)))
-      .catch(err => console.error(err))
+      .then(batter => dispatch(getBatter(batter)))
+      .catch(console.error);
   }
 }
 
-
-export default function battersReducer(state = [], action) {
+export default function battersReducer(state = defaultState, action) {
   switch (action.type) {
     case GET_BATTERS:
-      return action.batters;
+      return { ...state, batters: action.batters };
     case CREATE_BATTER:
-      return [...state, action.batter];
+      return { ...state, batters: [...state.batters, action.batter] };
     case REMOVE_BATTER:
-      return state.filter(batter => {
-        if (batter) return batter.id !== action.batter.id;
-      })
+      return {
+        ...state, batters: state.batters.filter(batter => {
+          if (batter) return batter.id !== action.batter.id;
+        })
+      }
+    case GET_BATTER:
+      return { ...state, singleBatter: action.batter };
     default:
       return state;
   }

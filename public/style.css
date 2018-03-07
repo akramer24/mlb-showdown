@@ -19,3 +19,415 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: red;
+}
+
+#all-batters, #all-pitchers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.batter, .pitcher {
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid black;
+  width: 238px;
+  height: 521px;
+  color: #c34646;
+  background-color: #8ca9a9;
+  color: #ff5f54;
+}
+
+.page-header {
+  position: relative;
+  left: 10px;
+}
+
+.player-img {
+  width: 214px;
+  height: 301px;
+}
+
+#display-players-page {
+  margin: 10px;
+}
+
+.display-players {
+  background-color: #636363;
+  text-shadow: 2px 2px 2px black;
+  color: #cec3c3;
+  font-family: verdana;
+  padding: 1px 0px 0px 0px;
+}
+
+
+#board {
+  background-color: #05a205;
+  color: #efe5e5;
+  text-shadow: 1px 1px 1px black;
+  padding: 1px 20px;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  z-index: 0;
+  display: flex;
+}
+
+#first {
+  height: 100px;
+  width: 100px;
+  background-color: #6d3708;
+  transform: rotate(45deg);
+  position: absolute;
+  left: 634px;
+  top: 290px;
+}
+
+#first-base {
+  position: absolute;
+  top: 0px;
+  left: 50px;
+}
+
+#first-image {
+  transform: rotate(-45deg);
+  position: absolute;
+  top: -24px;
+  left: 19px;
+  height: 80px;
+  width: 58px;
+}
+
+#second {
+  height: 100px;
+  width: 100px;
+  background-color: #6d3708;
+  transform: rotate(45deg);
+  position: absolute;
+  left: 441px;
+  top: 97px;
+}
+
+#second-base {
+  position: absolute;
+}
+
+#second-image {
+  transform: rotate(-45deg);
+  position: absolute;
+  top: 0px;
+  left: 12px;
+  height: 80px;
+  width: 58px;
+}
+
+#third {
+  height: 100px;
+  width: 100px;
+  background-color: #6d3708;
+  transform: rotate(45deg);
+  position: absolute;
+  left: 252px;
+  top: 286px;
+}
+
+#third-base {
+  position: absolute;
+  top: 50px;
+}
+
+#third-image {
+  transform: rotate(-45deg);
+  position: absolute;
+  top: 8px;
+  left: -11px;
+  height: 80px;
+  width: 58px;
+}
+
+#home {
+  position: absolute;
+  left: 396px;
+  top: 500px;
+}
+
+#home-image {
+  width: 125px;
+  height: 136px;
+  position: absolute;
+  top: -43px;
+  left: 32px;
+}
+
+#see-batter-card {
+  position: absolute;
+  left: 165px;
+  top: 50px;
+}
+
+#see-pitcher-card {
+  position: absolute;
+  left: 165px;
+  top: 60px;
+}
+
+#batter-game-attributes {
+  list-style: none;
+  font-size: 12px;
+  position: absolute;
+  top: -43px;
+  left: 31px;
+  color: black;
+  text-shadow: none;
+  background-color: #efe5e5;
+  padding: 5px;
+  width: 125px;
+  height: 136px;
+}
+
+#pitcher-game-attributes {
+  list-style: none;
+  font-size: 12px;
+  position: absolute;
+  top: -33px;
+  left: 32px;
+  color: black;
+  text-shadow: none;
+  background-color: #efe5e5;
+  padding: 5px;
+  width: 125px;
+  height: 136px;
+}
+
+#mound {
+  position: absolute;
+  left: 396px;
+  top: 308px;
+}
+
+#mound-image {
+  width: 125px;
+  height: 136px;
+  position: absolute;
+  top: -33px;
+  left: 32px;
+}
+
+#first-basepath {
+  height: 200px;
+  width: 30px;
+  background-color: #6d3708;
+  transform: rotate(45deg);
+  position: absolute;
+  left: 590px;
+  top: 368px;
+  overflow: hidden;
+  z-index: -1;
+}
+
+#third-basepath {
+  height: 200px;
+  width: 30px;
+  background-color: #6d3708;
+  transform: rotate(-45deg);
+  position: absolute;
+  left: 367px;
+  top: 366px;
+  overflow: hidden;
+  z-index: -1;
+}
+
+#right-basepath {
+  height: 200px;
+  width: 100px;
+  background-color: #6d3708;
+  transform: rotate(-45deg);
+  position: absolute;
+  left: 536px;
+  top: 142px;
+  overflow: hidden;
+  z-index: -1; */
+}
+
+#right-deep-INF {
+  height: 435px;
+  width: 70px;
+  background-color: #6d3708;
+  transform: rotate(-45deg);
+  position: absolute;
+  left: 591px;
+  top: -55px;
+  overflow: hidden;
+  z-index: -1;
+  border-top-right-radius: 90px;
+  border-bottom-right-radius: 90px;
+}
+
+#left-basepath {
+  height: 200px;
+  width: 100px;
+  background-color: #6d3708;
+  transform: rotate(45deg);
+  position: absolute;
+  left: 336px;
+  top: 152px;
+  overflow: hidden;
+  z-index: -1;
+}
+
+#left-deep-INF {
+  height: 376px;
+  width: 70px;
+  background-color: #6d3708;
+  transform: rotate(45deg);
+  position: absolute;
+  left: 311px;
+  top: -3px;
+  overflow: hidden;
+  z-index: -1;
+  border-bottom-left-radius: 90px;
+}
+
+#scoreboard {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+#board-buttons {
+  position: absolute;
+  top: 388px;
+  left: 85%;
+}
+
+#diamond {
+  position: absolute;
+  width: 600px;
+  top: 4%;
+  left: 36%;
+  margin-left: -300px;
+}
+
+.base {
+  background-color: white;
+  height: 50px;
+  width: 50px;
+}
+
+.lineup-prefix {
+  color: #e60909;
+  text-shadow: 1px 1px 1px #dcd7d7;
+}
+
+.sub {
+  list-style: none;
+  position: absolute;
+  background-color: #efe5e5;
+  color: black;
+  width: 230px;
+  left: 62.5%;
+  top: 396px;
+  z-index: 2;
+  text-shadow: none;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#result {
+  position: absolute;
+  top: 186px;
+  left: 65.3%;
+  font-size: 30px;
+  width: 200px;
+  text-align: center;
+}
+
+.sub-button {
+  float: right;
+}
+
+#see-pen {
+  position: absolute;
+  left: -31px;
+  top: 60px;
+}
+
+#see-bench {
+  position: absolute;
+  top: 50px;
+  left: -24px;
+}
+
+#enter {
+  width: 500px;
+  position: absolute;
+  left: 50%;
+  margin-left: -250px;
+  top: 50%;
+  text-align: center;
+  margin-top: -10px;
+}
+
+#enter button {
+  margin: 0px 10px;
+}
+
+.attributes-list {
+  list-style: none;
+  text-shadow: 1px 1px 1px black;
+}
+
+.team-page-name {
+  margin-left: 10px;
+}
+
+.set-lineup-team {
+  margin-left: 10px;
+}
+
+.set-lineup-players {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.set-lineup-batters {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.set-lineup-pitchers {
+  margin-right: 10px;
+}
+
+#names-row, #away-row, #home-row, .scoreboard-stuff {
+  display: flex;
+}
+
+.score-value {
+  height: 20px;
+  width: 20px;
+  border: 1px solid black;
+  background-color: gray;
+  text-align: center;
+}
+
+.score-name-value {
+  height: 20px;
+  width: 115px;
+  border: 1px solid black;
+  background-color: gray;
+}
+
+#ingame-lineup {
+  position: absolute;
+  top: 34%;
+}

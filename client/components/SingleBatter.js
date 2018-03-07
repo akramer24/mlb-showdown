@@ -33,15 +33,15 @@ class SingleBatter extends Component {
       return (
         <div>
 
-          <li>Strikeout: {this.convertArray(batter.SO)}</li>
-          <li>Groundout: {this.convertArray(batter.GB)}</li>
-          <li>Flyout: {this.convertArray(batter.FB)}</li>
-          <li>Walk: {this.convertArray(batter.BB)}</li>
-          <li>Single: {this.convertArray(batter.single)}</li>
-          <li>Single-Plus: {this.convertArray(batter.singlePlus)}</li>
-          <li>Double: {this.convertArray(batter.double)}</li>
-          <li>Triple: {this.convertArray(batter.triple)}</li>
-          <li>Home Run: {this.convertArray(batter.homeRun)}</li>
+          <p>Strikeout: {this.convertArray(batter.SO)}</p>
+          <p>Groundout: {this.convertArray(batter.GB)}</p>
+          <p>Flyout: {this.convertArray(batter.FB)}</p>
+          <p>Walk: {this.convertArray(batter.BB)}</p>
+          <p>Single: {this.convertArray(batter.single)}</p>
+          <p>Single-Plus: {this.convertArray(batter.singlePlus)}</p>
+          <p>Double: {this.convertArray(batter.double)}</p>
+          <p>Triple: {this.convertArray(batter.triple)}</p>
+          <p>Home Run: {this.convertArray(batter.homeRun)}</p>
 
         </div>
 
@@ -54,7 +54,7 @@ class SingleBatter extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    singleBatter: state.singleBatter
+    singleBatter: state.batters.singleBatter
   }
 }
 

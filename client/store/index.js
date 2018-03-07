@@ -4,10 +4,14 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import batters from './batters';
+import pitchers from './pitchers';
+import gameSetUp from './gameSetUp';
 
 const reducer = combineReducers({
   user,
-  batters
+  batters,
+  pitchers,
+  gameSetUp
 })
 
 const middleware = composeWithDevTools(applyMiddleware(
@@ -20,3 +24,5 @@ const store = createStore(reducer, middleware)
 export default store;
 export * from './user';
 export * from './batters';
+export * from './pitchers';
+export * from './gameSetUp';

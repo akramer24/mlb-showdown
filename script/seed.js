@@ -387,23 +387,27 @@ const data = {
       password: 'lumpkin',
       teamName: 'Donkey Donko'
     }
-  ]
+  ],
+
+  teamAriBatters: [1, 2, 3, 4, 5, 7, 8, 15, 11],
+  teamJesseBatters: [8, 10, 14, 15, 13, 3, 12, 2, 4]
 }
 
-db.sync({ force: true })
-  .then(() => {
-    data.batters.forEach(batter => {
+async function seed() {
+  try {
+    await db.sync({ force: true });
+    await data.batters.forEach(batter => {
       Batter.create(batter)
     })
-  })
-  .then(() => {
-    data.pitchers.forEach(pitcher => {
+    await data.pitchers.forEach(pitcher => {
       Pitcher.create(pitcher)
     })
-  })
-  .then(() => {
-    data.users.forEach(user => {
+    await data.users.forEach(user => {
       User.create(user)
     })
-  })
-  .catch(err => console.error(err));
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+seed();

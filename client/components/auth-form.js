@@ -1,17 +1,25 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
-import {auth} from '../store'
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { auth } from '../store';
+import { NavLink } from 'react-router-dom';
 
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
-  const {name, displayName, handleSubmit, error} = props
+  const { name, displayName, handleSubmit, error } = props
 
   return (
-    <div>
+    <div id="credentials-box">
       <form onSubmit={handleSubmit} name={name}>
+        {
+          name === 'signup' &&
+            <div key={3}>
+              <label htmlFor="team"><small>Team Name</small></label>
+              <input name="team" type="text" />
+            </div>
+        }
         <div>
           <label htmlFor="email"><small>Email</small></label>
           <input name="email" type="text" />
@@ -22,6 +30,7 @@ const AuthForm = (props) => {
         </div>
         <div>
           <button type="submit">{displayName}</button>
+          {name === 'login' && <NavLink to="/signup">Create an account</NavLink>}
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
@@ -55,12 +64,13 @@ const mapSignup = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    handleSubmit (evt) {
+    handleSubmit(evt) {
       evt.preventDefault()
       const formName = evt.target.name
+      const teamName = formName === 'signup' ? evt.target.team.value : null;
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      dispatch(auth(email, password, formName, teamName))
     }
   }
 }
