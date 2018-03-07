@@ -1,31 +1,33 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {logout} from '../store'
+import React from 'react';
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { logout } from '../store';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import navTo from './utils/navTo';
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
-  <div>
-    <h1>BOILERMAKER</h1>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
+const NavBar = ({ handleClick, isLoggedIn }) => (
+  <Navbar collapseOnSelect>
+    <Navbar.Header>
+      <Navbar.Brand>
+        <NavLink to="/">MLB SHOWDOWN</NavLink>
+      </Navbar.Brand>
+      <Navbar.Toggle />
+    </Navbar.Header>
+    <Navbar.Collapse>
+      <Nav>
+        <NavDropdown eventKey={1} title="Players" id="basic-nav-dropdown">
+          <MenuItem eventKey={1.1}>All</MenuItem>
+          <MenuItem eventKey={1.2}>Batters</MenuItem>
+          <MenuItem eventKey={1.3}>Pitchers</MenuItem>
+        </NavDropdown>
+      </Nav>
+      <Nav pullRight>
+        {
+          isLoggedIn ? <NavItem onClick={handleClick}>Log Out</NavItem> : <NavItem onClick={() => navTo('/login')}>Log In</NavItem>
+        }
+      </Nav>
+    </Navbar.Collapse>
+  </Navbar>
 )
 
 /**
@@ -45,12 +47,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Navbar)
-
-/**
- * PROP TYPES
- */
-Navbar.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
-}
+export default connect(mapState, mapDispatch)(NavBar)
