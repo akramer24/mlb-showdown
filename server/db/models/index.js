@@ -4,9 +4,9 @@ const Pitcher = require('./Pitcher');
 const UserBatter = require('./UserBatter');
 const UserPitcher = require('./UserPitcher');
 
-Batter.belongsToMany(User, { through: UserBatter })
+// Batter.belongsToMany(User, { through: UserBatter })
 // User.hasMany(Batter)
-Pitcher.belongsToMany(User, { through: UserPitcher })
+// Pitcher.belongsToMany(User, { through: UserPitcher })
 // User.hasMany(Pitcher)
 
 module.exports = {

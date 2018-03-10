@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchPitchers } from '../store';
+import { fetchUserPitchers, deleteUserPitcher } from '../store';
 // import AddToTeam from './AddToTeam';
 import SinglePitcher from './SinglePitcher';
 // import DisplayTeam from './DisplayTeam';
@@ -15,15 +15,32 @@ class AllPitchers extends Component {
       displayAttributes: false,
       displayPlayer: null
     }
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount() {
-    this.props.loadPitchers();
-    // this.props.loadUsers();
+    const { isUserPage, loadPitchers, match, isActive } = this.props;
+    isUserPage && loadPitchers(Number(match.params.userId), isActive);
+  }
+
+  handleDelete(pitcherId) {
+    const { deletePitcher, activeUser } = this.props;
+    deletePitcher(activeUser.id, pitcherId)
   }
 
   render() {
-    const pitchers = this.props.pitchers;
+    const { isUserPage, activeUser, activeUserPitchers, inactiveUserPitchers, allPitchers, match } = this.props;
+    let pitchers;
+
+    if (isUserPage) {
+      if (activeUser.id === Number(match.params.userId)) {
+        pitchers = activeUserPitchers;
+      } else {
+        pitchers = inactiveUserPitchers;
+      }
+    } else {
+      pitchers = allPitchers;
+    }
 
     return (
       <div className='display-players'>
@@ -37,9 +54,9 @@ class AllPitchers extends Component {
               <DisplayTeam />
           */}
           {
-            pitchers.map(pitcher => {
+            pitchers && pitchers.map((pitcher, idx) => {
               return (
-                <div key={pitcher.id} className='pitcher'>
+                <div key={idx} className='pitcher'>
                   <h3>{pitcher.name}</h3>
                   <button onClick={
                     () => this.setState({
@@ -75,13 +92,10 @@ class AllPitchers extends Component {
                         <img src={pitcher.image} className='player-img' />
                     }
                   </div>
-                  {/*
-                    this.props.location.pathname.includes('team')
-                      ?
-                      <RemoveFromTeam userId={this.props.location.pathname.slice(6)} player={pitcher} playerId={pitcher.id} />
-                      :
-                      <AddToTeam users={this.props.users} playerId={pitcher.id} />
-                  */}
+                  {
+                    isUserPage && (activeUser.id === Number(match.params.userId)) &&
+                    <button onClick={() => this.handleDelete(pitcher.id)}>Drop</button>
+                  }
                 </div>
               )
             })
@@ -94,20 +108,21 @@ class AllPitchers extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    pitchers: state.pitchers.pitchers,
-    users: state.users
+    allPitchers: state.pitchers.pitchers,
+    activeUserPitchers: state.user.activeUser.pitchers,
+    inactiveUserPitchers: state.user.inactiveUser.pitchers,
+    activeUser: state.user.activeUser
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadPitchers() {
-      dispatch(fetchPitchers());
+    loadPitchers(id, method) {
+      dispatch(fetchUserPitchers(id, method));
     },
-
-    // loadUsers() {
-    //   dispatch(fetchUsers());
-    // }
+    deletePitcher(userId, pitcherId) {
+      dispatch(deleteUserPitcher(userId, pitcherId));
+    }
   }
 }
 

@@ -18,14 +18,9 @@ class Routes extends Component {
         <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        {
-          isLoggedIn &&
-          [
-            <Route key={1} exact path="/players/batters" component={AllBatters} />,
-            <Route key={2} exact path="/players/pitchers" component={AllPitchers} />,
-            <Route key={3} path="/users/:userId" component={UserPage} />
-          ]
-        }
+        <Route exact path="/players/batters" component={AllBatters} />
+        <Route exact path="/players/pitchers" component={AllPitchers} />
+        <Route path="/users/:userId" component={UserPage} />
         <Route component={Login} />
       </Switch>
     )
@@ -34,7 +29,7 @@ class Routes extends Component {
 
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.user.id
+    isLoggedIn: !!state.user.activeUser.id
   }
 }
 

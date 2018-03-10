@@ -39,15 +39,6 @@ export function fetchPitchers() {
   }
 }
 
-export function fetchUserPitchers(id) {
-  return function thunk(dispatch) {
-    return axios.get(`/api/users/${id}/pitchers`)
-      .then(res => res.data)
-      .then(pitchers => dispatch(getPitchers(pitchers)))
-      .catch(err => console.error(err))
-  }
-}
-
 export function fetchPitcher(id) {
   return function thunk(dispatch) {
     return axios.get(`/api/pitchers/${id}`)

@@ -18,7 +18,7 @@ const Home = (props) => {
 
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.user.id
+    isLoggedIn: !!state.user.activeUser.id
   }
 }
 

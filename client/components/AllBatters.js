@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchBatters, fetchUserBatters /*fetchUsers*/ } from '../store';
+import { fetchUserBatters, deleteUserBatter } from '../store';
 // import AddToTeam from './AddToTeam';
 import SingleBatter from './SingleBatter';
 // import DisplayTeam from './DisplayTeam';
@@ -16,15 +16,32 @@ class AllBatters extends Component {
       displayAttributes: false,
       displayPlayer: null
     }
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount() {
-    this.props.isUserPage && this.props.loadBatters(this.props.match.params.userId);
+    const { isUserPage, loadBatters, match, isActive } = this.props
+    isUserPage && loadBatters(Number(match.params.userId), isActive);
+  }
+
+  handleDelete(batterId) {
+    const { deleteBatter, activeUser } = this.props;
+    deleteBatter(activeUser.id, batterId)
   }
 
   render() {
-    const { isUserPage, userBatters, allBatters } = this.props;
-    const batters = isUserPage ? userBatters : allBatters;
+    const { isUserPage, activeUser, activeUserBatters, inactiveUserBatters, allBatters, match } = this.props;
+    let batters;
+
+    if (isUserPage) {
+      if (activeUser.id === Number(match.params.userId)) {
+        batters = activeUserBatters;
+      } else {
+        batters = inactiveUserBatters;
+      }
+    } else {
+      batters = allBatters;
+    }
 
     return (
       <div className='display-players'>
@@ -38,9 +55,9 @@ class AllBatters extends Component {
               <DisplayTeam />
           */}
           {
-            batters.map(batter => {
+            batters && batters.map((batter, idx) => {
               return (
-                <div key={batter.id} className='batter'>
+                <div key={idx} className='batter'>
                   <h3>{batter.name}</h3>
                   <button onClick={
                     () => this.setState({
@@ -77,13 +94,10 @@ class AllBatters extends Component {
                         <img src={batter.image} className='player-img' />
                     }
                   </div>
-                  {/*
-                    this.props.location.pathname.includes('team')
-                      ?
-                      <RemoveFromTeam userId={this.props.location.pathname.slice(6)} player={batter} playerId={batter.id} isBatter={this.state.isBatter} />
-                      :
-                      <AddToTeam users={this.props.users} playerId={batter.id} isBatter={this.state.isBatter} />
-                  */}
+                  {
+                    isUserPage && (activeUser.id === Number(match.params.userId)) &&
+                    <button onClick={() => this.handleDelete(batter.id)}>Drop</button>
+                  }
                 </div>
               )
             })
@@ -97,15 +111,19 @@ class AllBatters extends Component {
 const mapStateToProps = (state) => {
   return {
     allBatters: state.batters.batters,
-    userBatters: state.user.batters,
-    users: state.users
+    activeUserBatters: state.user.activeUser.batters,
+    inactiveUserBatters: state.user.inactiveUser.batters,
+    activeUser: state.user.activeUser
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadBatters(id) {
-      dispatch(fetchUserBatters(id));
+    loadBatters(id, method) {
+      dispatch(fetchUserBatters(id, method));
+    },
+    deleteBatter(userId, batterId) {
+      dispatch(deleteUserBatter(userId, batterId))
     }
   }
 }

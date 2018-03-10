@@ -1,4 +1,4 @@
-const { Batter, Pitcher, User, UserBatter } = require('../server/db/models');
+const { Batter, Pitcher, User, UserBatter, UserPitcher } = require('../server/db/models');
 const db = require('../server/db');
 
 const data = {
@@ -386,11 +386,23 @@ const data = {
       email: 'jessekramer27@gmail.com',
       password: 'lumpkin',
       teamName: 'Donkey Donko'
+    },
+
+    {
+      firstName: 'Computer',
+      lastName: 'Computer',
+      email: 'computer@computer.com',
+      password: 'computer',
+      teamName: 'Computer'
     }
   ],
 
   teamAriBatters: [1, 2, 3, 4, 5, 7, 8, 15, 11],
-  teamJesseBatters: [8, 10, 14, 15, 13, 3, 12, 2, 4]
+  teamJesseBatters: [8, 10, 14, 15, 13, 3, 12, 2, 4],
+  teamComputerBatters: [8, 10, 14, 15, 13, 3, 12, 2, 4],
+  teamAriPitchers: [1, 2],
+  teamJessePitchers: [3, 4],
+  teamComputerPitchers: [1, 4]
 }
 
 async function seed() {
@@ -402,8 +414,26 @@ async function seed() {
     await data.pitchers.forEach(pitcher => {
       Pitcher.create(pitcher)
     })
-    await data.users.forEach(user => {
-      User.create(user)
+    await data.users.forEach(async user => {
+      await User.create(user)
+    })
+    await data.teamAriBatters.forEach(batterId => {
+      UserBatter.create({ userId: 1, batterId })
+    })
+    await data.teamJesseBatters.forEach(batterId => {
+      UserBatter.create({ userId: 2, batterId })
+    })
+    await data.teamComputerBatters.forEach(batterId => {
+      UserBatter.create({ userId: 3, batterId })
+    })
+    await data.teamAriPitchers.forEach(pitcherId => {
+      UserPitcher.create({ userId: 1, pitcherId })
+    })
+    await data.teamJessePitchers.forEach(pitcherId => {
+      UserPitcher.create({ userId: 2, pitcherId })
+    })
+    await data.teamComputerPitchers.forEach(pitcherId => {
+      UserPitcher.create({ userId: 3, pitcherId })
     })
   } catch (err) {
     console.error(err)

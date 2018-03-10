@@ -6,3 +6,4 @@ export { default as AllPitchers } from './AllPitchers';
 export { default as SinglePitcher } from './SinglePitcher';
 export { default as Home } from './Home';
 export { default as UserPage } from './UserPage';
+export { default as BuyPack } from './BuyPack';
