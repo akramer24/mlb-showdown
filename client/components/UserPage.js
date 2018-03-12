@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { AllBatters, AllPitchers, BuyPack } from './index';
-import { fetchInactiveUser } from '../store';
+import { fetchInactiveUser, userBuyPack } from '../store';
 
 class UserPage extends React.Component {
 
@@ -11,7 +11,7 @@ class UserPage extends React.Component {
   }
 
   render() {
-    const { match, activeUser, inactiveUser } = this.props;
+    const { match, activeUser, inactiveUser, buyPack } = this.props;
 
 
     let active;
@@ -28,9 +28,10 @@ class UserPage extends React.Component {
     return (
       <div id="user-page">
         <h3>{team}</h3>
+        <BuyPack />
         {
           activeUser.id === Number(match.params.userId) &&
-          <BuyPack id={activeUser.id} />
+          <button onClick={() => buyPack(activeUser.id)}>Buy a pack</button>
         }
         {
           activeUser.id &&
@@ -55,6 +56,9 @@ const mapDispatch = dispatch => {
   return {
     loadInactiveUser(id) {
       dispatch(fetchInactiveUser(id))
+    },
+    buyPack(id) {
+      dispatch(userBuyPack(id));
     }
   }
 }

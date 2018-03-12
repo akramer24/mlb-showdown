@@ -5,7 +5,7 @@ import { logout } from '../store';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import navTo from './utils/navTo';
 
-const NavBar = ({ handleClick, isLoggedIn }) => (
+const NavBar = ({ handleClick, isLoggedIn, activeUser }) => (
   <Navbar collapseOnSelect>
     <Navbar.Header>
       <Navbar.Brand>
@@ -23,7 +23,14 @@ const NavBar = ({ handleClick, isLoggedIn }) => (
       </Nav>
       <Nav pullRight>
         {
-          isLoggedIn ? <NavItem onClick={handleClick}>Log Out</NavItem> : <NavItem onClick={() => navTo('/login')}>Log In</NavItem>
+          isLoggedIn
+            ?
+            <NavDropdown eventKey={2} title={activeUser.teamName} id="basic-nav-dropdown">
+              <MenuItem eventKey={2.1} onClick={() => navTo(`/users/${activeUser.id}`)}>My team</MenuItem>
+              <MenuItem eventKey={2.2} onClick={handleClick}>Log Out</MenuItem>
+            </NavDropdown>
+            :
+            <NavItem onClick={() => navTo('/login')}>Log In</NavItem>
         }
       </Nav>
     </Navbar.Collapse>
@@ -35,7 +42,8 @@ const NavBar = ({ handleClick, isLoggedIn }) => (
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.activeUser.id
+    isLoggedIn: !!state.user.activeUser.id,
+    activeUser: state.user.activeUser
   }
 }
 

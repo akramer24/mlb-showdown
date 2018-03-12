@@ -29,6 +29,26 @@ body {
   color: red;
 }
 
+#new-pack {
+  width: 214px;
+  height: 301px;
+  position: absolute;
+  left: 50%;
+  margin-left: -107px;
+}
+
+.new-pack-image {
+  position: absolute;
+}
+
+.active-new-pack-image {
+  display: block;
+}
+
+.hidden-new-pack-image {
+  display: none;
+}
+
 #all-batters, #all-pitchers {
   display: flex;
   flex-wrap: wrap;

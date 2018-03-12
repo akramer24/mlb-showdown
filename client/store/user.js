@@ -22,7 +22,8 @@ const defaultUser = {
   activeUser: {
     userInfo: {},
     batters: [],
-    pitchers: []
+    pitchers: [],
+    newPack: []
   },
   inactiveUser: {
     userInfo: {},
@@ -169,6 +170,10 @@ export function deleteUserPitcher(userId, pitcherId) {
 export function userBuyPack(userId) {
   return function thunk(dispatch) {
     return axios.post(`/api/users/${userId}/buy-pack`)
+      .then(res => res.data)
+      .then(pack => {
+        dispatch(buyPack(pack))
+      })
       .catch(console.error)
   }
 }
@@ -196,6 +201,17 @@ export default function (state = defaultUser, action) {
       return { ...state, activeUser: { ...state.activeUser, batters: state.activeUser.batters.filter(batter => action.batterId !== batter.id) } }
     case DELETE_ACTIVE_USER_PITCHER:
       return { ...state, activeUser: { ...state.activeUser, pitchers: state.activeUser.pitchers.filter(pitcher => action.pitcherId !== pitcher.id) } }
+    case BUY_PACK:
+      return { ...state, activeUser: { ...state.activeUser,
+        batters: state.activeUser.batters.concat(action.pack.filter(card => {
+          return card.position !== 'SP' && card.position !== 'RP' && card.position !== 'Closer'
+        })),
+        pitchers: state.activeUser.pitchers.concat(action.pack.filter(card => {
+          return card.position === 'SP' || card.position === 'RP' || card.position === 'Closer'
+        })),
+        newPack: action.pack
+      }
+    }
     default:
       return state;
   }
