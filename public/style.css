@@ -29,12 +29,16 @@ body {
   color: red;
 }
 
+/*************************************NEW PACK************************/
+
 #new-pack {
   width: 214px;
   height: 301px;
   position: absolute;
   left: 50%;
   margin-left: -107px;
+  box-shadow: 1px 1px 21px 3px black;
+  z-index: 5;
 }
 
 .new-pack-image {
@@ -47,6 +51,17 @@ body {
 
 .hidden-new-pack-image {
   display: none;
+}
+
+#new-pack-previous-button {
+  position: absolute;
+  top: 50%;
+}
+
+#new-pack-next-button {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 45px);
 }
 
 #all-batters, #all-pitchers {

@@ -14,6 +14,7 @@ const GET_INACTIVE_USER_PITCHERS = 'GET_INACTIVE_USER_PITCHERS';
 const DELETE_ACTIVE_USER_BATTER = 'DELETE_ACTIVE_USER_BATTER';
 const DELETE_ACTIVE_USER_PITCHER = 'DELETE_ACTIVE_USER_PITCHER';
 const BUY_PACK = 'BUY_PACK';
+const CLEAR_PACK = 'CLEAR_PACK';
 
 /**
  * INITIAL STATE
@@ -86,6 +87,7 @@ export function buyPack(pack) {
     pack
   }
 }
+const clearPack = () => ({ type: CLEAR_PACK })
 
 /**
  * THUNK CREATORS
@@ -178,6 +180,12 @@ export function userBuyPack(userId) {
   }
 }
 
+export function removePack() {
+  return function(dispatch) {
+    dispatch(clearPack())
+  }
+}
+
 /**
  * REDUCER
  */
@@ -202,16 +210,22 @@ export default function (state = defaultUser, action) {
     case DELETE_ACTIVE_USER_PITCHER:
       return { ...state, activeUser: { ...state.activeUser, pitchers: state.activeUser.pitchers.filter(pitcher => action.pitcherId !== pitcher.id) } }
     case BUY_PACK:
-      return { ...state, activeUser: { ...state.activeUser,
-        batters: state.activeUser.batters.concat(action.pack.filter(card => {
-          return card.position !== 'SP' && card.position !== 'RP' && card.position !== 'Closer'
-        })),
-        pitchers: state.activeUser.pitchers.concat(action.pack.filter(card => {
-          return card.position === 'SP' || card.position === 'RP' || card.position === 'Closer'
-        })),
-        newPack: action.pack
+      return {
+        ...state, activeUser: {
+          ...state.activeUser,
+          batters: state.activeUser.batters.concat(action.pack.filter(card => {
+            return card.position !== 'SP' && card.position !== 'RP' && card.position !== 'Closer'
+          })),
+          pitchers: state.activeUser.pitchers.concat(action.pack.filter(card => {
+            return card.position === 'SP' || card.position === 'RP' || card.position === 'Closer'
+          })),
+          newPack: action.pack
+        }
       }
-    }
+    case CLEAR_PACK:
+      return {
+        ...state, activeUser: { ...state.activeUser, newPack: []}
+      }
     default:
       return state;
   }

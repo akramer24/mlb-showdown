@@ -1,13 +1,26 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { AllBatters, AllPitchers, BuyPack } from './index';
-import { fetchInactiveUser, userBuyPack } from '../store';
+import { AllBatters, AllPitchers, NewPack } from './index';
+import { fetchInactiveUser, userBuyPack, removePack } from '../store';
 
 class UserPage extends React.Component {
 
+  constructor() {
+    super();
+    this.state = {
+      displayPack: false
+    }
+    this.displayPack = this.displayPack.bind(this);
+  }
+
   componentDidMount() {
     this.props.loadInactiveUser(Number(this.props.match.params.userId))
+  }
+
+  displayPack(bool) {
+    this.setState({ displayPack: bool })
+    if (bool === false) this.props.clearPack();
   }
 
   render() {
@@ -28,10 +41,19 @@ class UserPage extends React.Component {
     return (
       <div id="user-page">
         <h3>{team}</h3>
-        <BuyPack />
+        {
+          this.state.displayPack
+          && activeUser.newPack
+          && activeUser.newPack.length > 1
+          && <NewPack displayPack={this.displayPack} />
+        }
         {
           activeUser.id === Number(match.params.userId) &&
-          <button onClick={() => buyPack(activeUser.id)}>Buy a pack</button>
+          <button onClick={() => {
+            buyPack(activeUser.id)
+            this.displayPack(true)
+          }
+          }>Buy a pack</button>
         }
         {
           activeUser.id &&
@@ -59,6 +81,9 @@ const mapDispatch = dispatch => {
     },
     buyPack(id) {
       dispatch(userBuyPack(id));
+    },
+    clearPack() {
+      dispatch(removePack());
     }
   }
 }
