@@ -41,68 +41,71 @@ class AllPitchers extends Component {
     } else {
       pitchers = allPitchers;
     }
-
-    return (
-      <div className='display-players'>
-        <h1 className='page-header'>Pitchers</h1>
-        <div id='all-pitchers'>
-          {/*
+    if (pitchers && pitchers.length > 1) {
+      return (
+        <div className='display-players'>
+          <h1 className='page-header'>Pitchers</h1>
+          <div id='all-pitchers'>
+            {/*
             this.props.isAllDisplayed || this.props.match.path.indexOf('team') > -1
               ?
               null
               :
               <DisplayTeam />
           */}
-          {
-            pitchers && pitchers.map((pitcher, idx) => {
-              return (
-                <div key={idx} className='pitcher'>
-                  <h3>{pitcher.name}</h3>
-                  <button onClick={
-                    () => this.setState({
-                      displayAttributes: !this.state.displayAttributes,
-                      displayPlayer: pitcher.id
-                    })
-                  }> {
-                      this.state.displayAttributes && pitcher.id === this.state.displayPlayer
-                        ?
-                        <h3>See less</h3>
-                        :
-                        <h3>See all attributes</h3>
-                    }
-                  </button>
-                  <div>
-                    <div className='attributes-list'>
-                      <p>Position: {pitcher.position}</p>
-                      <p>Control: {pitcher.control}</p>
+            {
+              pitchers && pitchers.map((pitcher, idx) => {
+                return (
+                  <div key={idx} className='pitcher'>
+                    <h3>{pitcher.name}</h3>
+                    <button onClick={
+                      () => this.setState({
+                        displayAttributes: !this.state.displayAttributes,
+                        displayPlayer: pitcher.id
+                      })
+                    }> {
+                        this.state.displayAttributes && pitcher.id === this.state.displayPlayer
+                          ?
+                          <h3>See less</h3>
+                          :
+                          <h3>See all attributes</h3>
+                      }
+                    </button>
+                    <div>
+                      <div className='attributes-list'>
+                        <p>Position: {pitcher.position}</p>
+                        <p>Control: {pitcher.control}</p>
 
+                        {
+                          this.state.displayAttributes && pitcher.id === this.state.displayPlayer
+                            ?
+                            <SinglePitcher playerId={this.state.displayPlayer} />
+                            :
+                            null
+                        }
+                      </div>
                       {
                         this.state.displayAttributes && pitcher.id === this.state.displayPlayer
                           ?
-                          <SinglePitcher playerId={this.state.displayPlayer} />
-                          :
                           null
+                          :
+                          <img src={pitcher.image} className='player-img' />
                       }
                     </div>
                     {
-                      this.state.displayAttributes && pitcher.id === this.state.displayPlayer
-                        ?
-                        null
-                        :
-                        <img src={pitcher.image} className='player-img' />
+                      isUserPage && (activeUser.id === Number(match.params.userId)) &&
+                      <button onClick={() => this.handleDelete(pitcher.id)}>Drop</button>
                     }
                   </div>
-                  {
-                    isUserPage && (activeUser.id === Number(match.params.userId)) &&
-                    <button onClick={() => this.handleDelete(pitcher.id)}>Drop</button>
-                  }
-                </div>
-              )
-            })
-          }
+                )
+              })
+            }
+          </div>
         </div>
-      </div>
-    )
+      )
+    } else {
+      return null;
+    }
   }
 }
 
