@@ -65,10 +65,44 @@ body {
 }
 
 /*********************************CHOOSE LINEUP**************************/
+#choose-lineup {
+  display: flex;
+  margin: 5px 25px;
+}
+
+#choose-lineup-lineup {
+  margin-right: 20px;
+}
+
+
+/*********************************SINGLE BATTER**************************/
+.single-batter-column-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.single-batter-info {
+  display: flex;
+  justify-content: center;
+}
+
 .lineup-single-player {
-  position: absolute;
-  top: 20%;
-  left: 50%;
+  display: flex;
+  background-color: #7b8da4;
+  box-shadow: 1px 1px 10px 3px grey;
+  padding: 10px;
+  border-radius: 20px;
+  color: white;
+  height: 100%;
+}
+
+.single-batter-column {
+  margin: 5px;
+}
+
+.single-batter-column img {
+  box-shadow: 1px 1px 10px 3px #4b4646;
+  margin-left: 10px;
 }
 
 #all-batters, #all-pitchers {

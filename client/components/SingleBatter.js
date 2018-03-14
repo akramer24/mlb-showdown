@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchBatter, /*fetchUsers*/ } from '../store';
+import onClickOutside from 'react-onclickoutside';
 
 class SingleBatter extends Component {
   constructor() {
@@ -26,9 +27,19 @@ class SingleBatter extends Component {
     }
   }
 
+  handleClickOutside(evt) {
+    const targetClass = evt.target.classList.value;
+    if (targetClass.startsWith('lineup-full-card-button')) {
+      const id = Number(targetClass.slice(24))
+      this.props.clickStats(id, true)
+    } else {
+      this.props.clickStats(null, false)
+    }
+  };
+
   render() {
     const { singleBatter, thisBatter, isLineup, playerId } = this.props;
-    let batter; 
+    let batter;
     let id;
     let lineupClass;
     if (isLineup) {
@@ -44,21 +55,32 @@ class SingleBatter extends Component {
 
       return (
         <div className={lineupClass}>
-          {
-            isLineup && [
-              <p key={1}>{batter.name}</p>,
-              <p key={2}>On-Base: {batter.onBase}</p>
-            ]
-          }
-          <p>Strikeout: {this.convertArray(batter.SO)}</p>
-          <p>Groundout: {this.convertArray(batter.GB)}</p>
-          <p>Flyout: {this.convertArray(batter.FB)}</p>
-          <p>Walk: {this.convertArray(batter.BB)}</p>
-          <p>Single: {this.convertArray(batter.single)}</p>
-          <p>Single-Plus: {this.convertArray(batter.singlePlus)}</p>
-          <p>Double: {this.convertArray(batter.double)}</p>
-          <p>Triple: {this.convertArray(batter.triple)}</p>
-          <p>Home Run: {this.convertArray(batter.homeRun)}</p>
+          <div className="single-batter-column-container">
+            {
+              isLineup && <h2>{batter.name}</h2>
+            }
+            <div className="single-batter-info">
+              <div className="single-batter-column">
+                {
+                  isLineup && <p>On-Base: {batter.onBase}</p>
+                }
+                <p>Strikeout: {this.convertArray(batter.SO)}</p>
+                <p>Groundout: {this.convertArray(batter.GB)}</p>
+                <p>Flyout: {this.convertArray(batter.FB)}</p>
+                <p>Walk: {this.convertArray(batter.BB)}</p>
+              </div>
+              <div className="single-batter-column">
+                <p>Single: {this.convertArray(batter.single)}</p>
+                <p>Single-Plus: {this.convertArray(batter.singlePlus)}</p>
+                <p>Double: {this.convertArray(batter.double)}</p>
+                <p>Triple: {this.convertArray(batter.triple)}</p>
+                <p>Home Run: {this.convertArray(batter.homeRun)}</p>
+              </div>
+            </div>
+          </div>
+          <div className="single-batter-column">
+            <img src={batter.image} className="player-img" />
+          </div>
 
         </div>
 
@@ -83,4 +105,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleBatter));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(onClickOutside(SingleBatter)));
