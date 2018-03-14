@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchBatter, /*fetchUsers*/ } from '../store';
-// import AddToTeam from './AddToTeam';
-// import AllBatters from './AllBatters';
 
 class SingleBatter extends Component {
   constructor() {
@@ -12,7 +10,10 @@ class SingleBatter extends Component {
   }
 
   componentDidMount() {
-    this.props.loadBatter(this.props.playerId);
+    const { isLineup, thisBatter, playerId } = this.props;
+    let id;
+    isLineup ? id = thisBatter.id : id = playerId;
+    this.props.loadBatter(id);
   }
 
   convertArray(arr) {
@@ -26,13 +27,29 @@ class SingleBatter extends Component {
   }
 
   render() {
-    const batter = this.props.singleBatter;
+    const { singleBatter, thisBatter, isLineup, playerId } = this.props;
+    let batter; 
+    let id;
+    let lineupClass;
+    if (isLineup) {
+      batter = thisBatter;
+      id = thisBatter.id;
+      lineupClass = 'lineup-single-player animated zoomIn';
+    } else {
+      batter = singleBatter;
+      id = playerId;
+    }
 
-    if (batter.id === this.props.playerId) {
+    if (batter.id === id) {
 
       return (
-        <div>
-
+        <div className={lineupClass}>
+          {
+            isLineup && [
+              <p key={1}>{batter.name}</p>,
+              <p key={2}>On-Base: {batter.onBase}</p>
+            ]
+          }
           <p>Strikeout: {this.convertArray(batter.SO)}</p>
           <p>Groundout: {this.convertArray(batter.GB)}</p>
           <p>Flyout: {this.convertArray(batter.FB)}</p>

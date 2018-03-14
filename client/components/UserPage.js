@@ -30,13 +30,14 @@ class UserPage extends React.Component {
     let active;
     let team;
 
-    if (Number(match.params.userId) === activeUser.id) {
+    if (Number(match.params.userId) === activeUser.userInfo.id) {
       active = true;
-      team = activeUser.teamName;
+      team = activeUser.userInfo.teamName;
     } else {
       active = false;
       team = inactiveUser.userInfo.teamName;
     }
+
 
     return (
       <div id="user-page">
@@ -48,15 +49,15 @@ class UserPage extends React.Component {
           && <NewPack displayPack={this.displayPack} />
         }
         {
-          activeUser.id === Number(match.params.userId) &&
+          activeUser.userInfo.id === Number(match.params.userId) &&
           <button onClick={() => {
-            buyPack(activeUser.id)
+            buyPack(activeUser.userInfo.id)
             this.displayPack(true)
           }
           }>Buy a pack</button>
         }
         {
-          activeUser.id &&
+          activeUser.userInfo.id &&
           [
             <AllBatters key={1} isUserPage={true} isActive={active} />,
             <AllPitchers key={2} isUserPage={true} isActive={active} />

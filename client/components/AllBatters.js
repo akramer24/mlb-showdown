@@ -26,7 +26,7 @@ class AllBatters extends Component {
 
   handleDelete(batterId) {
     const { deleteBatter, activeUser } = this.props;
-    deleteBatter(activeUser.id, batterId)
+    deleteBatter(activeUser.userInfo.id, batterId)
   }
 
   render() {
@@ -34,7 +34,7 @@ class AllBatters extends Component {
     let batters;
 
     if (isUserPage) {
-      if (activeUser.id === Number(match.params.userId)) {
+      if (activeUser.userInfo.id === Number(match.params.userId)) {
         batters = activeUserBatters;
       } else {
         batters = inactiveUserBatters;
@@ -95,7 +95,7 @@ class AllBatters extends Component {
                       }
                     </div>
                     {
-                      isUserPage && (activeUser.id === Number(match.params.userId)) &&
+                      isUserPage && (activeUser.userInfo.id === Number(match.params.userId)) &&
                       <button onClick={() => this.handleDelete(batter.id)}>Drop</button>
                     }
                   </div>

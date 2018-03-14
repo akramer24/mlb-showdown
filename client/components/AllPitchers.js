@@ -25,7 +25,7 @@ class AllPitchers extends Component {
 
   handleDelete(pitcherId) {
     const { deletePitcher, activeUser } = this.props;
-    deletePitcher(activeUser.id, pitcherId)
+    deletePitcher(activeUser.userInfo.id, pitcherId)
   }
 
   render() {
@@ -33,7 +33,7 @@ class AllPitchers extends Component {
     let pitchers;
 
     if (isUserPage) {
-      if (activeUser.id === Number(match.params.userId)) {
+      if (activeUser.userInfo.id === Number(match.params.userId)) {
         pitchers = activeUserPitchers;
       } else {
         pitchers = inactiveUserPitchers;
@@ -93,7 +93,7 @@ class AllPitchers extends Component {
                       }
                     </div>
                     {
-                      isUserPage && (activeUser.id === Number(match.params.userId)) &&
+                      isUserPage && (activeUser.userInfo.id === Number(match.params.userId)) &&
                       <button onClick={() => this.handleDelete(pitcher.id)}>Drop</button>
                     }
                   </div>

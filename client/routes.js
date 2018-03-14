@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Login, Signup, AllBatters, SingleBatter, AllPitchers, Home, UserPage } from './components';
+import { Login, Signup, AllBatters, SingleBatter, AllPitchers, Home, UserPage, QuickGame, ChooseLineup } from './components';
 import { me, fetchBatters, fetchPitchers } from './store';
 
 class Routes extends Component {
   componentDidMount() {
-    this.props.loadInitialData()
+    const { loadInitialData } = this.props;
+    loadInitialData();
   }
 
   render() {
@@ -21,6 +22,8 @@ class Routes extends Component {
         <Route exact path="/players/batters" component={AllBatters} />
         <Route exact path="/players/pitchers" component={AllPitchers} />
         <Route path="/users/:userId" component={UserPage} />
+        <Route path="/quick-game" component={QuickGame} />
+        <Route path="/game/choose-lineup" component={ChooseLineup} />
         <Route component={Login} />
       </Switch>
     )
@@ -29,7 +32,7 @@ class Routes extends Component {
 
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.activeUser.id
+    isLoggedIn: !!state.user.activeUser.userInfo.id
   }
 }
 
@@ -39,7 +42,11 @@ const mapDispatch = (dispatch) => {
       dispatch(me())
       dispatch(fetchBatters());
       dispatch(fetchPitchers());
-    }
+    },
+    // loadUserPlayers(id, active) {
+    //   dispatch(fetchUserBatters(id, active));
+    //   dispatch(fetchUserPitchers(id, active));
+    // }
   }
 }
 

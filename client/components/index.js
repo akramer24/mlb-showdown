@@ -7,3 +7,5 @@ export { default as SinglePitcher } from './SinglePitcher';
 export { default as Home } from './Home';
 export { default as UserPage } from './UserPage';
 export { default as NewPack } from './NewPack';
+export { default as QuickGame } from './QuickGame';
+export { default as ChooseLineup } from './ChooseLineup';

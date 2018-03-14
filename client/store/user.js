@@ -142,7 +142,7 @@ export function fetchUserBatters(id, active) {
 
 export function fetchUserPitchers(id, active) {
   return function thunk(dispatch) {
-    return axios.get(`/api/users/${id}/pitchers`)
+    return axios.get(`/api/users/${Number(id)}/pitchers`)
       .then(res => res.data)
       .then(pitchers => {
         active
@@ -192,7 +192,7 @@ export function removePack() {
 export default function (state = defaultUser, action) {
   switch (action.type) {
     case GET_ACTIVE_USER:
-      return { ...state, activeUser: action.user };
+      return { ...state, activeUser: { ...state.activeUser, userInfo: action.user } };
     case GET_INACTIVE_USER:
       return { ...state, inactiveUser: { ...state.inactiveUser, userInfo: action.user } };
     case REMOVE_USER:

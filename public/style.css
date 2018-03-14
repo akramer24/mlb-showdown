@@ -64,6 +64,13 @@ body {
   left: calc(100% - 45px);
 }
 
+/*********************************CHOOSE LINEUP**************************/
+.lineup-single-player {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+}
+
 #all-batters, #all-pitchers {
   display: flex;
   flex-wrap: wrap;
