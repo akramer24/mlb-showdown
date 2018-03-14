@@ -8,12 +8,14 @@ import { SingleBatter } from './index';
 const Batter = SortableElement(({ value, spot, clickStats, idx }) => {
   const { firstName, lastName, image, position } = value;
   let place;
-  !isNaN(Number(spot)) ? place = ((Number(spot) + 1) + '.') : place = spot;
+  !isNaN(Number(spot)) ? place = ((Number(spot) + 1) + '.') : place = '';
   return (
-    <div>
-      <p>{place} {firstName + ' ' + lastName}, {position} <button className={`lineup-full-card-button-${idx}`} onClick={() => clickStats(idx, true)}>Full Card</button></p>
-      {/*<img src={image} className="player-img" />*/}
-    </div>
+    <tr className="lineup-name">
+      <td className="lineup-table-column">{place}</td>
+      <td className="lineup-table-column">{firstName + ' ' + lastName}</td>
+      <td className="lineup-table-column">{position}</td>
+      <td className="lineup-table-column"><button className={`lineup-full-card-button-${idx}`} onClick={() => clickStats(idx, true)}>Stats</button></td>
+    </tr>
   )
 }
 );
@@ -21,15 +23,23 @@ const Batter = SortableElement(({ value, spot, clickStats, idx }) => {
 const Lineup = SortableContainer((props) => {
   const { batters, clickStats } = props;
   return (
-    <div id="choose-lineup-lineup">
-      {batters.map((batter, index) => {
-        let spot;
-        index < 9 ? spot = index : spot = 'Bench:'
-        return (
-          <Batter key={`item-${index}`} index={index} spot={spot} idx={index} value={batter} clickStats={clickStats} />
-        )
-      })}
-    </div>
+    <table id="choose-lineup-lineup">
+      <tbody>
+        <tr>
+          <th className="lineup-table-column">Order</th>
+          <th className="lineup-table-column">Player</th>
+          <th className="lineup-table-column">Position</th>
+          <th className="lineup-table-column">Stats</th>
+        </tr>
+        {batters.map((batter, index) => {
+          let spot;
+          index < 9 ? spot = index : spot = 'Bench: '
+          return (
+            <Batter key={`item-${index}`} index={index} spot={spot} idx={index} value={batter} clickStats={clickStats} />
+          )
+        })}
+      </tbody>
+    </table>
   );
 });
 
@@ -63,9 +73,16 @@ class ChooseLineup extends Component {
     return (
       <div id="choose-lineup">
         <Lineup batters={this.state.batters} onSortEnd={this.onSortEnd} axis={'xy'} clickStats={this.clickStats} />
-        {
-          this.state.displayStats && <SingleBatter isLineup={true} thisBatter={this.state.playerToDisplay} clickStats={this.clickStats} />
-        }
+        <div id="lineup-button-and-card">
+          <button id="lineup-select-rotation">Select your pitching rotation</button>
+          {
+            this.state.displayStats &&
+            <SingleBatter
+              isLineup={true}
+              thisBatter={this.state.playerToDisplay}
+              clickStats={this.clickStats} />
+          }
+        </div>
       </div>
     )
   }

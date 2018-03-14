@@ -74,6 +74,34 @@ body {
   margin-right: 20px;
 }
 
+.lineup-name {
+  font-family: 'Gochi Hand', cursive;
+  font-size: 20px;
+}
+
+.lineup-table-column {
+  padding: 3px;
+  cursor: pointer;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+#lineup-button-and-card {
+  display: flex;
+  flex-direction: column;
+}
+
+#lineup-select-rotation {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+/* th, td {
+  padding: 3px;
+} */
+
 
 /*********************************SINGLE BATTER**************************/
 .single-batter-column-container {
@@ -93,7 +121,6 @@ body {
   padding: 10px;
   border-radius: 20px;
   color: white;
-  height: 100%;
 }
 
 .single-batter-column {
