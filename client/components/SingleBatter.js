@@ -12,8 +12,7 @@ class SingleBatter extends Component {
 
   componentDidMount() {
     const { isLineup, thisBatter, playerId } = this.props;
-    let id;
-    isLineup ? id = thisBatter.id : id = playerId;
+    let id = isLineup ? thisBatter.id : playerId;
     this.props.loadBatter(id);
   }
 

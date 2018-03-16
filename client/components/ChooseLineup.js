@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
-import { fetchUserBatters } from '../store';
-import { SingleBatter } from './index';
+import { fetchUserBatters, setLineup, fetchUserPitchers } from '../store';
+import { SingleBatter, SinglePitcher } from './index';
 
-const Batter = SortableElement(({ value, spot, clickStats, idx }) => {
+const Player = SortableElement(({ value, spot, clickStats, idx, isBatter }) => {
   const { firstName, lastName, image, position } = value;
   let place;
-  !isNaN(Number(spot)) ? place = ((Number(spot) + 1) + '.') : place = '';
+  if (isBatter) {
+    !isNaN(Number(spot)) ? place = ((Number(spot) + 1) + '.') : place = '';
+  } else {
+    place = spot;
+  }
   return (
     <tr className="lineup-name">
       <td className="lineup-table-column">{place}</td>
@@ -21,21 +25,29 @@ const Batter = SortableElement(({ value, spot, clickStats, idx }) => {
 );
 
 const Lineup = SortableContainer((props) => {
-  const { batters, clickStats } = props;
+  const { players, clickStats, isBatter } = props;
+  const firstCol = isBatter ? 'Order' : 'Role';
   return (
     <table id="choose-lineup-lineup">
       <tbody>
         <tr>
-          <th className="lineup-table-column">Order</th>
+          <th className="lineup-table-column">{firstCol}</th>
           <th className="lineup-table-column">Player</th>
           <th className="lineup-table-column">Position</th>
           <th className="lineup-table-column">Stats</th>
         </tr>
-        {batters.map((batter, index) => {
+        {players.map((player, index) => {
           let spot;
-          index < 9 ? spot = index : spot = 'Bench: '
+          if (isBatter) {
+            index < 9 ? spot = index : spot = 'Bench: '
+          } else {
+            index === 0 && index < 5 ? spot = 'SP' : spot = 'RP'
+            if (index >= 5) spot = 'Inactive'
+          }
           return (
-            <Batter key={`item-${index}`} index={index} spot={spot} idx={index} value={batter} clickStats={clickStats} />
+            isBatter
+              ? <Player key={`item-${index}`} index={index} spot={spot} idx={index} value={player} clickStats={clickStats} isBatter={true} />
+              : <Player key={`item-${index}`} index={index} spot={spot} idx={index} value={player} clickStats={clickStats} isBatter={false} />
           )
         })}
       </tbody>
@@ -48,41 +60,74 @@ class ChooseLineup extends Component {
     super();
     this.state = {
       batters: [],
+      pitchers: [],
       displayStats: false,
       playerToDisplay: {}
     };
     this.clickStats = this.clickStats.bind(this);
+    this.saveLineup = this.saveLineup.bind(this);
   }
 
   componentDidMount() {
-    this.setState({ batters: this.props.activeUser.batters })
+    const { activeUser } = this.props;
+    this.setState({ batters: activeUser.batters, pitchers: activeUser.pitchers })
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
+    const battersOrPitchers = this.props.gameSetUp.isLineupSet ? 'pitchers' : 'batters';
     this.setState({
-      batters: arrayMove(this.state.batters, oldIndex, newIndex),
+      [battersOrPitchers]: arrayMove(this.state[battersOrPitchers], oldIndex, newIndex),
     });
   };
 
   clickStats(idx, bool) {
-    this.setState({ displayStats: bool, playerToDisplay: this.state.batters[idx] })
+    const battersOrPitchers = this.props.gameSetUp.isLineupSet ? 'pitchers' : 'batters';
+    this.setState({ displayStats: bool, playerToDisplay: this.state[battersOrPitchers][idx] })
+  }
+
+  saveLineup(lineup, isHome, bool, isComputer) {
+    this.props.setLineup(lineup, isHome, bool, isComputer);
   }
 
   render() {
+    const { gameSetUp, activeUser } = this.props;
+    let isComputer = activeUser.userInfo.id === 3 ? true : false;
+    let isBatter = gameSetUp.isLineupSet ? false : true;
     // console.log(this.state)
     return (
       <div id="choose-lineup">
-        <Lineup batters={this.state.batters} onSortEnd={this.onSortEnd} axis={'xy'} clickStats={this.clickStats} />
-        <div id="lineup-button-and-card">
-          <button id="lineup-select-rotation">Select your pitching rotation</button>
-          {
-            this.state.displayStats &&
-            <SingleBatter
-              isLineup={true}
-              thisBatter={this.state.playerToDisplay}
-              clickStats={this.clickStats} />
-          }
-        </div>
+        {
+          gameSetUp.isLineupSet
+            ? [
+              <Lineup key={1} players={this.state.pitchers} onSortEnd={this.onSortEnd} axis={'xy'} clickStats={this.clickStats} isBatter={isBatter} />,
+              <div key={2} id="lineup-button-and-card">
+                <div>
+                  <NavLink to="/game/play">All set? Play ball!</NavLink>
+                  <NavLink to="/game/choose-lineup" id="lineup-select-rotation" onClick={() => this.saveLineup(this.state.batters, true, false, isComputer)} >Back to lineup</NavLink>
+                </div>
+                {
+                  this.state.displayStats &&
+                  <SinglePitcher
+                    isLineup={true}
+                    thisPitcher={this.state.playerToDisplay}
+                    clickStats={this.clickStats} />
+                }
+              </div>
+            ]
+            : [
+              <Lineup key={1} players={this.state.batters} onSortEnd={this.onSortEnd} axis={'xy'} clickStats={this.clickStats} isBatter={isBatter} />,
+              <div key={2} id="lineup-button-and-card">
+                <NavLink to="/game/choose-rotation" id="lineup-select-rotation" onClick={() => this.saveLineup(this.state.batters, true, true, isComputer)} >Select your pitching rotation</NavLink>
+                {
+                  this.state.displayStats &&
+                  <SingleBatter
+                    isLineup={true}
+                    thisBatter={this.state.playerToDisplay}
+                    clickStats={this.clickStats} />
+                }
+              </div>
+            ]
+        }
       </div>
     )
   }
@@ -90,14 +135,19 @@ class ChooseLineup extends Component {
 
 const mapState = state => {
   return {
-    activeUser: state.user.activeUser
+    activeUser: state.user.activeUser,
+    gameSetUp: state.gameSetUp
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    loadBatters(id, active) {
+    loadPlayers(id, active) {
       dispatch(fetchUserBatters(id, active));
+      dispatch(fetchUserPitchers(id, active))
+    },
+    setLineup(lineup, isHome, bool, isComputer) {
+      dispatch(setLineup(lineup, isHome, bool, isComputer));
     }
   }
 }

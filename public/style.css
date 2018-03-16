@@ -103,13 +103,13 @@ table, th, td {
 } */
 
 
-/*********************************SINGLE BATTER**************************/
-.single-batter-column-container {
+/*********************************SINGLE PLAYER**************************/
+.single-batter-column-container, .single-pitcher-column-container {
   display: flex;
   flex-direction: column;
 }
 
-.single-batter-info {
+.single-batter-info, .single-pitcher-info {
   display: flex;
   justify-content: center;
 }
@@ -123,11 +123,11 @@ table, th, td {
   color: white;
 }
 
-.single-batter-column {
+.single-batter-column, .single-pitcher-column {
   margin: 5px;
 }
 
-.single-batter-column img {
+.single-batter-column img, .single-pitcher-column img {
   box-shadow: 1px 1px 10px 3px #4b4646;
   margin-left: 10px;
 }

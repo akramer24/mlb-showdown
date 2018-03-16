@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchPitcher } from '../store';
-// import AddToTeam from './AddToTeam';
+import onClickOutside from 'react-onclickoutside';
 
 class SinglePitcher extends Component {
   constructor() {
@@ -11,7 +11,9 @@ class SinglePitcher extends Component {
   }
 
   componentDidMount() {
-    this.props.loadPitcher(this.props.playerId);
+    const { isLineup, thisPitcher, playerId } = this.props;
+    let id = isLineup ? thisPitcher.id : playerId;
+    this.props.loadPitcher(id);
   }
 
   convertArray(arr) {
@@ -26,23 +28,57 @@ class SinglePitcher extends Component {
     }
   }
 
-  render() {
-    const pitcher = this.props.singlePitcher;
+  handleClickOutside(evt) {
+    const targetClass = evt.target.classList.value;
+    if (targetClass.startsWith('lineup-full-card-button')) {
+      const id = Number(targetClass.slice(24))
+      this.props.clickStats(id, true)
+    } else {
+      this.props.clickStats(null, false)
+    }
+  };
 
-    if (pitcher.id === this.props.playerId) {
+  render() {
+    const { singlePitcher, thisPitcher, isLineup, playerId } = this.props;
+
+    let pitcher;
+    let id;
+    let lineupClass;
+    if (isLineup) {
+      pitcher = thisPitcher;
+      id = thisPitcher.id;
+      lineupClass = 'lineup-single-player animated zoomIn';
+    } else {
+      pitcher = singlePitcher;
+      id = playerId;
+    }
+
+    if (pitcher.id === id) {
 
       return (
-        <div>
-          <p>Position: {pitcher.position}</p>
-          <p>Control: {pitcher.control}</p>
-          <p>Pop-out: {this.convertArray(pitcher.PU)}</p>
-          <p>Strikeout: {this.convertArray(pitcher.SO)}</p>
-          <p>Groundout: {this.convertArray(pitcher.GB)}</p>
-          <p>Flyout: {this.convertArray(pitcher.FB)}</p>
-          <p>Walk: {this.convertArray(pitcher.BB)}</p>
-          <p>Single: {this.convertArray(pitcher.single)}</p>
-          <p>Double: {this.convertArray(pitcher.double)}</p>
-          <p>Home Run: {this.convertArray(pitcher.homeRun)}</p>
+        <div className={lineupClass}>
+          <div className="single-pitcher-column-container">
+            {
+              isLineup && <h2 key={1}>{pitcher.name}</h2>
+            }
+            <div className="single-pitcher-info">
+              <div className="single-pitcher-column">
+                <p>Pop-out: {this.convertArray(pitcher.PU)}</p>
+                <p>Strikeout: {this.convertArray(pitcher.SO)}</p>
+                <p>Groundout: {this.convertArray(pitcher.GB)}</p>
+                <p>Flyout: {this.convertArray(pitcher.FB)}</p>
+              </div>
+              <div className="single-pitcher-column">
+                <p>Walk: {this.convertArray(pitcher.BB)}</p>
+                <p>Single: {this.convertArray(pitcher.single)}</p>
+                <p>Double: {this.convertArray(pitcher.double)}</p>
+                <p>Home Run: {this.convertArray(pitcher.homeRun)}</p>
+              </div>
+            </div>
+          </div>
+          <div className="single-pitcher-column">
+            <img src={pitcher.image} className="player-img" />
+          </div>
         </div>
       )
     } else {
@@ -65,4 +101,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SinglePitcher));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(onClickOutside(SinglePitcher)));

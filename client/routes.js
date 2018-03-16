@@ -24,6 +24,7 @@ class Routes extends Component {
         <Route path="/users/:userId" component={UserPage} />
         <Route path="/quick-game" component={QuickGame} />
         <Route path="/game/choose-lineup" component={ChooseLineup} />
+        <Route path="/game/choose-rotation" component={ChooseLineup} />
         <Route component={Login} />
       </Switch>
     )
