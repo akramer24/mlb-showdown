@@ -13,14 +13,16 @@ class QuickGame extends React.Component {
     this.props.loadComputer(3, false);
   }
 
-  saveComputerLineup(lineup, rotation, isHome, bool, isComputer) {
-    this.props.setLineup(lineup, isHome, bool, isComputer);
+  saveComputerLineup(lineup, rotation, isHome, bool, isComputer, userTeam) {
+    this.props.setLineup(lineup, isHome, bool, isComputer, userTeam);
     this.props.setRotation(rotation, isHome);
   }
 
   render() {
+    const { activeUser, inactiveUser } = this.props;
+    console.log(activeUser.userInfo.teamName)
     return (
-      <NavLink to="/game/choose-lineup" onClick={() => this.saveComputerLineup(this.props.inactiveUser.batters, this.props.inactiveUser.pitchers, false, false, false)}>Play the computer</NavLink>
+      <NavLink to="/game/choose-lineup" onClick={() => this.saveComputerLineup(inactiveUser.batters, inactiveUser.pitchers, false, false, false, activeUser.userInfo.teamName)}>Play the computer</NavLink>
     )
   }
 } 
@@ -37,8 +39,8 @@ const mapDispatch = dispatch => {
     loadBatters(id, active) {
       dispatch(fetchUserBatters(id, active));
     },
-    setLineup(lineup, isHome, bool, isComputer) {
-      dispatch(setLineup(lineup, isHome, bool, isComputer));
+    setLineup(lineup, isHome, bool, isComputer, userTeam) {
+      dispatch(setLineup(lineup, isHome, bool, isComputer, userTeam));
     },
     setRotation(rotation, isHome) {
       dispatch(setRotation(rotation, isHome));

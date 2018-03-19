@@ -51,7 +51,7 @@ class Play extends Component {
   }
 
   componentDidMount() {
-    const { awayLineup, homeLineup, awayRotation, homeRotation } = this.props;
+    const { awayLineup, homeLineup, awayRotation, homeRotation, awayTeam, homeTeam } = this.props;
 
     this.setState({
       awayOrder: awayLineup.slice(0, 9),
@@ -61,8 +61,8 @@ class Play extends Component {
       homePitcher: homeRotation[0],
       batter: awayLineup[0],
       pitcher: homeRotation[0],
-      // awayTeam: awayTeamName,
-      // homeTeam: homeTeamName,
+      awayTeam: awayTeam,
+      homeTeam: homeTeam,
       awayBench: awayLineup.slice(9, 12),
       homeBench: homeLineup.slice(9, 12),
       bench: awayLineup.slice(9, 12),
@@ -200,7 +200,9 @@ const mapState = state => {
     awayLineup: state.gameSetUp.awayLineup,
     homeLineup: state.gameSetUp.homeLineup,
     awayRotation: state.gameSetUp.awayRotation,
-    homeRotation: state.gameSetUp.homeRotation
+    homeRotation: state.gameSetUp.homeRotation,
+    awayTeam: state.gameSetUp.awayTeam,
+    homeTeam: state.gameSetUp.homeTeam
   }
 }
 

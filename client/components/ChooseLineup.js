@@ -88,8 +88,8 @@ class ChooseLineup extends Component {
     this.setState({ displayStats: bool, playerToDisplay: this.state[battersOrPitchers][idx] })
   }
 
-  saveLineup(lineup, isHome, bool, isComputer) {
-    this.props.setLineup(lineup, isHome, bool, isComputer);
+  saveLineup(lineup, isHome, bool, isComputer, userTeam) {
+    this.props.setLineup(lineup, isHome, bool, isComputer, userTeam);
   }
 
   saveRotation(rotation, isHome) {
@@ -110,7 +110,7 @@ class ChooseLineup extends Component {
               <div key={2} id="lineup-button-and-card">
                 <div>
                   <NavLink to="/game/play" onClick={() => this.saveRotation(this.state.pitchers, true)}>All set? Play ball!</NavLink>
-                  <NavLink to="/game/choose-lineup" id="lineup-select-rotation" onClick={() => this.saveLineup(this.state.batters, true, false, isComputer)} >Back to lineup</NavLink>
+                  <NavLink to="/game/choose-lineup" id="lineup-select-rotation" onClick={() => this.saveLineup(this.state.batters, true, false, isComputer, activeUser.userInfo.teamName)} >Back to lineup</NavLink>
                 </div>
                 {
                   this.state.displayStats &&
@@ -124,7 +124,7 @@ class ChooseLineup extends Component {
             : [
               <Lineup key={1} players={this.state.batters} onSortEnd={this.onSortEnd} axis={'xy'} clickStats={this.clickStats} isBatter={isBatter} />,
               <div key={2} id="lineup-button-and-card">
-                <NavLink to="/game/choose-rotation" id="lineup-select-rotation" onClick={() => this.saveLineup(this.state.batters, true, true, isComputer)} >Select your pitching rotation</NavLink>
+                <NavLink to="/game/choose-rotation" id="lineup-select-rotation" onClick={() => this.saveLineup(this.state.batters, true, true, isComputer, activeUser.userInfo.teamName)} >Select your pitching rotation</NavLink>
                 {
                   this.state.displayStats &&
                   <SingleBatter
@@ -153,8 +153,8 @@ const mapDispatch = dispatch => {
       dispatch(fetchUserBatters(id, active));
       dispatch(fetchUserPitchers(id, active))
     },
-    setLineup(lineup, isHome, bool, isComputer) {
-      dispatch(setLineup(lineup, isHome, bool, isComputer));
+    setLineup(lineup, isHome, bool, isComputer, userTeam) {
+      dispatch(setLineup(lineup, isHome, bool, isComputer, userTeam));
     },
     setRotation(rotation, isHome) {
       dispatch(setRotation(rotation, isHome));

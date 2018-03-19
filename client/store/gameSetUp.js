@@ -65,15 +65,19 @@ export function toggleLineupSet(bool) {
   }
 }
 
-export function setLineup(lineup, isHome, bool, isComputer) {
-  return function(dispatch) {
+export function setLineup(lineup, isHome, bool, isComputer, userTeam) {
+  return function (dispatch) {
     isHome ? dispatch(setHomeLineup(lineup)) : dispatch(setAwayLineup(lineup));
-    if (!isComputer) dispatch(toggleLineupSet(bool));
+    if (!isComputer) {
+      dispatch(toggleLineupSet(bool));
+      dispatch(setAwayTeam('Computer'));
+      dispatch(setHomeTeam(userTeam))
+    } 
   }
 }
 
 export function setRotation(rotation, isHome) {
-  return function(dispatch) {
+  return function (dispatch) {
     isHome ? dispatch(setHomeRotation(rotation)) : dispatch(setAwayRotation(rotation));
   }
 }
@@ -91,9 +95,13 @@ export default function gameSetUp(state = defaultGame, action) {
     case SET_HOME_TEAM:
       return { ...state, homeTeam: action.name };
     case SET_HOME_ROTATION:
-      return { ...state, homeRotation: action.rotation }
+      return { ...state, homeRotation: action.rotation };
     case TOGGLE_LINEUP_SET:
-      return { ...state, isLineupSet: action.bool }
+      return { ...state, isLineupSet: action.bool };
+    case SET_AWAY_TEAM:
+      return { ...state, awayTeam: action.name };
+    case SET_HOME_TEAM:
+      return { ...state, homeTeam: action.name };
     default:
       return state;
   }
