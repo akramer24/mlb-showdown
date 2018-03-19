@@ -29,6 +29,42 @@ body {
   color: red;
 }
 
+/*************************************NAVBAR**************************/
+
+#navbar {
+  width: 100vw;
+  height: 60px;
+  display: flex;
+}
+
+#navbar-right {
+  display: flex;
+  flex-direction: column;
+}
+
+#navbar NavLink {
+  text-decoration: none;
+}
+.navbar-text {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.navbar-text:hover {
+  text-decoration: none;
+  color: red;
+}
+
+#navbar-right-dropdown {
+  box-shadow: 1px 1px 5px 3px gray;
+}
+
+#navbar-right-dropdown p:hover {
+  background-color: gray;
+}
+
+
 /*************************************NEW PACK************************/
 
 #new-pack {
@@ -173,7 +209,10 @@ table, th, td {
 
 
 #board {
-  background-color: #05a205;
+  background-image: url('./grass.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   color: #efe5e5;
   text-shadow: 1px 1px 1px black;
   padding: 1px 20px;
@@ -187,7 +226,6 @@ table, th, td {
 #first {
   height: 100px;
   width: 100px;
-  background-color: #6d3708;
   transform: rotate(45deg);
   position: absolute;
   left: 634px;
@@ -212,7 +250,6 @@ table, th, td {
 #second {
   height: 100px;
   width: 100px;
-  background-color: #6d3708;
   transform: rotate(45deg);
   position: absolute;
   left: 441px;
@@ -235,7 +272,6 @@ table, th, td {
 #third {
   height: 100px;
   width: 100px;
-  background-color: #6d3708;
   transform: rotate(45deg);
   position: absolute;
   left: 252px;
@@ -324,10 +360,13 @@ table, th, td {
   left: 32px;
 }
 
+.basepath {
+  background-image: url('./dirt.jpg');
+}
+
 #first-basepath {
   height: 200px;
   width: 30px;
-  background-color: #6d3708;
   transform: rotate(45deg);
   position: absolute;
   left: 590px;
@@ -339,7 +378,6 @@ table, th, td {
 #third-basepath {
   height: 200px;
   width: 30px;
-  background-color: #6d3708;
   transform: rotate(-45deg);
   position: absolute;
   left: 367px;
@@ -351,7 +389,6 @@ table, th, td {
 #right-basepath {
   height: 200px;
   width: 100px;
-  background-color: #6d3708;
   transform: rotate(-45deg);
   position: absolute;
   left: 536px;
@@ -363,7 +400,6 @@ table, th, td {
 #right-deep-INF {
   height: 435px;
   width: 70px;
-  background-color: #6d3708;
   transform: rotate(-45deg);
   position: absolute;
   left: 591px;
@@ -377,7 +413,6 @@ table, th, td {
 #left-basepath {
   height: 200px;
   width: 100px;
-  background-color: #6d3708;
   transform: rotate(45deg);
   position: absolute;
   left: 336px;
@@ -389,7 +424,6 @@ table, th, td {
 #left-deep-INF {
   height: 376px;
   width: 70px;
-  background-color: #6d3708;
   transform: rotate(45deg);
   position: absolute;
   left: 311px;

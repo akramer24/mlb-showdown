@@ -73,30 +73,30 @@ const Diamond = props => {
             <img src={pitcher.image} id='mound-image' />
           </div>
       }
-      <div id='first-basepath'></div>
-      <div id='first'>
+      <div id='first-basepath' className="basepath"></div>
+      <div id='first' className="basepath">
         <div id='first-base' className='base'></div>
         {
           first && <img src={first.image} id='first-image' />
         }
       </div>
-      <div id='right-deep-INF'></div>
-      <div id='right-basepath'></div>
-      <div id='second'>
+      <div id='right-deep-INF' className="basepath"></div>
+      <div id='right-basepath' className="basepath"></div>
+      <div id='second' className="basepath">
         <div id='second-base' className='base'></div>
         {
           second && <img src={second.image} id='second-image' />
         }
       </div>
-      <div id='left-deep-INF'></div>
-      <div id='left-basepath'></div>
-      <div id='third'>
+      <div id='left-deep-INF' className="basepath"></div>
+      <div id='left-basepath' className="basepath"></div>
+      <div id='third' className="basepath">
         <div id='third-base' className='base'></div>
         {
           third && <img src={third.image} id='third-image' />
         }
       </div>
-      <div id='third-basepath'></div>
+      <div id='third-basepath' className="basepath"></div>
     </div>
   )
 }
