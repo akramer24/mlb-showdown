@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchUserBatters, setLineup, fetchInactiveUser, fetchUserPitchers } from '../store';
+import { fetchUserBatters, setLineup, setRotation, fetchInactiveUser, fetchUserPitchers } from '../store';
 
 class QuickGame extends React.Component {
 
@@ -13,13 +13,14 @@ class QuickGame extends React.Component {
     this.props.loadComputer(3, false);
   }
 
-  saveComputerLineup(lineup, isHome, bool, isComputer) {
+  saveComputerLineup(lineup, rotation, isHome, bool, isComputer) {
     this.props.setLineup(lineup, isHome, bool, isComputer);
+    this.props.setRotation(rotation, isHome);
   }
 
   render() {
     return (
-      <NavLink to="/game/choose-lineup" onClick={() => this.saveComputerLineup(this.props.inactiveUser.batters, false, false, false)}>Play the computer</NavLink>
+      <NavLink to="/game/choose-lineup" onClick={() => this.saveComputerLineup(this.props.inactiveUser.batters, this.props.inactiveUser.pitchers, false, false, false)}>Play the computer</NavLink>
     )
   }
 } 
@@ -38,6 +39,9 @@ const mapDispatch = dispatch => {
     },
     setLineup(lineup, isHome, bool, isComputer) {
       dispatch(setLineup(lineup, isHome, bool, isComputer));
+    },
+    setRotation(rotation, isHome) {
+      dispatch(setRotation(rotation, isHome));
     },
     loadComputer(id, active) {
       dispatch(fetchInactiveUser(id));

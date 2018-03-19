@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
-import { fetchUserBatters, setLineup, fetchUserPitchers } from '../store';
+import { fetchUserBatters, setLineup, fetchUserPitchers, setRotation } from '../store';
 import { SingleBatter, SinglePitcher } from './index';
 
 const Player = SortableElement(({ value, spot, clickStats, idx, isBatter }) => {
@@ -39,7 +39,9 @@ const Lineup = SortableContainer((props) => {
         {players.map((player, index) => {
           let spot;
           if (isBatter) {
-            index < 9 ? spot = index : spot = 'Bench: '
+            if (index < 9) spot = index 
+            if (index >= 9 && index <= 13) spot = 'Bench: '
+            if (index > 13) spot = 'Inactive';
           } else {
             index === 0 && index < 5 ? spot = 'SP' : spot = 'RP'
             if (index >= 5) spot = 'Inactive'
@@ -66,6 +68,7 @@ class ChooseLineup extends Component {
     };
     this.clickStats = this.clickStats.bind(this);
     this.saveLineup = this.saveLineup.bind(this);
+    this.saveRotation = this.saveRotation.bind(this);
   }
 
   componentDidMount() {
@@ -89,6 +92,10 @@ class ChooseLineup extends Component {
     this.props.setLineup(lineup, isHome, bool, isComputer);
   }
 
+  saveRotation(rotation, isHome) {
+    this.props.setRotation(rotation, isHome);
+  }
+
   render() {
     const { gameSetUp, activeUser } = this.props;
     let isComputer = activeUser.userInfo.id === 3 ? true : false;
@@ -102,7 +109,7 @@ class ChooseLineup extends Component {
               <Lineup key={1} players={this.state.pitchers} onSortEnd={this.onSortEnd} axis={'xy'} clickStats={this.clickStats} isBatter={isBatter} />,
               <div key={2} id="lineup-button-and-card">
                 <div>
-                  <NavLink to="/game/play">All set? Play ball!</NavLink>
+                  <NavLink to="/game/play" onClick={() => this.saveRotation(this.state.pitchers, true)}>All set? Play ball!</NavLink>
                   <NavLink to="/game/choose-lineup" id="lineup-select-rotation" onClick={() => this.saveLineup(this.state.batters, true, false, isComputer)} >Back to lineup</NavLink>
                 </div>
                 {
@@ -148,6 +155,9 @@ const mapDispatch = dispatch => {
     },
     setLineup(lineup, isHome, bool, isComputer) {
       dispatch(setLineup(lineup, isHome, bool, isComputer));
+    },
+    setRotation(rotation, isHome) {
+      dispatch(setRotation(rotation, isHome));
     }
   }
 }

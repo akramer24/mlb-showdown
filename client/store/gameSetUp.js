@@ -1,15 +1,19 @@
 const defaultGame = {
-  awayTeam: null,
-  homeTeam: null,
+  awayTeam: '',
+  homeTeam: '',
   awayLineup: [],
   homeLineup: [],
+  awayRotation: [],
+  homeRotation: [],
   isLineupSet: false
 };
 
-const SET_AWAY_LINEUP = 'SET_AWAY_LINEUP';
 const SET_AWAY_TEAM = 'SET_AWAY_TEAM';
-const SET_HOME_LINEUP = 'SET_HOME_LINEUP';
+const SET_AWAY_LINEUP = 'SET_AWAY_LINEUP';
+const SET_AWAY_ROTATION = 'SET_AWAY_ROTATION';
 const SET_HOME_TEAM = 'SET_HOME_TEAM';
+const SET_HOME_LINEUP = 'SET_HOME_LINEUP';
+const SET_HOME_ROTATION = 'SET_HOME_ROTATION';
 const TOGGLE_LINEUP_SET = 'TOGGLE_LINEUP_SET';
 
 export function setAwayLineup(lineup) {
@@ -19,10 +23,17 @@ export function setAwayLineup(lineup) {
   }
 }
 
-export function setAwayTeam(userId) {
+export function setAwayRotation(rotation) {
+  return {
+    type: SET_AWAY_ROTATION,
+    rotation
+  }
+}
+
+export function setAwayTeam(name) {
   return {
     type: SET_AWAY_TEAM,
-    userId
+    name
   }
 }
 
@@ -33,10 +44,17 @@ export function setHomeLineup(lineup) {
   }
 }
 
-export function setHomeTeam(userId) {
+export function setHomeRotation(rotation) {
+  return {
+    type: SET_HOME_ROTATION,
+    rotation
+  }
+}
+
+export function setHomeTeam(name) {
   return {
     type: SET_HOME_TEAM,
-    userId
+    name
   }
 }
 
@@ -49,8 +67,14 @@ export function toggleLineupSet(bool) {
 
 export function setLineup(lineup, isHome, bool, isComputer) {
   return function(dispatch) {
-    isHome ? dispatch(setHomeLineup(lineup)) : dispatch(setAwayLineup(lineup))
-    if (!isComputer) dispatch(toggleLineupSet(bool))
+    isHome ? dispatch(setHomeLineup(lineup)) : dispatch(setAwayLineup(lineup));
+    if (!isComputer) dispatch(toggleLineupSet(bool));
+  }
+}
+
+export function setRotation(rotation, isHome) {
+  return function(dispatch) {
+    isHome ? dispatch(setHomeRotation(rotation)) : dispatch(setAwayRotation(rotation));
   }
 }
 
@@ -59,11 +83,15 @@ export default function gameSetUp(state = defaultGame, action) {
     case SET_AWAY_LINEUP:
       return { ...state, awayLineup: action.lineup };
     case SET_AWAY_TEAM:
-      return { ...state, awayTeam: action.userId };
+      return { ...state, awayTeam: action.name };
+    case SET_AWAY_ROTATION:
+      return { ...state, awayRotation: action.rotation };
     case SET_HOME_LINEUP:
       return { ...state, homeLineup: action.lineup };
     case SET_HOME_TEAM:
-      return { ...state, homeTeam: action.userId };
+      return { ...state, homeTeam: action.name };
+    case SET_HOME_ROTATION:
+      return { ...state, homeRotation: action.rotation }
     case TOGGLE_LINEUP_SET:
       return { ...state, isLineupSet: action.bool }
     default:

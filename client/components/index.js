@@ -9,3 +9,4 @@ export { default as UserPage } from './UserPage';
 export { default as NewPack } from './NewPack';
 export { default as QuickGame } from './QuickGame';
 export { default as ChooseLineup } from './ChooseLineup';
+export { default as Play } from './Play';
