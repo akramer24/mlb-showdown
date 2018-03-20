@@ -10,3 +10,4 @@ export { default as NewPack } from './NewPack';
 export { default as QuickGame } from './QuickGame';
 export { default as ChooseLineup } from './ChooseLineup';
 export { Play } from './play';
+export { default as OnlineUsers } from './OnlineUsers';

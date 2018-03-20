@@ -1,14 +1,14 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Login, Signup } from './index';
+import { Login, Signup, OnlineUsers } from './index';
 
 const Home = (props) => {
   const { isLoggedIn } = props;
   return (
     <div id="home-page">
     {
-      isLoggedIn ? <h1>you're logged in</h1>
+      isLoggedIn ? <OnlineUsers />
       :
       <Login />
     }

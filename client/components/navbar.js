@@ -58,7 +58,7 @@ class NavBar extends React.Component {
           </div>
         </div>
         <div id="navbar-right">
-          <p className="navbar-text" onClick={() => this.displayDropdown('displayRightDropdown', !this.state.displayRightDropdown)}>{activeUser.userInfo.teamName}</p>
+          <p className="navbar-text" onClick={() => this.displayDropdown('displayRightDropdown', !this.state.displayRightDropdown)}>{activeUser.userInfo.teamName} <span className="dropdown-carrot">&#9660;</span></p>
           {
             this.state.displayRightDropdown &&
             <div id="navbar-right-dropdown" className={`animated ${this.state.fade}`}>
@@ -77,6 +77,10 @@ class NavBar extends React.Component {
                 }
                 }>Log Out</p>
             </div>
+          }
+          {
+            activeUser.challenges && activeUser.challenges.length > 0 &&
+              <p className="navbar-text">vs.</p>
           }
         </div>
       </div>

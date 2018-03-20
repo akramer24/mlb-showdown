@@ -31,9 +31,10 @@ router.post('/signup', (req, res, next) => {
 })
 
 router.post('/logout', (req, res) => {
+  const user = req.user;
   req.logout()
   req.session.destroy()
-  res.redirect('/')
+  res.json(user);
 })
 
 router.get('/me', (req, res) => {

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import history from '../history';
+import socket from '../socket';
 
 /**
  * ACTION TYPES
@@ -15,6 +16,9 @@ const DELETE_ACTIVE_USER_BATTER = 'DELETE_ACTIVE_USER_BATTER';
 const DELETE_ACTIVE_USER_PITCHER = 'DELETE_ACTIVE_USER_PITCHER';
 const BUY_PACK = 'BUY_PACK';
 const CLEAR_PACK = 'CLEAR_PACK';
+const ADD_ONLINE_USER = 'ADD_ONLINE_USER';
+const REMOVE_ONLINE_USER = 'REMOVE_ONLINE_USER';
+const CHALLENGE_USER = 'CHALLENGE_USER';
 
 /**
  * INITIAL STATE
@@ -24,13 +28,15 @@ const defaultUser = {
     userInfo: {},
     batters: [],
     pitchers: [],
-    newPack: []
+    newPack: [],
+    challenges: []
   },
   inactiveUser: {
     userInfo: {},
     batters: [],
     pitchers: []
-  }
+  },
+  onlineUsers: []
 }
 
 /**
@@ -89,14 +95,37 @@ export function buyPack(pack) {
 }
 const clearPack = () => ({ type: CLEAR_PACK })
 
+export function addOnlineUser(onlineUsers) {
+  return {
+    type: ADD_ONLINE_USER,
+    onlineUsers
+  }
+}
+
+export function removeOnlineUser(onlineUsers) {
+  return {
+    type: REMOVE_ONLINE_USER,
+    onlineUsers
+  }
+}
+
+export function challengeUser(team) {
+  return {
+    type: CHALLENGE_USER,
+    team
+  }
+}
+
 /**
  * THUNK CREATORS
  */
 export const me = () =>
   dispatch =>
     axios.get('/auth/me')
-      .then(res =>
-        dispatch(getActiveUser(res.data || defaultUser)))
+      .then(res => {
+        dispatch(getActiveUser(res.data || defaultUser))
+        socket.emit('add online user', res.data)
+      })
       .catch(err => console.log(err))
 
 export const auth = (email, password, method, teamName) =>
@@ -104,6 +133,7 @@ export const auth = (email, password, method, teamName) =>
     axios.post(`/auth/${method}`, { email, password, teamName })
       .then(res => {
         dispatch(getActiveUser(res.data))
+        socket.emit('add online user', res.data)
         history.push('/')
       }, authError => { // rare example: a good use case for parallel (non-catch) error handler
         dispatch(getActiveUser({ error: authError }))
@@ -113,8 +143,10 @@ export const auth = (email, password, method, teamName) =>
 export const logout = () =>
   dispatch =>
     axios.post('/auth/logout')
-      .then(_ => {
+      .then(res => {
+        // console.log(res.data)
         dispatch(removeUser())
+        socket.emit('remove online user', res.data.teamName)
         history.push('/login')
       })
       .catch(err => console.log(err))
@@ -181,8 +213,14 @@ export function userBuyPack(userId) {
 }
 
 export function removePack() {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch(clearPack())
+  }
+}
+
+export function sendChallenge(team) {
+  return function(dispatch) {
+    dispatch(challengeUser(team))
   }
 }
 
@@ -224,8 +262,14 @@ export default function (state = defaultUser, action) {
       }
     case CLEAR_PACK:
       return {
-        ...state, activeUser: { ...state.activeUser, newPack: []}
+        ...state, activeUser: { ...state.activeUser, newPack: [] }
       }
+    case ADD_ONLINE_USER:
+      return { ...state, onlineUsers: action.onlineUsers };
+    case REMOVE_ONLINE_USER:
+      return { ...state, onlineUsers: action.onlineUsers };
+    case CHALLENGE_USER:
+      return { ...state, activeUser: {...state.activeUser, challenges: [...state.activeUser.challenges, action.team]}}
     default:
       return state;
   }
