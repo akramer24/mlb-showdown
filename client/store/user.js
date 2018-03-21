@@ -109,10 +109,10 @@ export function removeOnlineUser(onlineUsers) {
   }
 }
 
-export function challengeUser(team) {
+export function challengeUser(challenge) {
   return {
     type: CHALLENGE_USER,
-    team
+    challenge
   }
 }
 
@@ -218,9 +218,9 @@ export function removePack() {
   }
 }
 
-export function sendChallenge(team) {
+export function sendChallenge(challenge) {
   return function(dispatch) {
-    dispatch(challengeUser(team))
+    dispatch(challengeUser(challenge))
   }
 }
 
@@ -269,7 +269,7 @@ export default function (state = defaultUser, action) {
     case REMOVE_ONLINE_USER:
       return { ...state, onlineUsers: action.onlineUsers };
     case CHALLENGE_USER:
-      return { ...state, activeUser: {...state.activeUser, challenges: [...state.activeUser.challenges, action.team]}}
+      return { ...state, activeUser: {...state.activeUser, challenges: [...state.activeUser.challenges, action.challenge]}}
     default:
       return state;
   }
