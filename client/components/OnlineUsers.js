@@ -12,16 +12,19 @@ class OnlineUsers extends React.Component {
   }
 
   render() {
-    const { onlineUsers, challenges } = this.props;
+    const { onlineUsers, activeUser } = this.props;
     return (
       <div>
         <h3>These users are online</h3>
         {
-          onlineUsers && onlineUsers.map(userObj => <p key={userObj.teamName}>{userObj.teamName} <button onClick={() => this.handleChallenge(userObj)}>vs.</button></p>)
-        }
-        <h3>These are my challenges</h3>
-        {
-          challenges && challenges.map(challenge => <p key={challenge.teamName}>{challenge.teamName}</p>)
+          onlineUsers && onlineUsers.map(userObj => {
+            console.log(userObj)
+            if (userObj.teamName !== activeUser.userInfo.teamName) {
+              return (
+                <p key={userObj.teamName}>{userObj.teamName} <button onClick={() => this.handleChallenge(userObj)}>vs.</button></p>
+              )
+            }
+          })
         }
       </div>
     )
@@ -31,7 +34,8 @@ class OnlineUsers extends React.Component {
 const mapState = state => {
   return {
     onlineUsers: state.user.onlineUsers,
-    challenges: state.user.activeUser.challenges
+    challenges: state.user.activeUser.challenges,
+    activeUser: state.user.activeUser
   }
 }
 

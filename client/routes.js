@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Login, Signup, AllBatters, SingleBatter, AllPitchers, Home, UserPage, QuickGame, ChooseLineup, Play } from './components';
+import { Login, Signup, AllBatters, SingleBatter, AllPitchers, Home, UserPage, QuickGame, ChooseLineup, Play, Challenges } from './components';
 import { me, fetchBatters, fetchPitchers } from './store';
 
 class Routes extends Component {
@@ -21,7 +21,8 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route exact path="/players/batters" component={AllBatters} />
         <Route exact path="/players/pitchers" component={AllPitchers} />
-        <Route path="/users/:userId" component={UserPage} />
+        <Route exact path="/users/:userId" component={UserPage} />
+        <Route path="/users/:userId/challenges" component={Challenges} />
         <Route path="/quick-game" component={QuickGame} />
         <Route path="/game/choose-lineup" component={ChooseLineup} />
         <Route path="/game/choose-rotation" component={ChooseLineup} />

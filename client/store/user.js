@@ -19,6 +19,7 @@ const CLEAR_PACK = 'CLEAR_PACK';
 const ADD_ONLINE_USER = 'ADD_ONLINE_USER';
 const REMOVE_ONLINE_USER = 'REMOVE_ONLINE_USER';
 const CHALLENGE_USER = 'CHALLENGE_USER';
+const SET_USER_SOCKET = 'SET_USER_SOCKET';
 
 /**
  * INITIAL STATE
@@ -113,6 +114,13 @@ export function challengeUser(challenge) {
   return {
     type: CHALLENGE_USER,
     challenge
+  }
+}
+
+export function setUserSocket(socketId) {
+  return {
+    type: SET_USER_SOCKET,
+    socketId
   }
 }
 
@@ -266,6 +274,8 @@ export default function (state = defaultUser, action) {
       }
     case ADD_ONLINE_USER:
       return { ...state, onlineUsers: action.onlineUsers };
+    case SET_USER_SOCKET:
+      return { ...state, activeUser: { ...state.activeUser, socketId: action.socketId }};
     case REMOVE_ONLINE_USER:
       return { ...state, onlineUsers: action.onlineUsers };
     case CHALLENGE_USER:

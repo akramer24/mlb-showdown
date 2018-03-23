@@ -58,30 +58,37 @@ class NavBar extends React.Component {
           </div>
         </div>
         <div id="navbar-right">
-          <p className="navbar-text" onClick={() => this.displayDropdown('displayRightDropdown', !this.state.displayRightDropdown)}>{activeUser.userInfo.teamName} <span className="dropdown-carrot">&#9660;</span></p>
-          {
-            this.state.displayRightDropdown &&
-            <div id="navbar-right-dropdown" className={`animated ${this.state.fade}`}>
-              <p
-                onClick={() => {
-                  navTo(`/users/${activeUser.userInfo.id}`)
-                  this.displayDropdown('displayRightDropdown', !this.state.displayRightDropdown)
+          <div id="navbar-right-dropdown-container">
+            <p className="navbar-text" onClick={() => this.displayDropdown('displayRightDropdown', !this.state.displayRightDropdown)}>{activeUser.userInfo.teamName} <span className="dropdown-carrot">&#9660;</span></p>
+            {
+              this.state.displayRightDropdown &&
+              <div id="navbar-right-dropdown" className={`animated ${this.state.fade}`}>
+                <p
+                  onClick={() => {
+                    navTo(`/users/${activeUser.userInfo.id}`)
+                    this.displayDropdown('displayRightDropdown', !this.state.displayRightDropdown)
+                  }
+                  }
+                  className="navbar-text">My Team</p>
+                {
+                  activeUser.challenges && activeUser.challenges.length > 0 &&
+                  <p
+                    className="navbar-text"
+                    onClick={() => {
+                      navTo(`/users/${activeUser.userInfo.id}/challenges`)
+                      this.displayDropdown('displayRightDropdown', !this.state.displayRightDropdown)
+                    }}>vs. ({activeUser.challenges.length})</p>
                 }
-                }
-                className="navbar-text">My Team</p>
-              <p
-                className="navbar-text"
-                onClick={() => {
-                  handleLogout()
-                  this.displayDropdown('displayRightDropdown', !this.state.displayRightDropdown)
-                }
-                }>Log Out</p>
-            </div>
-          }
-          {
-            activeUser.challenges && activeUser.challenges.length > 0 &&
-              <p className="navbar-text">vs.</p>
-          }
+                <p
+                  className="navbar-text"
+                  onClick={() => {
+                    handleLogout()
+                    this.displayDropdown('displayRightDropdown', !this.state.displayRightDropdown)
+                  }
+                  }>Log Out</p>
+              </div>
+            }
+          </div>
         </div>
       </div>
     )

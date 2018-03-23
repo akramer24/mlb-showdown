@@ -11,3 +11,5 @@ export { default as QuickGame } from './QuickGame';
 export { default as ChooseLineup } from './ChooseLineup';
 export { Play } from './play';
 export { default as OnlineUsers } from './OnlineUsers';
+export { default as Challenges } from './Challenges';
+export { default as NewChallenge } from './NewChallenge';
