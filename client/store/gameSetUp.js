@@ -65,13 +65,11 @@ export function toggleLineupSet(bool) {
   }
 }
 
-export function setLineup(lineup, isHome, bool, isComputer, userTeam) {
+export function setLineup(lineup, isHome, bool, isComputer) {
   return function (dispatch) {
     isHome ? dispatch(setHomeLineup(lineup)) : dispatch(setAwayLineup(lineup));
     if (!isComputer) {
       dispatch(toggleLineupSet(bool));
-      dispatch(setAwayTeam('Computer'));
-      dispatch(setHomeTeam(userTeam))
     } 
   }
 }

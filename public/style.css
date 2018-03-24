@@ -503,12 +503,17 @@ table, th, td {
   left: 85%;
 }
 
+/*************************DIAMOND**********************/
 #diamond {
   position: absolute;
   width: 600px;
   top: 4%;
   left: 36%;
   margin-left: -300px;
+}
+
+.diamond-card {
+  box-shadow: 1px 1px 20px 1px black;
 }
 
 .base {

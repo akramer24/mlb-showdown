@@ -40,7 +40,15 @@ module.exports = (io) => {
       userSocket.join(challenger.teamName)
       challengerSocket.join(challenger.teamName)
       const welcome = `a new user has joined the room ${challenger.teamName}`;
-      io.to(challenger.teamName).emit('join game room', welcome)
+      io.to(challenger.teamName).emit('join game room', welcome, challenger, user)
+    })
+
+    socket.on('lineup saved', (lineup, isHome, awayTeam, homeTeam) => {
+      io.to(homeTeam).emit('lineup saved', lineup, isHome)
+    })
+
+    socket.on('rotation saved', (rotation, isHome, awayTeam, homeTeam) => {
+      io.to(homeTeam).emit('rotation saved', rotation, isHome)
     })
 
     socket.on('disconnect', () => {
