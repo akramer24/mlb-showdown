@@ -51,6 +51,11 @@ module.exports = (io) => {
       io.to(homeTeam).emit('rotation saved', rotation, isHome)
     })
 
+    socket.on('update game state', (newState, homeTeam) => {
+      console.log('server side updating game state')
+      io.to(homeTeam).emit('update game state', newState);
+    })
+
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
       onlineUsers = onlineUsers.filter(userObj => userObj.socketId !== socket.id)

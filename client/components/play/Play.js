@@ -3,57 +3,18 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { rollDice, setTurn, pitchAndSwing, handleNextInning } from '../utils/play';
 import { BoardButtons, Diamond, Scoreboard, Lineup } from './index';
+import store, { updateGameState } from '../../store';
 
 class Play extends Component {
 
   constructor() {
     super();
-    this.state = {
-      turn: '',
-      roll: null,
-      result: '',
-      printResult: '',
-      totalPAs: 0,
-      half: 'top',
-      inning: 1,
-      outs: 0,
-      awayOrder: [],
-      homeOrder: [],
-      currentOrder: [],
-      awayPitcher: {},
-      homePitcher: {},
-      batter: {},
-      pitcher: {},
-      first: '',
-      second: '',
-      third: '',
-      awayScore: 0,
-      homeScore: 0,
-      currentScore: 0,
-      inningRuns: 0,
-      awayHits: 0,
-      homeHits: 0,
-      currentHits: 0,
-      awayTeam: '',
-      homeTeam: '',
-      batterAttributes: false,
-      pitcherAttributes: false,
-      awayBench: [],
-      homeBench: [],
-      bench: [],
-      awayBullpen: [],
-      homeBullpen: [],
-      bullpen: [],
-      displayBench: false,
-      displayBullpen: false
-    }
     this.handleRoll = this.handleRoll.bind(this);
   }
 
   componentDidMount() {
     const { awayLineup, homeLineup, awayRotation, homeRotation, awayTeam, homeTeam } = this.props;
-
-    this.setState({
+    store.dispatch(updateGameState({
       awayOrder: awayLineup.slice(0, 9),
       homeOrder: homeLineup.slice(0, 9),
       currentOrder: awayLineup.slice(0, 9),
@@ -69,17 +30,17 @@ class Play extends Component {
       awayBullpen: awayRotation.slice(1, 5),
       homeBullpen: homeRotation.slice(1, 5),
       bullpen: awayRotation.slice(1, 5)
-    })
+    }))
   }
 
   handleRoll() {
-    const { batter, pitcher, totalPAs } = this.state;
+    const { batter, pitcher, totalPAs, homeTeam } = this.props.gameState;
     const int = setInterval(() => {
       rollDice.call(this);
     }, 100);
     setTimeout(() => {
       clearInterval(int);
-      setTurn.call(this, this.state.roll, pitcher.control, batter.onBase, totalPAs)
+      setTurn.call(this, this.props.gameState.roll, pitcher.control, batter.onBase, totalPAs, homeTeam)
     }, 650)
   }
 
@@ -122,7 +83,7 @@ class Play extends Component {
       bullpen,
       displayBench,
       displayBullpen
-    } = this.state;
+    } = this.props.gameState;
 
     if (inning >= 9 && half == 'bottom' && homeScore > awayScore) {
       return (
@@ -202,7 +163,8 @@ const mapState = state => {
     awayRotation: state.gameSetUp.awayRotation,
     homeRotation: state.gameSetUp.homeRotation,
     awayTeam: state.gameSetUp.awayTeam,
-    homeTeam: state.gameSetUp.homeTeam
+    homeTeam: state.gameSetUp.homeTeam,
+    gameState: state.play
   }
 }
 

@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import store, { addOnlineUser, removeOnlineUser, sendChallenge, setUserSocket, setAwayTeam, setHomeTeam, setHomeLineup, setAwayLineup, setHomeRotation, setAwayRotation } from './store';
+import store, { addOnlineUser, removeOnlineUser, sendChallenge, setUserSocket, setAwayTeam, setHomeTeam, setHomeLineup, setAwayLineup, setHomeRotation, setAwayRotation, updateGameState } from './store';
 import history from './history';
 
 const socket = io(window.location.origin);
@@ -35,6 +35,11 @@ socket.on('connect', () => {
 
   socket.on('rotation saved', (rotation, isHome) => {
     isHome ? store.dispatch(setHomeRotation(rotation)) : store.dispatch(setAwayRotation(rotation));
+  })
+
+  socket.on('update game state', newState => {
+    console.log('should be updating')
+    store.dispatch(updateGameState(newState))
   })
 
   socket.on('send challenge', challenge => store.dispatch(sendChallenge(challenge)))

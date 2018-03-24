@@ -178,9 +178,9 @@ form div {
   cursor: pointer;
 }
 
-table, th, td {
+/* table, th, td {
   border: 1px solid black;
-}
+} */
 
 #lineup-button-and-card {
   display: flex;
