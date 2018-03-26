@@ -362,46 +362,76 @@ form div {
   position: absolute;
   top: -43px;
   left: 32px;
+  transition: .5s ease;
 }
 
 #see-batter-card {
   position: absolute;
-  left: 165px;
-  top: 50px;
+  left: 44px;
+  top: 62px;
+  z-index: 1;
+  opacity: 0;
+  transition: .5s ease;
+  width: 100px;
+}
+
+#home:hover #see-batter-card {
+  opacity: 0.75;
 }
 
 #see-pitcher-card {
   position: absolute;
-  left: 165px;
-  top: 60px;
+  left: 46px;
+  top: 64px;
+  z-index: 1;
+  opacity: 0;
+  transition: .5s ease;
+}
+
+#mound:hover #see-pitcher-card {
+  opacity: 0.75;
+}
+
+.player-game-attributes {
+  font-size: 12px;
+  font-weight: bold;
+  color: black;
+  text-shadow: none;
+  background-color: #efe5e5;
+  padding: 5px;
+  width: 125px;
+  height: 136px;
+  display: flex;
+  flex-direction: column;
+  line-height: 6px;
+  box-shadow: 1px 1px 20px 1px black;
+}
+
+#player-game-attributes-column-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+#player-game-attributes-hr {
+  align-self: center;
+  margin-top: 2px;
+}
+
+.player-game-attributes-number {
+  font-size: 9px;
+  font-weight: normal;
 }
 
 #batter-game-attributes {
-  list-style: none;
-  font-size: 12px;
   position: absolute;
   top: -43px;
   left: 31px;
-  color: black;
-  text-shadow: none;
-  background-color: #efe5e5;
-  padding: 5px;
-  width: 125px;
-  height: 136px;
 }
 
 #pitcher-game-attributes {
-  list-style: none;
-  font-size: 12px;
   position: absolute;
   top: -33px;
   left: 32px;
-  color: black;
-  text-shadow: none;
-  background-color: #efe5e5;
-  padding: 5px;
-  width: 125px;
-  height: 136px;
 }
 
 #mound {
@@ -416,6 +446,8 @@ form div {
   position: absolute;
   top: -33px;
   left: 32px;
+  opacity: 1;
+  transition: 0.5s ease;
 }
 
 .basepath {

@@ -10,6 +10,7 @@ class Play extends Component {
   constructor() {
     super();
     this.handleRoll = this.handleRoll.bind(this);
+    this.displayAttributes = this.displayAttributes.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +43,10 @@ class Play extends Component {
       clearInterval(int);
       setTurn.call(this, this.props.gameState.roll, pitcher.control, batter.onBase, totalPAs, homeTeam)
     }, 650)
+  }
+
+  displayAttributes(playerType, bool) {
+    store.dispatch(updateGameState({[playerType]: bool}))
   }
 
   render() {
@@ -123,6 +128,7 @@ class Play extends Component {
             result={result}
             outs={outs}
             printResult={printResult}
+            displayAttributes={this.displayAttributes}
             batterAttributes={batterAttributes}
             batter={batter}
             pitcherAttributes={pitcherAttributes}

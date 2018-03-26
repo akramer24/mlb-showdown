@@ -4,10 +4,6 @@ import {translateResult} from './index';
 
 export function pitchAndSwing() {
   const { homeTeam } = this.props.gameState
-  // store.dispatch(updateGameState({
-  //   turn: '',
-  //   roll: '',
-  // }));
   socket.emit('update game state', { turn: '', roll: '' }, homeTeam);
   const roll = Math.ceil(Math.random() * 20);
   let roller = {};
@@ -32,14 +28,10 @@ export function pitchAndSwing() {
       batter: this.props.gameState.currentOrder[1],
       currentOrder: newOrder
     }
-    // store.dispatch(updateGameState(eachRollState));
     socket.emit('update game state', eachRollState, homeTeam);
 
     if (outs.includes(key) && roller[key] !== null && roller[key].includes(roll)) {
       console.log(this.props.gameState.batter.name + 'out: ', key)
-      // store.dispatch(updateGameState({
-      //   outs: this.props.gameState.outs + 1
-      // }));
       socket.emit('update game state', {
         outs: this.props.gameState.outs + 1
       }, homeTeam)
@@ -47,7 +39,6 @@ export function pitchAndSwing() {
     } else if (notOuts.includes(key) && roller[key] !== null && roller[key].includes(roll)) {
       if (key !== 'BB') {
         let newState = { currentHits: this.props.gameState.currentHits + 1 }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
       }
 
@@ -57,7 +48,6 @@ export function pitchAndSwing() {
         let newState = {
           first: this.props.gameState.batter,
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'BB' && this.props.gameState.first && !this.props.gameState.second && !this.props.gameState.third) {
@@ -67,7 +57,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter,
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'BB' && this.props.gameState.first && this.props.gameState.second && !this.props.gameState.third) {
@@ -78,7 +67,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter,
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'BB' && this.props.gameState.first && this.props.gameState.second && this.props.gameState.third) {
@@ -91,7 +79,6 @@ export function pitchAndSwing() {
           currentScore: this.props.gameState.currentScore + 1,
           inningRuns: this.props.gameState.inningRuns + 1
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'BB' && !this.props.gameState.first && this.props.gameState.second && this.props.gameState.third) {
@@ -100,7 +87,6 @@ export function pitchAndSwing() {
         let newState = {
           first: this.props.gameState.batter,
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'BB' && !this.props.gameState.first && this.props.gameState.second && !this.props.gameState.third) {
@@ -109,7 +95,6 @@ export function pitchAndSwing() {
         let newState = {
           first: this.props.gameState.batter,
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'BB' && !this.props.gameState.first && !this.props.gameState.second && this.props.gameState.third) {
@@ -118,7 +103,6 @@ export function pitchAndSwing() {
         let newState = {
           first: this.props.gameState.batter,
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'BB' && this.props.gameState.first && !this.props.gameState.second && this.props.gameState.third) {
@@ -128,7 +112,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter,
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'single' && !this.props.gameState.first && !this.props.gameState.second && !this.props.gameState.third) {
@@ -137,7 +120,6 @@ export function pitchAndSwing() {
         let newState = {
           first: this.props.gameState.batter,
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if ((key == 'single' || key == 'singlePlus') && this.props.gameState.first && !this.props.gameState.second && !this.props.gameState.third) {
@@ -147,7 +129,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter,
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'single' && !this.props.gameState.first && this.props.gameState.second && !this.props.gameState.third) {
@@ -158,7 +139,6 @@ export function pitchAndSwing() {
           second: '',
           first: this.props.gameState.batter,
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'single' && !this.props.gameState.first && !this.props.gameState.second && this.props.gameState.third) {
@@ -170,7 +150,6 @@ export function pitchAndSwing() {
           currentScore: this.props.gameState.currentScore + 1,
           inningRuns: this.props.gameState.inningRuns + 1
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if ((key == 'single' || key == 'singlePlus') && this.props.gameState.first && this.props.gameState.second && !this.props.gameState.third) {
@@ -181,7 +160,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter,
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if ((key == 'single' || key == 'singlePlus') && this.props.gameState.first && !this.props.gameState.second && this.props.gameState.third) {
@@ -194,7 +172,6 @@ export function pitchAndSwing() {
           currentScore: this.props.gameState.currentScore + 1,
           inningRuns: this.props.gameState.inningRuns + 1
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'single' && !this.props.gameState.first && this.props.gameState.second && this.props.gameState.third) {
@@ -207,7 +184,6 @@ export function pitchAndSwing() {
           currentScore: this.props.gameState.currentScore + 1,
           inningRuns: this.props.gameState.inningRuns + 1
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if ((key == 'single' || key == 'singlePlus') && this.props.gameState.first && this.props.gameState.second && this.props.gameState.third) {
@@ -220,7 +196,6 @@ export function pitchAndSwing() {
           currentScore: this.props.gameState.currentScore + 1,
           inningRuns: this.props.gameState.inningRuns + 1
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
         return;
       } else if (key == 'singlePlus' && !this.props.gameState.first && !this.props.gameState.second && !this.props.gameState.third) {
@@ -229,7 +204,6 @@ export function pitchAndSwing() {
         let newState = {
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -237,7 +211,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300)
         return;
@@ -247,7 +221,6 @@ export function pitchAndSwing() {
         let newState = {
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -256,7 +229,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
         return;
@@ -266,7 +239,6 @@ export function pitchAndSwing() {
         let newState = {
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -277,7 +249,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 1,
             inningRuns: this.props.gameState.inningRuns + 1
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
         return;
@@ -287,7 +259,6 @@ export function pitchAndSwing() {
         let newState = {
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -295,7 +266,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
         return;
@@ -306,7 +277,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -315,7 +285,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: '',
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
         return;
@@ -326,7 +296,6 @@ export function pitchAndSwing() {
           third: this.props.gameState.second,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -337,7 +306,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 1,
             inningRuns: this.props.gameState.inningRuns + 1
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
         return;
@@ -348,7 +317,6 @@ export function pitchAndSwing() {
           third: '',
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -359,7 +327,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 1,
             inningRuns: this.props.gameState.inningRuns + 1
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
         return;
@@ -371,7 +339,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -382,7 +349,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 1,
             inningRuns: this.props.gameState.inningRuns + 1
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
         return;
@@ -394,7 +361,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -405,7 +371,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 1,
             inningRuns: this.props.gameState.inningRuns + 1
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
         return;
@@ -417,7 +383,6 @@ export function pitchAndSwing() {
           second: '',
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -428,7 +393,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 2,
             inningRuns: this.props.gameState.inningRuns + 2
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
         return;
@@ -440,7 +405,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -451,7 +415,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 2,
             inningRuns: this.props.gameState.inningRuns + 2
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
         return;
@@ -461,7 +425,6 @@ export function pitchAndSwing() {
         let newState = {
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -469,7 +432,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: '',
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -478,7 +441,7 @@ export function pitchAndSwing() {
             third: this.props.gameState.second,
             second: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam)
         }, 600);
         return;
@@ -489,7 +452,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -498,7 +460,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -509,7 +471,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 1,
             inningRuns: this.props.gameState.inningRuns + 1
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
         return;
@@ -521,7 +483,6 @@ export function pitchAndSwing() {
           second: '',
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -530,7 +491,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -541,7 +502,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 1,
             inningRuns: this.props.gameState.inningRuns + 1
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
         return;
@@ -552,7 +513,6 @@ export function pitchAndSwing() {
           third: '',
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -560,7 +520,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -570,7 +530,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 1,
             inningRuns: this.props.gameState.inningRuns + 1
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
         return;
@@ -582,7 +542,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -591,7 +550,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -602,7 +561,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 2,
             inningRuns: this.props.gameState.inningRuns + 2
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
         return;
@@ -614,7 +573,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -623,7 +581,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -633,7 +591,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 2,
             inningRuns: this.props.gameState.inningRuns + 2
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
         return;
@@ -645,7 +603,6 @@ export function pitchAndSwing() {
           second: '',
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -654,7 +611,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -665,7 +622,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 2,
             inningRuns: this.props.gameState.inningRuns + 2
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
         return;
@@ -677,7 +634,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -686,7 +642,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -697,7 +653,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 3,
             inningRuns: this.props.gameState.inningRuns + 3
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
         return;
@@ -707,7 +663,6 @@ export function pitchAndSwing() {
         let newState = {
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -715,7 +670,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -724,7 +679,7 @@ export function pitchAndSwing() {
             third: this.props.gameState.second,
             second: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
 
@@ -734,7 +689,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 1,
             inningRuns: this.props.gameState.inningRuns + 1
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 900);
         return;
@@ -745,7 +700,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -754,7 +708,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -763,7 +717,7 @@ export function pitchAndSwing() {
             third: this.props.gameState.second,
             second: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
 
@@ -773,7 +727,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 2,
             inningRuns: this.props.gameState.inningRuns + 2
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 900);
         return;
@@ -785,7 +739,6 @@ export function pitchAndSwing() {
           second: '',
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -794,7 +747,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -803,7 +756,7 @@ export function pitchAndSwing() {
             third: this.props.gameState.second,
             second: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
 
@@ -813,7 +766,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 2,
             inningRuns: this.props.gameState.inningRuns + 2
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 900);
         return;
@@ -824,7 +777,6 @@ export function pitchAndSwing() {
           third: '',
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -832,7 +784,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -841,7 +793,7 @@ export function pitchAndSwing() {
             third: this.props.gameState.second,
             second: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
 
@@ -851,7 +803,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 2,
             inningRuns: this.props.gameState.inningRuns + 2
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 900);
         return;
@@ -863,7 +815,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -872,7 +823,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -881,7 +832,7 @@ export function pitchAndSwing() {
             third: this.props.gameState.second,
             second: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
 
@@ -891,7 +842,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 3,
             inningRuns: this.props.gameState.inningRuns + 3
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 900);
         return;
@@ -903,7 +854,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -912,7 +862,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -921,7 +871,7 @@ export function pitchAndSwing() {
             third: this.props.gameState.second,
             second: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
 
@@ -931,7 +881,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 3,
             inningRuns: this.props.gameState.inningRuns + 3
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 900);
         return;
@@ -943,7 +893,6 @@ export function pitchAndSwing() {
           second: '',
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -952,7 +901,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -961,7 +910,7 @@ export function pitchAndSwing() {
             third: this.props.gameState.second,
             second: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
 
@@ -971,7 +920,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 3,
             inningRuns: this.props.gameState.inningRuns + 3
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 900);
         return;
@@ -983,7 +932,6 @@ export function pitchAndSwing() {
           second: this.props.gameState.first,
           first: this.props.gameState.batter
         }
-        // store.dispatch(updateGameState(newState));
         socket.emit('update game state', newState, homeTeam);
 
         setTimeout(() => {
@@ -992,7 +940,7 @@ export function pitchAndSwing() {
             second: this.props.gameState.first,
             first: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 300);
 
@@ -1001,7 +949,7 @@ export function pitchAndSwing() {
             third: this.props.gameState.second,
             second: ''
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 600);
 
@@ -1011,7 +959,7 @@ export function pitchAndSwing() {
             currentScore: this.props.gameState.currentScore + 4,
             inningRuns: this.props.gameState.inningRuns + 4
           }
-          // store.dispatch(updateGameState(newState));
+
           socket.emit('update game state', newState, homeTeam);
         }, 900);
         return;
