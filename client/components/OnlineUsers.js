@@ -6,8 +6,6 @@ import socket from '../socket';
 
 class OnlineUsers extends React.Component {
   handleChallenge(userObj) {
-    // this.props.challenge(team);
-    console.log('challenge clicked')
     socket.emit('send challenge', userObj)
   }
 
@@ -18,7 +16,6 @@ class OnlineUsers extends React.Component {
         <h3>These users are online</h3>
         {
           onlineUsers && onlineUsers.map(userObj => {
-            console.log(userObj)
             if (userObj.teamName !== activeUser.userInfo.teamName) {
               return (
                 <p key={userObj.teamName}>{userObj.teamName} <button onClick={() => this.handleChallenge(userObj)}>vs.</button></p>

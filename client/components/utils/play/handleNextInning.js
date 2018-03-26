@@ -2,11 +2,14 @@ import socket from '../../../socket';
 import store, { updateGameState } from '../../../store';
 
 export function handleNextInning() {
-  const newInning = this.props.gameState.inning + 1;
+  const { half, inning, currentOrder, homeOrder, awayPitcher, currentScore,
+    homeScore, currentHits, homeHits, homeBench, homeBullpen,
+    awayOrder, homePitcher, awayScore, awayHits, awayBench, awayBullpen, homeTeam } = this.props.gameState;
+  const newInning = inning + 1;
   let newState = {};
-  if (this.state.half == 'top') {
+  if (half == 'top') {
     newState = {
-      awayOrder: this.props.gameState.currentOrder,
+      awayOrder: currentOrder,
       result: '',
       totalPAs: 0,
       half: 'bottom',
@@ -14,20 +17,20 @@ export function handleNextInning() {
       first: '',
       second: '',
       third: '',
-      currentOrder: this.props.gameState.homeOrder,
-      batter: this.props.gameState.homeOrder[0],
-      pitcher: this.props.gameState.awayPitcher,
-      awayScore: this.props.gameState.currentScore,
-      currentScore: this.props.gameState.homeScore,
-      awayHits: this.props.gameState.currentHits,
-      currentHits: this.props.gameState.homeHits,
-      bench: this.props.gameState.homeBench,
-      bullpen: this.props.gameState.homeBullpen,
+      currentOrder: homeOrder,
+      batter: homeOrder[0],
+      pitcher: awayPitcher,
+      awayScore: currentScore,
+      currentScore: homeScore,
+      awayHits: currentHits,
+      currentHits: homeHits,
+      bench: homeBench,
+      bullpen: homeBullpen,
       inningRuns: 0
     }
-  } else if (this.state.half == 'bottom') {
+  } else if (half == 'bottom') {
     newState = {
-      homeOrder: this.props.gameState.currentOrder,
+      homeOrder: currentOrder,
       half: 'top',
       result: '',
       totalPAs: 0,
@@ -36,18 +39,18 @@ export function handleNextInning() {
       first: '',
       second: '',
       third: '',
-      currentOrder: this.props.gameState.awayOrder,
-      batter: this.props.gameState.awayOrder[0],
-      pitcher: this.props.gameState.homePitcher,
-      homeScore: this.props.gameState.currentScore,
-      currentScore: this.props.gameState.awayScore,
-      homeHits: this.props.gameState.currentHits,
-      currentHits: this.props.gameState.awayHits,
-      bench: this.props.gameState.awayBench,
-      bullpen: this.props.gameState.awayBullpen,
+      currentOrder: awayOrder,
+      batter: awayOrder[0],
+      pitcher: homePitcher,
+      homeScore: currentScore,
+      currentScore: awayScore,
+      homeHits: currentHits,
+      currentHits: awayHits,
+      bench: awayBench,
+      bullpen: awayBullpen,
       inningRuns: 0
     }
   }
-  store.updateGameState(newState);
-  socket.emit('update game state', newState);
+  socket.emit('update game state', newState, homeTeam);
+  // store.dispatch(updateGameState(newState));
 }

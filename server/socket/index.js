@@ -52,7 +52,6 @@ module.exports = (io) => {
     })
 
     socket.on('update game state', (newState, homeTeam) => {
-      console.log('server side updating game state')
       io.to(homeTeam).emit('update game state', newState);
     })
 

@@ -38,7 +38,7 @@ socket.on('connect', () => {
   })
 
   socket.on('update game state', newState => {
-    console.log('should be updating')
+    // console.log('updated game state')
     store.dispatch(updateGameState(newState))
   })
 

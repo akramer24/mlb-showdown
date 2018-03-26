@@ -55,7 +55,7 @@ const Diamond = props => {
           <div id='home'>
             <button id='see-batter-card'>See attributes</button>
             <button id='see-bench'>See bench</button>
-            <img src={batter.image} id='home-image' className="diamond-card" />
+            <img src={batter && batter.image} id='home-image' className="diamond-card" />
           </div>
       }
       {
@@ -70,7 +70,7 @@ const Diamond = props => {
           <div id='mound'>
             <button id='see-pitcher-card'>See attributes</button>
             <button id='see-pen'>See bullpen</button>
-            <img src={pitcher.image} id='mound-image' className="diamond-card" />
+            <img src={pitcher && pitcher.image} id='mound-image' className="diamond-card" />
           </div>
       }
       <div id='first-basepath' className="basepath"></div>

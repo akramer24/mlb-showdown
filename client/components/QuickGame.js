@@ -20,7 +20,6 @@ class QuickGame extends React.Component {
 
   render() {
     const { activeUser, inactiveUser } = this.props;
-    console.log(activeUser.userInfo.teamName)
     return (
       <NavLink to="/game/choose-lineup" onClick={() => this.saveComputerLineup(inactiveUser.batters, inactiveUser.pitchers, false, false, false, activeUser.userInfo.teamName)}>Play the computer</NavLink>
     )

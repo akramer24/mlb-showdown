@@ -22,7 +22,6 @@ class Home extends React.Component {
   render() {
     const { isLoggedIn } = this.props;
     const { displayNewChallenge, challenge } = this.state;
-    console.log(this.state)
     return (
       <div id="home-page">
       {

@@ -109,6 +109,10 @@ class Play extends Component {
             batter={batter}
             printResult={printResult}
             turn={turn}
+            half={half}
+            userTeamName={this.props.userTeamName}
+            awayTeam={awayTeam}
+            homeTeam={homeTeam}
           />
           <Diamond
             key={'diamond'}
@@ -164,7 +168,8 @@ const mapState = state => {
     homeRotation: state.gameSetUp.homeRotation,
     awayTeam: state.gameSetUp.awayTeam,
     homeTeam: state.gameSetUp.homeTeam,
-    gameState: state.play
+    gameState: state.play,
+    userTeamName: state.user.activeUser.userInfo.teamName
   }
 }
 

@@ -1,5 +1,4 @@
 export function translateResult(result) {
-  // console.log('result!!!!', result)
   switch (result) {
     case 'SO':
       return 'Strikeout!';
@@ -22,6 +21,6 @@ export function translateResult(result) {
     case 'PU':
       return 'Popout!';
     default:
-      return 'No result';
+      return '';
   }
 }
