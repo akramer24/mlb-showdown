@@ -10,7 +10,7 @@ class Play extends Component {
   constructor() {
     super();
     this.handleRoll = this.handleRoll.bind(this);
-    this.displayAttributes = this.displayAttributes.bind(this);
+    this.display = this.display.bind(this);
   }
 
   componentDidMount() {
@@ -45,8 +45,8 @@ class Play extends Component {
     }, 650)
   }
 
-  displayAttributes(playerType, bool) {
-    store.dispatch(updateGameState({[playerType]: bool}))
+  display(displayType, bool) {
+    store.dispatch(updateGameState({ [displayType]: bool }))
   }
 
   render() {
@@ -121,6 +121,7 @@ class Play extends Component {
           />
           <Diamond
             key={'diamond'}
+            display={this.display}
             displayBench={displayBench}
             bench={bench}
             displayBullpen={displayBullpen}
@@ -128,7 +129,6 @@ class Play extends Component {
             result={result}
             outs={outs}
             printResult={printResult}
-            displayAttributes={this.displayAttributes}
             batterAttributes={batterAttributes}
             batter={batter}
             pitcherAttributes={pitcherAttributes}
@@ -136,6 +136,10 @@ class Play extends Component {
             first={first}
             second={second}
             third={third}
+            userTeamName={this.props.userTeamName}
+            awayTeam={awayTeam}
+            homeTeam={homeTeam}
+            half={half}
           />
           <Scoreboard
             key={'scoreboard'}

@@ -1,8 +1,9 @@
 import React from 'react';
-import { PlayerAttributes } from './index';
+import { PlayerAttributes, DisplaySubs } from './index';
 
 const Diamond = props => {
   const {
+    display,
     displayBench,
     bench,
     displayBullpen,
@@ -10,74 +11,71 @@ const Diamond = props => {
     result,
     outs,
     printResult,
-    displayAttributes,
     batterAttributes,
     batter,
     pitcherAttributes,
     pitcher,
     first,
     second,
-    third
+    third,
+    awayTeam,
+    homeTeam,
+    userTeamName,
+    half
   } = props;
 
   return (
     <div id='diamond'>
       {
-        displayBench && <div className='sub'>
-          <h3>Bench <button className='sub-button'>Hide Bench</button></h3>
-          {bench.map(player => {
-            return <li key={player.id}>{player.name}, {player.position}
-              <button className='sub-button'>Insert</button>
-            </li>
-          })}
-        </div>
+        displayBench && <DisplaySubs isBench={true} bench={bench} bullpen={null} display={display} />
       }
       {
-        displayBullpen && <div className='sub'>
-          <h3>Bullpen <button className='sub-button'>Hide Bullpen</button></h3>
-          {bullpen.map(player => {
-            return <li key={player.id}>{player.name}, {player.position}
-              <button onClick={this.subPitcher.bind(this, player)} className='sub-button'>Insert</button>
-            </li>
-          })}
-        </div>
+        displayBullpen && <DisplaySubs isBench={false} bench={null} bullpen={bullpen} display={display} />
       }
       {
-        (result || outs == 3) && <h4 id='result'>{printResult}</h4>
+        (result || outs === 3) && <h4 id='result'>{printResult}</h4>
       }
       <div id='home'>
         {
-          batterAttributes
-            ?
-            [
-              <button id='see-batter-card' key={1} onClick={() => displayAttributes('batterAttributes', false)}>See card</button>,
-              <button id='see-bench' key={2}>See bench</button>,
-              <PlayerAttributes key={3} batter={batter} />
-            ]
-            :
-            [
-              <button id='see-batter-card' key={1} onClick={() => displayAttributes('batterAttributes', true)}>See attributes</button>,
-              <button id='see-bench' key={2}>See bench</button>,
-              <img src={batter && batter.image} id='home-image' className="diamond-card" key={3} />
-            ]
+          ((half === 'top' && awayTeam === userTeamName) || (half === 'bottom' && homeTeam === userTeamName)) &&
+          !displayBench && <button id='see-bench' onClick={() => display('displayBench', true)}>See bench</button>
         }
+        <div id="home-hover-container">
+          {
+            batterAttributes
+              ?
+              [
+                <button id='see-batter-card' key={1} onClick={() => display('batterAttributes', false)}>See card</button>,
+                <PlayerAttributes key={3} batter={batter} />
+              ]
+              :
+              [
+                <button id='see-batter-card' key={1} onClick={() => display('batterAttributes', true)}>See attributes</button>,
+                <img src={batter && batter.image} id='home-image' className="diamond-card" key={3} />
+              ]
+          }
+        </div>
       </div>
       <div id='mound'>
         {
-          pitcherAttributes
-            ?
-            [
-              <button id='see-pitcher-card' key={1} onClick={() => displayAttributes('pitcherAttributes', false)}>See card</button>,
-              <button id='see-pen' key={2}>See bullpen</button>,
-              <PlayerAttributes key={3} pitcher={pitcher} />
-            ]
-            :
-            [
-              <button id='see-pitcher-card' key={1} onClick={() => displayAttributes('pitcherAttributes', true)}>See attributes</button>,
-              <button id='see-pen' key={2}>See bullpen</button>,
-              <img src={pitcher && pitcher.image} id='mound-image' className="diamond-card" key={3} />
-            ]
+          ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) &&
+          !displayBullpen && <button id='see-pen' onClick={() => display('displayBullpen', true)}>See bullpen</button>
         }
+        <div id="mound-hover-container">
+          {
+            pitcherAttributes
+              ?
+              [
+                <button id='see-pitcher-card' key={1} onClick={() => display('pitcherAttributes', false)}>See card</button>,
+                <PlayerAttributes key={3} pitcher={pitcher} />
+              ]
+              :
+              [
+                <button id='see-pitcher-card' key={1} onClick={() => display('pitcherAttributes', true)}>See attributes</button>,
+                <img src={pitcher && pitcher.image} id='mound-image' className="diamond-card" key={3} />
+              ]
+          }
+        </div>
       </div>
       <div id='first-basepath' className="basepath"></div>
       <div id='first' className="basepath">

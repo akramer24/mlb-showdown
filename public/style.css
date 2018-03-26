@@ -375,7 +375,7 @@ form div {
   width: 100px;
 }
 
-#home:hover #see-batter-card {
+#home-hover-container:hover #see-batter-card {
   opacity: 0.75;
 }
 
@@ -386,9 +386,10 @@ form div {
   z-index: 1;
   opacity: 0;
   transition: .5s ease;
+  width: 100px;
 }
 
-#mound:hover #see-pitcher-card {
+#mound-hover-container:hover #see-pitcher-card {
   opacity: 0.75;
 }
 
