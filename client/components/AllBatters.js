@@ -59,6 +59,7 @@ class AllBatters extends Component {
                 return (
                   <div key={idx} className='batter'>
                     <h3>{batter.name}</h3>
+                    <p>Quantity: {batter.quantity}</p>
                     <button onClick={
                       () => this.setState({
                         displayAttributes: !this.state.displayAttributes,

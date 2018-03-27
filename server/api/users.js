@@ -16,36 +16,26 @@ router.get('/:userId', (req, res, next) => {
     .catch(next);
 })
 
-router.get('/:userId/batters', (req, res, next) => {
-  return UserBatter.findAll({
-    where: {
-      userId: req.params.userId
-    }
+router.get('/:userId/batters', async (req, res, next) => {
+  const userBatters = await UserBatter.findAll({ where: { userId: Number(req.params.userId) } })
+  const batters = userBatters.map(async userBatter => {
+    const foundBatter = await Batter.findById(userBatter.batterId)
+    foundBatter.dataValues.quantity = userBatter.quantity;
+    return foundBatter;
   })
-    .then(userBatters => {
-      return Promise.all(userBatters.map(userBatter => {
-        return Batter.findById(userBatter.batterId)
-      })
-      )
-    })
-    .then(batters => res.send(batters))
-    .catch(next);
+  const result = await Promise.all(batters);
+  res.json(result);
 })
 
-router.get('/:userId/pitchers', (req, res, next) => {
-  return UserPitcher.findAll({
-    where: {
-      userId: req.params.userId
-    }
+router.get('/:userId/pitchers', async (req, res, next) => {
+  const userPitchers = await UserPitcher.findAll({ where: { userId: Number(req.params.userId) } })
+  const pitchers = userPitchers.map(async userPitcher => {
+    const foundPitcher = await Pitcher.findById(userPitcher.pitcherId)
+    foundPitcher.dataValues.quantity = userPitcher.quantity;
+    return foundPitcher;
   })
-    .then(userPitchers => {
-      return Promise.all(userPitchers.map(userPitcher => {
-        return Pitcher.findById(userPitcher.pitcherId)
-      })
-      )
-    })
-    .then(pitchers => res.send(pitchers))
-    .catch(next);
+  const result = await Promise.all(pitchers);
+  res.json(result);
 })
 
 router.post('/', (req, res, next) => {

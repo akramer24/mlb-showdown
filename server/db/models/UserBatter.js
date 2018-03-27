@@ -9,9 +9,15 @@ const UserBatter = db.define('userBatter', {
   },
   userId: {
     type: Sequelize.INTEGER,
+    allowNull: false
   },
   batterId: {
     type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  quantity: {
+    type: Sequelize.INTEGER,
+    defaultValue: 1
   }
 })
 

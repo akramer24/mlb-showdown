@@ -9,11 +9,15 @@ const UserPitcher = db.define('userPitcher', {
   },
   userId: {
     type: Sequelize.INTEGER,
-    unique: false
+    allowNull: false
   },
   pitcherId: {
     type: Sequelize.INTEGER,
-    unique: false
+    allowNull: false
+  },
+  quantity: {
+    type: Sequelize.INTEGER,
+    defaultValue: 1
   }
 })
 

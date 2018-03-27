@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { AllBatters, AllPitchers, NewPack } from './index';
-import { fetchInactiveUser, userBuyPack, removePack } from '../store';
+import { fetchInactiveUser, userBuyPack, removePack, fetchUserBatters, fetchUserPitchers } from '../store';
 
 class UserPage extends React.Component {
 
@@ -51,7 +51,7 @@ class UserPage extends React.Component {
         {
           activeUser.userInfo.id === Number(match.params.userId) &&
           <button onClick={() => {
-            buyPack(activeUser.userInfo.id)
+            buyPack(activeUser.userInfo.id, true)
             this.displayPack(true)
           }
           }>Buy a pack</button>
@@ -80,8 +80,10 @@ const mapDispatch = dispatch => {
     loadInactiveUser(id) {
       dispatch(fetchInactiveUser(id))
     },
-    buyPack(id) {
-      dispatch(userBuyPack(id));
+    buyPack: async (id, active) => {
+      await dispatch(userBuyPack(id));
+      await dispatch(fetchUserBatters(id, active));
+      await dispatch(fetchUserPitchers(id, active));
     },
     clearPack() {
       dispatch(removePack());

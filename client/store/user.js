@@ -259,12 +259,6 @@ export default function (state = defaultUser, action) {
       return {
         ...state, activeUser: {
           ...state.activeUser,
-          batters: state.activeUser.batters.concat(action.pack.filter(card => {
-            return card.position !== 'SP' && card.position !== 'RP' && card.position !== 'Closer'
-          })),
-          pitchers: state.activeUser.pitchers.concat(action.pack.filter(card => {
-            return card.position === 'SP' || card.position === 'RP' || card.position === 'Closer'
-          })),
           newPack: action.pack
         }
       }

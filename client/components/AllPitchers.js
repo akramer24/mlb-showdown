@@ -41,7 +41,7 @@ class AllPitchers extends Component {
     } else {
       pitchers = allPitchers;
     }
-    if (pitchers && pitchers.length > 1) {
+    if (pitchers && pitchers.length > 0) {
       return (
         <div className='display-players'>
           <h1 className='page-header'>Pitchers</h1>
@@ -58,6 +58,7 @@ class AllPitchers extends Component {
                 return (
                   <div key={idx} className='pitcher'>
                     <h3>{pitcher.name}</h3>
+                    <p>Quantity: {pitcher.quantity}</p>
                     <button onClick={
                       () => this.setState({
                         displayAttributes: !this.state.displayAttributes,
