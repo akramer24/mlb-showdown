@@ -21,7 +21,8 @@ module.exports = (io) => {
     })
     
     socket.on('remove online user', teamName => {
-      onlineUsers = onlineUsers.filter(team => team !== teamName);
+      onlineUsers = onlineUsers.filter(user => user.teamName !== teamName);
+      console.log(onlineUsers)
       io.emit('online user removed', onlineUsers)
     })
 

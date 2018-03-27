@@ -152,7 +152,6 @@ export const logout = () =>
   dispatch =>
     axios.post('/auth/logout')
       .then(res => {
-        // console.log(res.data)
         dispatch(removeUser())
         socket.emit('remove online user', res.data.teamName)
         history.push('/login')
