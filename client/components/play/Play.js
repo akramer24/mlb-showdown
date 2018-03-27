@@ -30,7 +30,7 @@ class Play extends Component {
       bench: awayLineup.slice(9, 12),
       awayBullpen: awayRotation.slice(1, 5),
       homeBullpen: homeRotation.slice(1, 5),
-      bullpen: awayRotation.slice(1, 5)
+      bullpen: homeRotation.slice(1, 5)
     }))
   }
 
@@ -140,6 +140,7 @@ class Play extends Component {
             awayTeam={awayTeam}
             homeTeam={homeTeam}
             half={half}
+            currentOrder={currentOrder}
           />
           <Scoreboard
             key={'scoreboard'}

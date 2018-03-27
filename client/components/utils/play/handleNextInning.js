@@ -25,7 +25,7 @@ export function handleNextInning() {
       awayHits: currentHits,
       currentHits: homeHits,
       bench: homeBench,
-      bullpen: homeBullpen,
+      bullpen: awayBullpen,
       inningRuns: 0
     }
   } else if (half == 'bottom') {
@@ -47,7 +47,7 @@ export function handleNextInning() {
       homeHits: currentHits,
       currentHits: awayHits,
       bench: awayBench,
-      bullpen: awayBullpen,
+      bullpen: homeBullpen,
       inningRuns: 0
     }
   }

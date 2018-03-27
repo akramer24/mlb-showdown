@@ -21,16 +21,17 @@ const Diamond = props => {
     awayTeam,
     homeTeam,
     userTeamName,
-    half
+    half,
+    currentOrder
   } = props;
 
   return (
     <div id='diamond'>
       {
-        displayBench && <DisplaySubs isBench={true} bench={bench} bullpen={null} display={display} />
+        displayBench && <DisplaySubs isBench={true} display={display} />
       }
       {
-        displayBullpen && <DisplaySubs isBench={false} bench={null} bullpen={bullpen} display={display} />
+        displayBullpen && <DisplaySubs isBench={false} display={display} />
       }
       {
         (result || outs === 3) && <h4 id='result'>{printResult}</h4>
