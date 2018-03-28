@@ -17,7 +17,8 @@ class DisplaySubs extends React.Component {
 
   insert(player) {
     const { isBench, display } = this.props;
-    const { bench, bullpen, currentOrder, homeTeam } = this.props.gameState;
+    const { bench, bullpen, currentOrder, homeTeam, half } = this.props.gameState;
+    const whichPitcher = half === 'top' ? 'homePitcher' : 'awayPitcher';
     if (isBench) {
       currentOrder[0] = player;
       const newBench = bench.filter(reserve => reserve.id !== player.id);
@@ -25,7 +26,7 @@ class DisplaySubs extends React.Component {
       display('displayBench', false);
     } else {
       const newBullpen = bullpen.filter(reliever => reliever.id !== player.id);
-      socket.emit('update game state', { pitcher: player, bullpen: newBullpen }, homeTeam);
+      socket.emit('update game state', { pitcher: player, [whichPitcher]: player, bullpen: newBullpen }, homeTeam);
       display('displayBullpen', false);
     }
   }

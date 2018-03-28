@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default class Scoreboard extends Component {
+class Scoreboard extends Component {
 
   constructor() {
     super();
@@ -33,22 +35,23 @@ export default class Scoreboard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let half = nextProps.half + nextProps.inning;
-    this.setState({ [half]: nextProps.inningRuns })
+    const { half, inning, inningRuns } = nextProps.gameState;
+    this.setState({ [half + inning]: inningRuns })
   }
 
   handleAwayInning(inn) {
     let stateInn = `top${inn}`;
 
-    if (this.props.inning >= inn) {
+    if (this.props.gameState.inning >= inn) {
       return this.state[stateInn];
     }
   }
 
   handleHomeInning(inn) {
     let stateInn = `bottom${inn}`;
+    const { half, inning } = this.props.gameState;
 
-    if ((this.props.half == 'bottom' && this.props.inning === inn) || this.props.inning > inn) {
+    if ((half == 'bottom' && inning === inn) || inning > inn) {
       return this.state[stateInn];
     }
   }
@@ -56,7 +59,7 @@ export default class Scoreboard extends Component {
   render() {
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
-    const { away, home, half, inning, awayScore, homeScore, currentScore, inningRuns, outs, awayHits, homeHits, currentHits } = this.props;
+    const { awayTeam, homeTeam, half, inning, awayScore, homeScore, currentScore, inningRuns, outs, awayHits, homeHits, currentHits } = this.props.gameState;
 
     return (
       <div id="scoreboard">
@@ -85,7 +88,7 @@ export default class Scoreboard extends Component {
                 arr.map(ele => {
                   if (ele === 1) {
                     return (
-                      <td key={ele} className='score-name-value'>{away}</td>
+                      <td key={ele} className='score-name-value'>{awayTeam}</td>
                     )
                   } else if (ele === 14) {
                     return (
@@ -131,7 +134,7 @@ export default class Scoreboard extends Component {
                 arr.map(ele => {
                   if (ele === 1) {
                     return (
-                      <td key={ele} className='score-name-value'>{home}</td>
+                      <td key={ele} className='score-name-value'>{homeTeam}</td>
                     )
                   } else if (ele === 14) {
                     return (
@@ -184,3 +187,11 @@ export default class Scoreboard extends Component {
     )
   }
 }
+
+const mapState = state => {
+  return {
+    gameState: state.play
+  }
+}
+
+export default withRouter(connect(mapState)(Scoreboard));

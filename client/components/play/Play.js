@@ -78,44 +78,13 @@ class Play extends Component {
 
   render() {
     const {
-      turn,
-      roll,
-      result,
-      printResult,
-      totalPAs,
       half,
       inning,
-      outs,
-      awayOrder,
-      homeOrder,
-      currentOrder,
-      awayPitcher,
-      homePitcher,
-      batter,
-      pitcher,
-      first,
-      second,
-      third,
       awayScore,
       homeScore,
       currentScore,
-      inningRuns,
-      awayHits,
-      homeHits,
-      currentHits,
       awayTeam,
-      homeTeam,
-      batterAttributes,
-      pitcherAttributes,
-      awayBench,
-      homeBench,
-      bench,
-      awayBullpen,
-      homeBullpen,
-      bullpen,
-      displayBench,
-      displayBullpen,
-      isGameOver
+      homeTeam
     } = this.props.gameState;
 
     const { homeRotation, awayRotation } = this.props;
@@ -133,71 +102,13 @@ class Play extends Component {
         }
         <BoardButtons
           key={'board-buttons'}
-          outs={outs}
           handleNextInning={handleNextInning.bind(this)}
-          result={result}
-          totalPAs={totalPAs}
           handleRoll={this.handleRoll}
-          roll={roll}
           pitchAndSwing={pitchAndSwing.bind(this)}
-          pitcher={pitcher}
-          batter={batter}
-          printResult={printResult}
-          turn={turn}
-          half={half}
-          userTeamName={this.props.userTeamName}
-          awayTeam={awayTeam}
-          homeTeam={homeTeam}
-          homeRotation={homeRotation}
-          awayRotation={awayRotation}
-          isGameOver={isGameOver}
         />
-        <Diamond
-          key={'diamond'}
-          display={this.display}
-          displayBench={displayBench}
-          bench={bench}
-          displayBullpen={displayBullpen}
-          bullpen={bullpen}
-          result={result}
-          outs={outs}
-          printResult={printResult}
-          batterAttributes={batterAttributes}
-          batter={batter}
-          pitcherAttributes={pitcherAttributes}
-          pitcher={pitcher}
-          first={first}
-          second={second}
-          third={third}
-          userTeamName={this.props.userTeamName}
-          awayTeam={awayTeam}
-          homeTeam={homeTeam}
-          half={half}
-          currentOrder={currentOrder}
-          isGameOver={isGameOver}
-        />
-        <Scoreboard
-          key={'scoreboard'}
-          away={awayTeam}
-          home={homeTeam}
-          half={half}
-          inning={inning}
-          awayScore={awayScore}
-          homeScore={homeScore}
-          currentScore={currentScore}
-          inningRuns={inningRuns}
-          outs={outs}
-          awayHits={awayHits}
-          homeHits={homeHits}
-          currentHits={currentHits}
-        />
-        <Lineup
-          key={'lineup'}
-          half={half}
-          awayTeam={awayTeam}
-          homeTeam={homeTeam}
-          currentOrder={currentOrder}
-        />
+        <Diamond key={'diamond'} display={this.display} />
+        <Scoreboard key={'scoreboard'} />
+        <Lineup key={'lineup'} />
       </div>
     )
   }

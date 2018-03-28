@@ -1,9 +1,10 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { PlayerAttributes, DisplaySubs } from './index';
 
 const Diamond = props => {
   const {
-    display,
     displayBench,
     bench,
     displayBullpen,
@@ -20,11 +21,12 @@ const Diamond = props => {
     third,
     awayTeam,
     homeTeam,
-    userTeamName,
     half,
     currentOrder,
     isGameOver
-  } = props;
+  } = props.gameState;
+
+  const { userTeamName, display } = props;
 
   return (
     <div id='diamond'>
@@ -107,4 +109,11 @@ const Diamond = props => {
   )
 }
 
-export default Diamond;
+const mapState = state => {
+  return {
+    gameState: state.play,
+    userTeamName: state.user.activeUser.userInfo.teamName
+  }
+}
+
+export default withRouter(connect(mapState)(Diamond));

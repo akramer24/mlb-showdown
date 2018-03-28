@@ -1,7 +1,9 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const Lineup = props => {
-  const { half, awayTeam, homeTeam, currentOrder } = props;
+  const { half, awayTeam, homeTeam, currentOrder } = props.gameState;
   return (
     <div id='ingame-lineup'>
       {
@@ -26,4 +28,10 @@ const Lineup = props => {
   )
 }
 
-export default Lineup;
+const mapState = state => {
+  return {
+    gameState: state.play
+  }
+}
+
+export default withRouter(connect(mapState)(Lineup));
