@@ -60,7 +60,6 @@ class Scoreboard extends Component {
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
     const { awayTeam, homeTeam, half, inning, awayScore, homeScore, currentScore, inningRuns, outs, awayHits, homeHits, currentHits } = this.props.gameState;
-
     return (
       <div id="scoreboard">
         <table id='full-scoreboard'>
@@ -88,7 +87,7 @@ class Scoreboard extends Component {
                 arr.map(ele => {
                   if (ele === 1) {
                     return (
-                      <td key={ele} className='score-name-value'>{awayTeam}</td>
+                      <td key={ele} className='score-name-value'>{awayTeam.slice(0, 11)}</td>
                     )
                   } else if (ele === 14) {
                     return (
@@ -134,7 +133,7 @@ class Scoreboard extends Component {
                 arr.map(ele => {
                   if (ele === 1) {
                     return (
-                      <td key={ele} className='score-name-value'>{homeTeam}</td>
+                      <td key={ele} className='score-name-value'>{homeTeam.slice(0, 11)}</td>
                     )
                   } else if (ele === 14) {
                     return (
@@ -176,10 +175,17 @@ class Scoreboard extends Component {
               }
             </tr>
             <tr className='scoreboard-stuff'>
-              <td className='score-name-value'>{half + ' ' + inning}</td>
-            </tr>
-            <tr className='scoreboard-stuff'>
-              <td className='score-name-value'>Outs: {outs}</td>
+              {
+                half === 'top'
+                  ?
+                  <td className='score-name-value'>
+                    <span className="half-caret">&#9650;</span>{inning} Outs: {outs}
+                  </td>
+                  :
+                  <td className='score-name-value'>
+                    <span className="half-caret">&#9660;</span>{inning} Outs: {outs}
+                  </td>
+              }
             </tr>
           </tbody>
         </table>
