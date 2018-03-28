@@ -20,6 +20,12 @@ class Play extends Component {
     this.initializeState();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { isGameOver, inning, half, currentScore, awayScore, homeScore, homeTeam } = nextProps.gameState;
+    if (!isGameOver && ((inning >= 9 && half === 'bottom' && currentScore > awayScore) || (inning >= 10 && half === 'top' && homeScore < awayScore))) {
+      socket.emit('update game state', { isGameOver: true }, homeTeam)
+    }
+  }
 
   initializeState() {
     const { awayLineup, homeLineup, awayRotation, homeRotation, awayTeam, homeTeam } = this.props;
@@ -58,10 +64,10 @@ class Play extends Component {
   }
 
   onKeyPressed(e) {
-    const { half, homeTeam, awayTeam, turn, result, totalPAs } = this.props.gameState;
+    const { half, homeTeam, awayTeam, turn, result, totalPAs, isGameOver } = this.props.gameState;
     const { userTeamName } = this.props;
 
-    if ((e.keyCode === 82) && ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) && (result.length > 0 || totalPAs === 0)) this.handleRoll();
+    if (!isGameOver && (e.keyCode === 82) && ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) && (result.length > 0 || totalPAs === 0)) this.handleRoll();
 
     if ((e.keyCode === 80) && ((half === 'top' && homeTeam === userTeamName && turn === 'pitcher') ||
       (half === 'top' && awayTeam === userTeamName && turn === 'batter') ||
@@ -108,18 +114,19 @@ class Play extends Component {
       homeBullpen,
       bullpen,
       displayBench,
-      displayBullpen
+      displayBullpen,
+      isGameOver
     } = this.props.gameState;
 
     const { homeRotation, awayRotation } = this.props;
 
     return (
-      <div id="board" onKeyDown={this.onKeyPressed} tabIndex="0" >
+      <div id="board" autoFocus onKeyDown={this.onKeyPressed} tabIndex="0" >
         {
-          (inning >= 9 && half == 'bottom' && homeScore > awayScore) && <h1>{homeTeam} wins!</h1>
+          (inning >= 9 && half === 'bottom' && currentScore > awayScore) && <h1 className="board-winner-alert animated zoomIn">{homeTeam} wins!</h1>
         }
         {
-          (inning >= 10 && half == 'top' && homeScore < awayScore) && <h1>{awayTeam} wins!</h1>
+          (inning >= 10 && half === 'top' && homeScore < awayScore) && <h1 className="board-winner-alert animated zoomIn">{awayTeam} wins!</h1>
         }
         {
           (!homeRotation.length || !awayRotation.length) && <h1>Waiting for your opponent to submit lineup</h1>
@@ -143,6 +150,7 @@ class Play extends Component {
           homeTeam={homeTeam}
           homeRotation={homeRotation}
           awayRotation={awayRotation}
+          isGameOver={isGameOver}
         />
         <Diamond
           key={'diamond'}
@@ -166,6 +174,7 @@ class Play extends Component {
           homeTeam={homeTeam}
           half={half}
           currentOrder={currentOrder}
+          isGameOver={isGameOver}
         />
         <Scoreboard
           key={'scoreboard'}

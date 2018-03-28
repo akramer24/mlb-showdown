@@ -285,6 +285,20 @@ form div {
   outline: none;
 }
 
+.board-winner-alert {
+  z-index: 2;
+  position: absolute;
+  top: 20%;
+  left: 41%;
+  background-color: rgba(60,60,60,0.8);
+  height: 20%;
+  width: 300px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 5px 20px 5px black;
+}
+
 #first {
   height: 100px;
   width: 100px;

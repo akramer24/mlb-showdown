@@ -22,16 +22,17 @@ const Diamond = props => {
     homeTeam,
     userTeamName,
     half,
-    currentOrder
+    currentOrder,
+    isGameOver
   } = props;
 
   return (
     <div id='diamond'>
       {
-        displayBench && <DisplaySubs isBench={true} display={display} />
+        !isGameOver && displayBench && <DisplaySubs isBench={true} display={display} />
       }
       {
-        displayBullpen && <DisplaySubs isBench={false} display={display} />
+        !isGameOver && displayBullpen && <DisplaySubs isBench={false} display={display} />
       }
       {
         (result || outs === 3) && <h4 id='result'>{printResult}</h4>

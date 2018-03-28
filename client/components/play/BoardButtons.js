@@ -8,14 +8,14 @@ class BoardButtons extends React.Component {
     }
   }
   render() {
-    const { half, userTeamName, roll, control, onBase, totalPAs, result, outs, pitcher, batter, turn, printResult, handleNextInning, pitchAndSwing, handleRoll, awayTeam, homeTeam, homeRotation, awayRotation } = this.props;
+    const { half, userTeamName, roll, control, onBase, totalPAs, result, outs, pitcher, batter, turn, printResult, handleNextInning, pitchAndSwing, handleRoll, awayTeam, homeTeam, homeRotation, awayRotation, isGameOver } = this.props;
     return (
       <div id='board-buttons'>
         {
           outs < 3 &&
             <div>
               {
-                (homeRotation.length && awayRotation.length) && ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) && (result.length > 0 || totalPAs === 0) && <button onClick={() => handleRoll(roll, control, onBase, totalPAs)}>Roll for turn</button>
+                !isGameOver && (homeRotation.length && awayRotation.length) && ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) && (result.length > 0 || totalPAs === 0) && <button onClick={() => handleRoll(roll, control, onBase, totalPAs)}>Roll for turn</button>
               }
               {
                ((half === 'top' && homeTeam === userTeamName && turn === 'pitcher') ||
