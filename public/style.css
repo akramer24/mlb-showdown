@@ -281,6 +281,10 @@ form div {
   display: flex;
 }
 
+#board:focus {
+  outline: none;
+}
+
 #first {
   height: 100px;
   width: 100px;

@@ -8,17 +8,17 @@ class BoardButtons extends React.Component {
     }
   }
   render() {
-    const { half, userTeamName, roll, control, onBase, totalPAs, result, outs, pitcher, batter, turn, printResult, handleNextInning, pitchAndSwing, handleRoll, awayTeam, homeTeam } = this.props;
+    const { half, userTeamName, roll, control, onBase, totalPAs, result, outs, pitcher, batter, turn, printResult, handleNextInning, pitchAndSwing, handleRoll, awayTeam, homeTeam, homeRotation, awayRotation } = this.props;
     return (
       <div id='board-buttons'>
         {
           outs < 3 &&
             <div>
               {
-                ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) && (result.length > 0 || totalPAs === 0) && <button onClick={() => handleRoll(roll, control, onBase, totalPAs)}>Roll for turn</button>
+                (homeRotation.length && awayRotation.length) && ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) && (result.length > 0 || totalPAs === 0) && <button onClick={() => handleRoll(roll, control, onBase, totalPAs)}>Roll for turn</button>
               }
               {
-                ((half === 'top' && homeTeam === userTeamName && turn === 'pitcher') ||
+               ((half === 'top' && homeTeam === userTeamName && turn === 'pitcher') ||
                 (half === 'top' && awayTeam === userTeamName && turn === 'batter') ||
                 (half === 'bottom' && awayTeam === userTeamName && turn === 'pitcher') ||
                 (half === 'bottom' && homeTeam === userTeamName && turn === 'batter')) &&
