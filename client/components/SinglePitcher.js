@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { fetchPitcher } from '../store';
 import onClickOutside from 'react-onclickoutside';
 
 class SinglePitcher extends Component {
   constructor() {
     super();
     this.convertArray = this.convertArray.bind(this);
-  }
-
-  componentDidMount() {
-    const { isLineup, thisPitcher, playerId } = this.props;
-    let id = isLineup ? thisPitcher.id : playerId;
-    this.props.loadPitcher(id);
   }
 
   convertArray(arr) {
@@ -29,76 +20,57 @@ class SinglePitcher extends Component {
   }
 
   handleClickOutside(evt) {
-    const targetClass = evt.target.classList.value;
-    if (targetClass.startsWith('lineup-full-card-button')) {
-      const id = Number(targetClass.slice(24))
-      this.props.clickStats(id, true)
-    } else {
-      this.props.clickStats(null, false)
+    const { clickStats } = this.props;
+    if (clickStats) {
+      const targetClass = evt.target.classList.value;
+      if (targetClass.startsWith('lineup-full-card-button')) {
+        const id = Number(targetClass.slice(24))
+        clickStats(id, true)
+      } else {
+        clickStats(null, false)
+      }
     }
-  };
+  }
 
   render() {
-    const { singlePitcher, thisPitcher, isLineup, playerId } = this.props;
+    const { thisPitcher, isLineup } = this.props;
 
-    let pitcher;
-    let id;
+    let pitcher = thisPitcher;
+    let id = pitcher.id;
     let lineupClass;
     if (isLineup) {
-      pitcher = thisPitcher;
-      id = thisPitcher.id;
       lineupClass = 'lineup-single-player animated zoomIn';
     } else {
-      pitcher = singlePitcher;
-      id = playerId;
+      lineupClass = 'lineup-single-player';
     }
-
-    if (pitcher.id === id) {
-
-      return (
-        <div className={lineupClass}>
-          <div className="single-pitcher-column-container">
-            {
-              isLineup && <h2 key={1}>{pitcher.name}</h2>
-            }
-            <div className="single-pitcher-info">
-              <div className="single-pitcher-column">
-                <p>Pop-out: {this.convertArray(pitcher.PU)}</p>
-                <p>Strikeout: {this.convertArray(pitcher.SO)}</p>
-                <p>Groundout: {this.convertArray(pitcher.GB)}</p>
-                <p>Flyout: {this.convertArray(pitcher.FB)}</p>
-              </div>
-              <div className="single-pitcher-column">
-                <p>Walk: {this.convertArray(pitcher.BB)}</p>
-                <p>Single: {this.convertArray(pitcher.single)}</p>
-                <p>Double: {this.convertArray(pitcher.double)}</p>
-                <p>Home Run: {this.convertArray(pitcher.homeRun)}</p>
-              </div>
+    return (
+      <div className={lineupClass}>
+        <div className="single-pitcher-column-container">
+          <h2 key={1}>{pitcher.name}</h2>
+          {
+            !isLineup && <small>Quantity: {pitcher.quantity}</small>
+          }
+          <div className="single-pitcher-info">
+            <div className="single-pitcher-column">
+              <p>Pop-out: {this.convertArray(pitcher.PU)}</p>
+              <p>Strikeout: {this.convertArray(pitcher.SO)}</p>
+              <p>Groundout: {this.convertArray(pitcher.GB)}</p>
+              <p>Flyout: {this.convertArray(pitcher.FB)}</p>
+            </div>
+            <div className="single-pitcher-column">
+              <p>Walk: {this.convertArray(pitcher.BB)}</p>
+              <p>Single: {this.convertArray(pitcher.single)}</p>
+              <p>Double: {this.convertArray(pitcher.double)}</p>
+              <p>Home Run: {this.convertArray(pitcher.homeRun)}</p>
             </div>
           </div>
-          <div className="single-pitcher-column">
-            <img src={pitcher.image} className="player-img" />
-          </div>
         </div>
-      )
-    } else {
-      return null;
-    }
+        <div className="single-pitcher-column">
+          <img src={pitcher.image} className="player-img" />
+        </div>
+      </div>
+    )
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    singlePitcher: state.pitchers.singlePitcher
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadPitcher(id) {
-      dispatch(fetchPitcher(id));
-    }
-  }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(onClickOutside(SinglePitcher)));
+export default (onClickOutside(SinglePitcher));

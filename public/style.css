@@ -280,6 +280,8 @@ button:focus {
   padding: 10px;
   border-radius: 20px;
   color: white;
+  margin: 10px;
+  width: 550px;
 }
 
 .single-batter-column, .single-pitcher-column {
@@ -323,7 +325,6 @@ button:focus {
 }
 
 .display-players {
-  background-color: #636363;
   text-shadow: 2px 2px 2px black;
   color: #cec3c3;
   font-family: verdana;
