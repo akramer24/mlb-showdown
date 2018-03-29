@@ -39,10 +39,10 @@ class DisplaySubs extends React.Component {
 
     return (
       <div className="sub animated fadeIn">
-        <h3>{title} <button className="sub-button" onClick={() => display(`display${title}`, false)}>Hide {title}</button></h3>
+        <h3 id="sub-title">{title} <button className="sub-button" onClick={() => display(`display${title}`, false)}>Hide {title}</button></h3>
         {subType.map((player, idx) => {
           return (
-            <p key={player.id}>{player.name}, {player.position}
+            <p key={player.id} className="sub-name">{player.name}, {player.position}
               <button className="sub-button" onClick={() => this.insert(player)}>Insert</button>
             </p>
           )

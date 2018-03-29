@@ -42,7 +42,7 @@ const Diamond = props => {
       <div id='home'>
         {
           ((half === 'top' && awayTeam === userTeamName) || (half === 'bottom' && homeTeam === userTeamName)) &&
-          !displayBench && <button id='see-bench' onClick={() => display('displayBench', true)}>See bench</button>
+          !displayBench && <button id='see-bench' onClick={() => display('displayBench', true)}>Bench</button>
         }
         <div id="home-hover-container">
           {
@@ -63,7 +63,7 @@ const Diamond = props => {
       <div id='mound'>
         {
           ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) &&
-          !displayBullpen && <button id='see-pen' onClick={() => display('displayBullpen', true)}>See bullpen</button>
+          !displayBullpen && <button id='see-pen' onClick={() => display('displayBullpen', true)}>Bullpen</button>
         }
         <div id="mound-hover-container">
           {

@@ -26,6 +26,14 @@ form div {
   box-sizing: border-box;
 }
 
+button {
+  height: 22px;
+  border-radius: 5px;
+}
+
+button:focus {
+  outline: none;
+}
 /*************************************NAVBAR**************************/
 
 #navbar {
@@ -178,9 +186,9 @@ form div {
   cursor: pointer;
 }
 
-/* table, th, td {
+#choose-lineup-lineup th, td {
   border: 1px solid black;
-} */
+}
 
 #lineup-button-and-card {
   display: flex;
@@ -297,6 +305,20 @@ form div {
   padding: 10px;
   border-radius: 10px;
   box-shadow: 1px 5px 20px 5px black;
+}
+
+#board-waiting {
+  position: absolute;
+  z-index: 2;
+  width: 230px;
+  top: 45%;
+  left: 45%;
+  background-color: rgba(60,60,60,0.6);
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 20px 5px black;
+  text-align: center;
+  margin-left: -105px;
 }
 
 #first {
@@ -545,7 +567,13 @@ form div {
 #board-buttons {
   position: absolute;
   top: 388px;
-  left: 85%;
+  left: 80%;
+  background-color: rgba(60,60,60,0.6);
+  padding: 5px;
+  font-family: scoreboard-font;
+  color: #41db8a;
+  box-shadow: 1px 1px 20px 5px black;
+  border-radius: 10px;
 }
 
 /*************************DIAMOND**********************/
@@ -555,6 +583,7 @@ form div {
   top: 4%;
   left: 36%;
   margin-left: -300px;
+  font-family: scoreboard-font;
 }
 
 .diamond-card {
@@ -575,16 +604,26 @@ form div {
 .sub {
   list-style: none;
   position: absolute;
-  background-color: #efe5e5;
-  color: black;
-  width: 230px;
-  left: 62.5%;
+  background-color: rgba(60,60,60,0.6);
+  color: white;
+  width: 340px;
+  left: 54%;
   top: 396px;
   z-index: 2;
   text-shadow: none;
-  border: 1px solid black;
+  box-shadow: 1px 1px 20px 5px black;
   padding: 5px;
   border-radius: 5px;
+}
+
+#sub-title {
+  color: #272525;
+  text-shadow: 1px 1px 1px white;
+}
+
+.sub-name {
+  color: #41da88;
+  text-shadow: 1px 1px 1px black;
 }
 
 #result {
@@ -704,4 +743,10 @@ form div {
 #ingame-lineup {
   position: absolute;
   top: 34%;
+  background-color: rgba(60,60,60,0.6);
+  padding: 5px;
+  font-family: scoreboard-font;
+  color: #47ea94;
+  box-shadow: 1px 1px 20px 5px black;
+  border-radius: 10px;
 }

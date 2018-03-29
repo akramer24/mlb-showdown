@@ -98,7 +98,7 @@ class Play extends Component {
           (inning >= 10 && half === 'top' && homeScore < awayScore) && <h1 className="board-winner-alert animated zoomIn">{awayTeam} wins!</h1>
         }
         {
-          (!homeRotation.length || !awayRotation.length) && <h1>Waiting for your opponent to submit lineup</h1>
+          (!homeRotation.length || !awayRotation.length) && <h1 id="board-waiting">Waiting for your opponent to submit lineup</h1>
         }
         <BoardButtons
           key={'board-buttons'}
