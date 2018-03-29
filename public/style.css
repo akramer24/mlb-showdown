@@ -644,9 +644,24 @@ button:focus {
   -webkit-transition: 1.5s ease;
 }
 
-#roll-button:hover {
+.play-button:hover {
   background-color: white;
   color: #797979;
+}
+
+#show-rules-button {
+  background-color: #c57e53;
+  color: #c5c5c5;
+  border: none;
+  box-shadow: 1px 1px 20px 1px black;
+  margin-left: 5px;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5s ease;
+}
+
+#show-rules-button:hover {
+  background-color: #c5c5c5;
+  color: #c57e53;
 }
 
 /*************************DIAMOND**********************/
@@ -723,6 +738,35 @@ button:focus {
   width: 240px;
   text-align: center;
   z-index: 2;
+}
+
+#rules {
+  position: absolute;
+  width: 240px;
+  left: 62.3%;
+  background-color: rgba(60,60,60,0.8);
+  border-radius: 5px;
+  box-shadow: 1px 1px 20px 1px black;
+  height: 400px;
+  overflow: scroll;
+  z-index: 3;
+  padding: 5px;
+  color: #3dd471;
+  text-align: center;
+}
+
+#rules-got-it {
+  background-color: green;
+  color: white;
+  border: none;
+  box-shadow: 1px 1px 20px 1px black;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5s ease;
+}
+
+#rules-got-it:hover {
+  background-color: lightgreen;
+  color: black;
 }
 
 .sub-button {

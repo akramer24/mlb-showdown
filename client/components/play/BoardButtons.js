@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import store, { updateGameState } from '../../store';
 
 class BoardButtons extends React.Component {
 
@@ -28,6 +29,7 @@ class BoardButtons extends React.Component {
                 (half === 'bottom' && homeTeam === userTeamName && turn === 'batter')) &&
               (result.length === 0 && totalPAs !== 0) && <button className="play-button" onClick={pitchAndSwing}>Pitch</button>
             }
+            <button id="show-rules-button" onClick={() => store.dispatch(updateGameState({ displayRules: true }))}>Rules</button>
             <h4>Pitcher Control: {pitcher && pitcher.control}</h4>
             <h4>Batter On-Base: {batter && batter.onBase}</h4>
             {

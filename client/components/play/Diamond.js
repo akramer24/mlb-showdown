@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { PlayerAttributes, DisplaySubs } from './index';
+import { PlayerAttributes, DisplaySubs, Rules } from './index';
 
 const Diamond = props => {
   const {
@@ -23,7 +23,8 @@ const Diamond = props => {
     homeTeam,
     half,
     currentOrder,
-    isGameOver
+    isGameOver,
+    displayRules
   } = props.gameState;
 
   const { userTeamName, display, homeRotation, awayRotation } = props;
@@ -41,6 +42,9 @@ const Diamond = props => {
       }
       {
         (!homeRotation.length || !awayRotation.length) && <h1 className="result">Waiting for opponent</h1>
+      }
+      {
+        displayRules && <Rules />
       }
       <div id='home'>
         {

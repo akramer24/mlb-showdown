@@ -36,7 +36,8 @@ const defaultState = {
   bullpen: [],
   displayBench: false,
   displayBullpen: false,
-  isGameOver: false
+  isGameOver: false,
+  displayRules: true
 }
 
 const UPDATE_GAME_STATE = 'UPDATE_GAME_STATE';
