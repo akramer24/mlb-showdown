@@ -26,22 +26,25 @@ const Diamond = props => {
     isGameOver
   } = props.gameState;
 
-  const { userTeamName, display } = props;
+  const { userTeamName, display, homeRotation, awayRotation } = props;
 
   return (
     <div id='diamond'>
       {
-        !isGameOver && displayBench && <DisplaySubs isBench={true} display={display} />
+        displayBench && <DisplaySubs isBench={true} display={display} />
       }
       {
-        !isGameOver && displayBullpen && <DisplaySubs isBench={false} display={display} />
+        displayBullpen && <DisplaySubs isBench={false} display={display} />
       }
       {
-        (result || outs === 3) && <h4 id='result'>{printResult}</h4>
+        (result || outs === 3) && <h4 className='result'>{printResult}</h4>
+      }
+      {
+        (!homeRotation.length || !awayRotation.length) && <h1 className="result">Waiting for opponent</h1>
       }
       <div id='home'>
         {
-          ((half === 'top' && awayTeam === userTeamName) || (half === 'bottom' && homeTeam === userTeamName)) &&
+          !isGameOver && ((half === 'top' && awayTeam === userTeamName) || (half === 'bottom' && homeTeam === userTeamName)) &&
           !displayBench && <button id='see-bench' onClick={() => display('displayBench', true)}>Bench</button>
         }
         <div id="home-hover-container">
@@ -62,7 +65,7 @@ const Diamond = props => {
       </div>
       <div id='mound'>
         {
-          ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) &&
+          !isGameOver && ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) &&
           !displayBullpen && <button id='see-pen' onClick={() => display('displayBullpen', true)}>Bullpen</button>
         }
         <div id="mound-hover-container">
@@ -112,7 +115,9 @@ const Diamond = props => {
 const mapState = state => {
   return {
     gameState: state.play,
-    userTeamName: state.user.activeUser.userInfo.teamName
+    userTeamName: state.user.activeUser.userInfo.teamName,
+    awayRotation: state.gameSetUp.awayRotation,
+    homeRotation: state.gameSetUp.homeRotation
   }
 }
 

@@ -19,7 +19,7 @@ const Player = SortableElement(({ value, spot, clickStats, idx, isBatter }) => {
       <td className="lineup-table-column">{place}</td>
       <td className="lineup-table-column">{firstName + ' ' + lastName}</td>
       <td className="lineup-table-column">{position}</td>
-      <td className="lineup-table-column"><button className={`lineup-full-card-button-${idx}`} onClick={() => clickStats(idx, true)}>Stats</button></td>
+      <td className="lineup-table-column"><button className="lineup-full-card-button" onClick={() => clickStats(idx, true)}>Stats</button></td>
     </tr>
   )
 }
@@ -29,32 +29,34 @@ const Lineup = SortableContainer((props) => {
   const { players, clickStats, isBatter } = props;
   const firstCol = isBatter ? 'Order' : 'Role';
   return (
-    <table id="choose-lineup-lineup">
-      <tbody>
-        <tr>
-          <th className="lineup-table-column">{firstCol}</th>
-          <th className="lineup-table-column">Player</th>
-          <th className="lineup-table-column">Position</th>
-          <th className="lineup-table-column">Stats</th>
-        </tr>
-        {players.map((player, index) => {
-          let spot;
-          if (isBatter) {
-            if (index < 9) spot = index 
-            if (index >= 9 && index <= 13) spot = 'Bench: '
-            if (index > 13) spot = 'Inactive';
-          } else {
-            index === 0 && index < 5 ? spot = 'SP' : spot = 'RP'
-            if (index >= 5) spot = 'Inactive'
-          }
-          return (
-            isBatter
-              ? <Player key={`item-${index}`} index={index} spot={spot} idx={index} value={player} clickStats={clickStats} isBatter={true} />
-              : <Player key={`item-${index}`} index={index} spot={spot} idx={index} value={player} clickStats={clickStats} isBatter={false} />
-          )
-        })}
-      </tbody>
-    </table>
+    <div id="clipboard" className="animated slideInLeft">
+      <table id="choose-lineup-lineup">
+        <tbody>
+          <tr>
+            <th className="lineup-table-column">{firstCol}</th>
+            <th className="lineup-table-column">Player</th>
+            <th className="lineup-table-column">Position</th>
+            <th className="lineup-table-column">Stats</th>
+          </tr>
+          {players.map((player, index) => {
+            let spot;
+            if (isBatter) {
+              if (index < 9) spot = index
+              if (index >= 9 && index <= 13) spot = 'Bench: '
+              if (index > 13) spot = 'Inactive';
+            } else {
+              index === 0 && index < 5 ? spot = 'SP' : spot = 'RP'
+              if (index >= 5) spot = 'Inactive'
+            }
+            return (
+              isBatter
+                ? <Player key={`item-${index}`} index={index} spot={spot} idx={index} value={player} clickStats={clickStats} isBatter={true} />
+                : <Player key={`item-${index}`} index={index} spot={spot} idx={index} value={player} clickStats={clickStats} isBatter={false} />
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 });
 
@@ -115,8 +117,8 @@ class ChooseLineup extends Component {
               <Lineup key={1} players={this.state.pitchers} onSortEnd={this.onSortEnd} axis={'xy'} clickStats={this.clickStats} isBatter={isBatter} />,
               <div key={2} id="lineup-button-and-card">
                 <div>
-                  <NavLink to="/game/play" onClick={() => this.saveRotation(this.state.pitchers, isHome)}>All set? Play ball!</NavLink>
-                  <NavLink to="/game/choose-lineup" id="lineup-select-rotation" onClick={() => this.saveLineup(this.state.batters, isHome, false, isComputer)} >Back to lineup</NavLink>
+                  <NavLink to="/game/play" onClick={() => this.saveRotation(this.state.pitchers, isHome)}><button className="lineup-advance-button">All set? Play ball!</button></NavLink>
+                  <NavLink to="/game/choose-lineup" onClick={() => this.saveLineup(this.state.batters, isHome, false, isComputer)}><button id="back-to-lineup-button">Back to lineup</button></NavLink>
                 </div>
                 {
                   this.state.displayStats &&
@@ -130,7 +132,7 @@ class ChooseLineup extends Component {
             : [
               <Lineup key={1} players={this.state.batters} onSortEnd={this.onSortEnd} axis={'xy'} clickStats={this.clickStats} isBatter={isBatter} />,
               <div key={2} id="lineup-button-and-card">
-                <NavLink to="/game/choose-rotation" id="lineup-select-rotation" onClick={() => this.saveLineup(this.state.batters, isHome, true, isComputer)} >Select your pitching rotation</NavLink>
+                <NavLink to="/game/choose-rotation" className="animated zoomIn" onClick={() => this.saveLineup(this.state.batters, isHome, true, isComputer)}><button className="lineup-advance-button">Select your pitching rotation</button></NavLink>
                 {
                   this.state.displayStats &&
                   <SingleBatter

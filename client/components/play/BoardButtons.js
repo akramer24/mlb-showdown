@@ -19,14 +19,14 @@ class BoardButtons extends React.Component {
           outs < 3 &&
           <div>
             {
-              !isGameOver && (homeRotation.length && awayRotation.length) && ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) && (result.length > 0 || totalPAs === 0) && <button onClick={() => handleRoll(roll, control, onBase, totalPAs)}>Roll for turn</button>
+              !isGameOver && (homeRotation.length && awayRotation.length) && ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) && (result.length > 0 || totalPAs === 0) && <button className="play-button" onClick={() => handleRoll(roll, control, onBase, totalPAs)}>Roll for turn</button>
             }
             {
               ((half === 'top' && homeTeam === userTeamName && turn === 'pitcher') ||
                 (half === 'top' && awayTeam === userTeamName && turn === 'batter') ||
                 (half === 'bottom' && awayTeam === userTeamName && turn === 'pitcher') ||
                 (half === 'bottom' && homeTeam === userTeamName && turn === 'batter')) &&
-              (result.length === 0 && totalPAs !== 0) && <button onClick={pitchAndSwing}>Pitch</button>
+              (result.length === 0 && totalPAs !== 0) && <button className="play-button" onClick={pitchAndSwing}>Pitch</button>
             }
             <h4>Pitcher Control: {pitcher && pitcher.control}</h4>
             <h4>Batter On-Base: {batter && batter.onBase}</h4>

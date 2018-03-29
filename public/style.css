@@ -30,6 +30,7 @@ button {
   height: 30px;
   font-size: 16px;
   border-radius: 5px;
+  cursor: pointer;
   font-family: 'PT Sans', sans-serif;
 }
 
@@ -171,15 +172,27 @@ button:focus {
 /*********************************CHOOSE LINEUP**************************/
 #choose-lineup {
   display: flex;
-  margin: 5px 25px;
+  margin: 20px 25px;
+  justify-content: center;
 }
 
 #choose-lineup-lineup {
-  margin-right: 20px;
-  background-image: url('./Clipboard_Background.png');
+  position: absolute;
+  top: 75px;
+  left: 27px;
+  width: 345px;
+}
+
+#clipboard {
+  background-image: url('./Clipboard-empty.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  height: 586px;
+  width: 400px;
+  position: relative;
+  margin-right: 20px;
+  overflow: scroll;
 }
 
 .lineup-name {
@@ -199,16 +212,54 @@ button:focus {
 #lineup-button-and-card {
   display: flex;
   flex-direction: column;
+  width: 500px;
 }
 
-#lineup-select-rotation {
-  width: 200px;
+.lineup-advance-button {
+  width: 220px;
   margin-bottom: 20px;
+  background-color: #3db33d;
+  color: #e0e0e0;
+  cursor: pointer;
+  box-shadow: 1px 1px 20px 1px black;
+  border: none;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5s ease;
 }
 
-/* th, td {
-  padding: 3px;
-} */
+.lineup-advance-button:hover {
+  background-color: #e0e0e0;
+  color: #3db33d;
+}
+
+#back-to-lineup-button {
+  background-color: #a21818;
+  color: #e0e0e0;
+  border: none;
+  box-shadow: 1px 1px 20px 1px black;
+  margin-left: 10px;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5 ease;
+}
+
+#back-to-lineup-button:hover {
+  background-color: #e0e0e0;
+  color: #a21818;
+}
+
+.lineup-full-card-button {
+  background-color: #c4daff;
+  color: #b73030;
+  border: none;
+  box-shadow: 1px 1px 10px 1px black;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5s ease;
+}
+
+.lineup-full-card-button:hover {
+  background-color: #292975;
+  color: #988e8e;
+}
 
 
 /*********************************SINGLE PLAYER**************************/
@@ -581,6 +632,21 @@ button:focus {
   color: #41db8a;
   box-shadow: 1px 1px 20px 5px black;
   border-radius: 10px;
+  text-align: center;
+}
+
+.play-button {
+  background-color: #797979;
+  color: white;
+  border: none;
+  box-shadow: 1px 1px 20px 1px black;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5s ease;
+}
+
+#roll-button:hover {
+  background-color: white;
+  color: #797979;
 }
 
 /*************************DIAMOND**********************/
@@ -649,7 +715,7 @@ button:focus {
   color: #b0aeae;
 }
 
-#result {
+.result {
   position: absolute;
   top: 186px;
   left: 62.3%;
