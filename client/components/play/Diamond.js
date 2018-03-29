@@ -49,12 +49,12 @@ const Diamond = props => {
             batterAttributes
               ?
               [
-                <button id='see-batter-card' key={1} onClick={() => display('batterAttributes', false)}>See card</button>,
+                <button id='see-batter-card' key={1} onClick={() => display('batterAttributes', false)}>Card</button>,
                 <PlayerAttributes key={3} batter={batter} />
               ]
               :
               [
-                <button id='see-batter-card' key={1} onClick={() => display('batterAttributes', true)}>See attributes</button>,
+                <button id='see-batter-card' key={1} onClick={() => display('batterAttributes', true)}>Attributes</button>,
                 <img src={batter && batter.image} id='home-image' className="diamond-card" key={3} />
               ]
           }
@@ -70,12 +70,12 @@ const Diamond = props => {
             pitcherAttributes
               ?
               [
-                <button id='see-pitcher-card' key={1} onClick={() => display('pitcherAttributes', false)}>See card</button>,
+                <button id='see-pitcher-card' key={1} onClick={() => display('pitcherAttributes', false)}>Card</button>,
                 <PlayerAttributes key={3} pitcher={pitcher} />
               ]
               :
               [
-                <button id='see-pitcher-card' key={1} onClick={() => display('pitcherAttributes', true)}>See attributes</button>,
+                <button id='see-pitcher-card' key={1} onClick={() => display('pitcherAttributes', true)}>Attributes</button>,
                 <img src={pitcher && pitcher.image} id='mound-image' className="diamond-card" key={3} />
               ]
           }

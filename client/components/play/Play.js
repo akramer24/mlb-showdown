@@ -51,7 +51,7 @@ class Play extends Component {
   handleRoll() {
     const { batter, pitcher, totalPAs, homeTeam } = this.props.gameState;
     const int = setInterval(() => {
-      rollDice.call(this);
+      rollDice.call(this, homeTeam);
     }, 100);
     setTimeout(() => {
       clearInterval(int);

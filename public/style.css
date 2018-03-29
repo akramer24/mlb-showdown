@@ -27,8 +27,10 @@ form div {
 }
 
 button {
-  height: 22px;
+  height: 30px;
+  font-size: 16px;
   border-radius: 5px;
+  font-family: 'PT Sans', sans-serif;
 }
 
 button:focus {
@@ -174,6 +176,10 @@ button:focus {
 
 #choose-lineup-lineup {
   margin-right: 20px;
+  background-image: url('./Clipboard_Background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .lineup-name {
@@ -408,7 +414,7 @@ button:focus {
 #see-batter-card {
   position: absolute;
   left: 44px;
-  top: 62px;
+  top: 58px;
   z-index: 1;
   opacity: 0;
   transition: .5s ease;
@@ -434,6 +440,7 @@ button:focus {
 }
 
 .player-game-attributes {
+  font-family: verdana;
   font-size: 12px;
   font-weight: bold;
   color: black;
@@ -626,29 +633,78 @@ button:focus {
   text-shadow: 1px 1px 1px black;
 }
 
+#hide-bench {
+  background-color: #b00505;
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 1px 1px 20px 1px black;
+  float: right;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5s ease;
+}
+
+#hide-bench:hover {
+  background-color: #b25c5c;
+  color: #b0aeae;
+}
+
 #result {
   position: absolute;
   top: 186px;
-  left: 65.3%;
+  left: 62.3%;
   font-size: 30px;
-  width: 200px;
+  width: 240px;
   text-align: center;
+  z-index: 2;
 }
 
 .sub-button {
+  background-color: #176f02;
+  color: #efdddd;
+  border: none;
   float: right;
+  cursor: pointer;
+  box-shadow: 1px 1px 20px 1px black;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5s ease;
+}
+
+.sub-button:hover {
+  background-color: #6ba55e;
 }
 
 #see-pen {
   position: absolute;
-  left: -31px;
+  left: -42px;
   top: 60px;
+  background-color: #c57e53;
+  color: #c5c5c5;
+  text-shadow: 1px 1px 1px black;
+  border: none;
+  box-shadow: 1px 1px 20px 3px black;
+  cursor: pointer;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5s ease;
+}
+
+#see-pen:hover, #see-bench:hover {
+  background-color: #c5c5c5;
+  color: #c57e53;
 }
 
 #see-bench {
   position: absolute;
   top: 50px;
-  left: -24px;
+  left: -33px;
+  background-color: #c57e53;
+  color: #c5c5c5;
+  text-shadow: 1px 1px 1px black;
+  border: none;
+  box-shadow: 1px 1px 20px 3px black;
+  cursor: pointer;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5s ease;
 }
 
 #enter {
@@ -742,7 +798,7 @@ button:focus {
 
 #ingame-lineup {
   position: absolute;
-  top: 34%;
+  top: 25%;
   background-color: rgba(60,60,60,0.6);
   padding: 5px;
   font-family: scoreboard-font;
