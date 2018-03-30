@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import store, { addOnlineUser, removeOnlineUser, sendChallenge, setUserSocket, setAwayTeam, setHomeTeam, setHomeLineup, setAwayLineup, setHomeRotation, setAwayRotation, updateGameState } from './store';
+import store, { addOnlineUser, removeOnlineUser, sendChallenge, setUserSocket, setAwayTeam, setHomeTeam, setHomeLineup, setAwayLineup, setHomeRotation, setAwayRotation, updateGameState, updateChallenge, removeChallenge } from './store';
 import history from './history';
 
 const socket = io(window.location.origin);
@@ -42,7 +42,21 @@ socket.on('connect', () => {
     store.dispatch(updateGameState(newState))
   })
 
-  socket.on('send challenge', challenge => store.dispatch(sendChallenge(challenge)))
+  socket.on('send challenge', challenge => {
+    store.dispatch(sendChallenge(challenge))
+    const int = setInterval(() => {
+      if (challenge.timeRemaining === 0) {
+        clearInterval(int);
+        store.dispatch(removeChallenge())
+      }
+      store.dispatch(updateChallenge(challenge));
+      challenge.timeRemaining--;
+    }, 1000)
+  })
+
+  socket.on('update time remaining on challenge', (timeRemaining, challenge) => {
+
+  })
 })
 
 

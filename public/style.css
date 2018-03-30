@@ -1,5 +1,6 @@
 body {
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
+  font-family: 'Oswald', sans-serif;
   margin: 0;
   color: black;
 }
@@ -36,6 +37,10 @@ button {
 
 button:focus {
   outline: none;
+}
+
+.bold {
+  font-weight: bold;
 }
 /*************************************NAVBAR**************************/
 
@@ -115,19 +120,36 @@ button:focus {
 /*********************************HOME*******************************/
 #home-page {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
   height: 100vh;
   align-items: center;
 }
 
+#home-page-welcome-container {
+  text-align: center;
+}
+
+#home-page-users-and-challenge-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#online-users {
+  text-align: center;
+}
+
 /***********************************NEW CHALLENGE*********************/
 #new-challenge {
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 1px 1px 20px 1px;
+  box-shadow: 1px 1px 20px 1px black;
   padding: 10px;
   border-radius: 10px;
+  background-color: rgba(60,60,60,1);
+  color: #cfcfcf;
 }
 
 #new-challenge-buttons {
@@ -281,7 +303,7 @@ button:focus {
   border-radius: 20px;
   color: white;
   margin: 10px;
-  width: 550px;
+  width: 468px;
 }
 
 .single-batter-column, .single-pitcher-column {
@@ -311,8 +333,7 @@ button:focus {
 }
 
 .page-header {
-  position: relative;
-  left: 10px;
+  text-align: center;
 }
 
 .player-img {
@@ -327,7 +348,6 @@ button:focus {
 .display-players {
   text-shadow: 2px 2px 2px black;
   color: #cec3c3;
-  font-family: verdana;
   padding: 1px 0px 0px 0px;
 }
 
@@ -916,4 +936,23 @@ button:focus {
   color: #47ea94;
   box-shadow: 1px 1px 20px 5px black;
   border-radius: 10px;
+}
+
+/**************************USER PAGE**************************/
+
+#user-page-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#user-page-team-name {
+  font-size: 36px;
+  color: #cec3c3;
+  text-shadow: 3px 3px 3px black;
+}
+
+.user-page-header-item {
+  margin-bottom: 0;
 }

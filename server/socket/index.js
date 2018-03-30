@@ -28,7 +28,7 @@ module.exports = (io) => {
 
     socket.on('send challenge', userObj => {
       const recipient = io.sockets.connected[userObj.socketId];
-      const challenge = { teamName: socket.teamName, socketId: socket.id, date: new Date() }
+      const challenge = { teamName: socket.teamName, socketId: socket.id, timeRemaining: 60 }
       recipient.challengesReceived
         ? recipient.challengesReceived.push(challenge)
         : recipient.challengesReceived = [challenge];

@@ -19,6 +19,8 @@ const CLEAR_PACK = 'CLEAR_PACK';
 const ADD_ONLINE_USER = 'ADD_ONLINE_USER';
 const REMOVE_ONLINE_USER = 'REMOVE_ONLINE_USER';
 const CHALLENGE_USER = 'CHALLENGE_USER';
+const REMOVE_CHALLENGE = 'REMOVE_CHALLENGE';
+const UPDATE_CHALLENGE = 'UPDATE_CHALLENGE';
 const SET_USER_SOCKET = 'SET_USER_SOCKET';
 
 /**
@@ -113,6 +115,19 @@ export function removeOnlineUser(onlineUsers) {
 export function challengeUser(challenge) {
   return {
     type: CHALLENGE_USER,
+    challenge
+  }
+}
+
+export function removeChallenge() {
+  return {
+    type: REMOVE_CHALLENGE
+  }
+}
+
+export function updateChallenge(challenge) {
+  return {
+    type: UPDATE_CHALLENGE,
     challenge
   }
 }
@@ -226,7 +241,7 @@ export function removePack() {
 }
 
 export function sendChallenge(challenge) {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch(challengeUser(challenge))
   }
 }
@@ -236,7 +251,7 @@ export function gameOverGetCash(userId, userCash, wins, losses, isWinner) {
     let cash = isWinner ? (10 + Number(userCash)) : (3 + Number(userCash));
     let record = isWinner ? 'wins' : 'losses';
     let newRecord = isWinner ? ++wins : ++losses;
-    return axios.put(`/api/users/${userId}`, {cash, [record]: newRecord })
+    return axios.put(`/api/users/${userId}`, { cash, [record]: newRecord })
       .then(res => dispatch(getActiveUser(res.data)))
       .catch(console.error);
   }
@@ -269,7 +284,7 @@ export default function (state = defaultUser, action) {
       return {
         ...state, activeUser: {
           ...state.activeUser,
-          userInfo: { ...state.activeUser.userInfo, cash: (Number(state.activeUser.userInfo.cash) - 5)},
+          userInfo: { ...state.activeUser.userInfo, cash: (Number(state.activeUser.userInfo.cash) - 5) },
           newPack: action.pack
         }
       }
@@ -280,11 +295,17 @@ export default function (state = defaultUser, action) {
     case ADD_ONLINE_USER:
       return { ...state, onlineUsers: action.onlineUsers };
     case SET_USER_SOCKET:
-      return { ...state, activeUser: { ...state.activeUser, socketId: action.socketId }};
+      return { ...state, activeUser: { ...state.activeUser, socketId: action.socketId } };
     case REMOVE_ONLINE_USER:
       return { ...state, onlineUsers: action.onlineUsers };
     case CHALLENGE_USER:
-      return { ...state, activeUser: {...state.activeUser, challenges: [...state.activeUser.challenges, action.challenge]}}
+      return { ...state, activeUser: { ...state.activeUser, challenges: [...state.activeUser.challenges, action.challenge] } };
+    case REMOVE_CHALLENGE:
+      return { ...state, activeUser: { ...state.activeUser, challenges: [] } };
+    case UPDATE_CHALLENGE:
+      return { ...state, activeUser: { ...state.activeUser, challenges: state.activeUser.challenges.filter(challenge => {
+        if (challenge.teamName === action.challenge.teamName) return action.challenge;
+      }) } };
     default:
       return state;
   }

@@ -39,25 +39,30 @@ class UserPage extends React.Component {
 
     return (
       <div id="user-page">
-        <h3>{user.teamName}</h3>
-        <p>Record: {user.wins}-{user.losses}</p>
-        {
-          activeUser.userInfo.id === Number(match.params.userId) && <p>Cash: ${user.cash}</p>
-        }
-        {
-          this.state.displayPack
-          && activeUser.newPack
-          && activeUser.newPack.length > 1
-          && <NewPack displayPack={this.displayPack} />
-        }
-        {
-          activeUser.userInfo.id === Number(match.params.userId) &&
-          <button onClick={() => {
-            buyPack(activeUser.userInfo.id, activeUser.userInfo.cash, true)
-            this.displayPack(true)
+        <div id="user-page-header">
+          <h3 id="user-page-team-name" className="user-page-header-item">{user.teamName}</h3>
+          <p className="user-page-header-item"><span className="bold">Record:</span> {user.wins}-{user.losses}</p>
+          {
+            activeUser.userInfo.id === Number(match.params.userId) && <p className="user-page-header-item"><span className="bold">Cash:</span> ${user.cash}</p>
           }
-          }>Buy a pack</button>
-        }
+          {
+            this.state.displayPack
+            && activeUser.newPack
+            && activeUser.newPack.length > 1
+            && <NewPack displayPack={this.displayPack} />
+          }
+          {
+            activeUser.userInfo.id === Number(match.params.userId) && activeUser.userInfo.cash > 5
+              ?
+              <button className="user-page-header-item" onClick={() => {
+                buyPack(activeUser.userInfo.id, activeUser.userInfo.cash, true)
+                this.displayPack(true)
+              }
+              }>Buy a pack</button>
+              :
+              <p className="user-page-header-item">Packs cost $5. Play a game to earn money so you can buy one.</p>
+          }
+        </div>
         {
           activeUser.userInfo.id &&
           [

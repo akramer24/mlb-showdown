@@ -15,7 +15,9 @@ class Home extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.challenges.length > this.props.challenges.length) {
-      this.setState({ challenge: nextProps.challenges[nextProps.challenges.length - 1], displayNewChallenge: true})
+      this.setState({ challenge: nextProps.challenges[nextProps.challenges.length - 1], displayNewChallenge: true })
+    } else if (nextProps.challenges.length < this.props.challenges.length) {
+      this.setState({ displayNewChallenge: false })
     }
   }
 
@@ -24,14 +26,21 @@ class Home extends React.Component {
     const { displayNewChallenge, challenge } = this.state;
     return (
       <div id="home-page">
-      {
-        isLoggedIn ? <OnlineUsers />
-        :
-        <Login />
-      }
-      {
-        displayNewChallenge && <NewChallenge teamName={challenge.teamName} socketId={challenge.socketId} />
-      }
+        <div id="home-page-welcome-container">
+          <h3 id="home-page-welcome">Welcome to MLB SHOWDOWN</h3>
+          <p>Challenge another online user to a showdown by clicking the "vs." button next to their name.</p>
+          <p>They will have one minute to respond, and if they choose to play ball, you will be taken directly to the lineup page.</p>
+        </div>
+        <div id="home-page-users-and-challenge-container">
+          {
+            isLoggedIn
+              ? <OnlineUsers />
+              : <Login />
+          }
+          {
+            displayNewChallenge && <NewChallenge teamName={challenge.teamName} socketId={challenge.socketId} timeRemaining={challenge.timeRemaining} />
+          }
+        </div>
       </div>
     )
   }
