@@ -231,6 +231,17 @@ export function sendChallenge(challenge) {
   }
 }
 
+export function gameOverGetCash(userId, userCash, wins, losses, isWinner) {
+  return function (dispatch) {
+    let cash = isWinner ? (10 + Number(userCash)) : (3 + Number(userCash));
+    let record = isWinner ? 'wins' : 'losses';
+    let newRecord = isWinner ? ++wins : ++losses;
+    return axios.put(`/api/users/${userId}`, {cash, [record]: newRecord })
+      .then(res => dispatch(getActiveUser(res.data)))
+      .catch(console.error);
+  }
+}
+
 /**
  * REDUCER
  */
@@ -258,6 +269,7 @@ export default function (state = defaultUser, action) {
       return {
         ...state, activeUser: {
           ...state.activeUser,
+          userInfo: { ...state.activeUser.userInfo, cash: (Number(state.activeUser.userInfo.cash) - 5)},
           newPack: action.pack
         }
       }

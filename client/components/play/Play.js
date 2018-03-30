@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { rollDice, setTurn, pitchAndSwing, handleNextInning } from '../utils/play';
 import { BoardButtons, Diamond, Scoreboard, Lineup } from './index';
-import store, { updateGameState } from '../../store';
+import store, { updateGameState, gameOverGetCash } from '../../store';
 import socket from '../../socket';
 
 class Play extends Component {
@@ -22,7 +22,18 @@ class Play extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { isGameOver, inning, half, currentScore, awayScore, homeScore, homeTeam } = nextProps.gameState;
+    const { gameOver, userInfo } = this.props;
+    const { id, cash, teamName, wins, losses } = userInfo;
     if (!isGameOver && ((inning >= 9 && half === 'bottom' && currentScore > awayScore) || (inning >= 10 && half === 'top' && homeScore < awayScore))) {
+      let isWinner;
+      if ((inning >= 9 && half === 'bottom' && currentScore > awayScore) && teamName === homeTeam) {
+        isWinner = true;
+      } else if ((inning >= 10 && half === 'top' && homeScore < awayScore) && teamName === awayTeam) {
+        isWinner = true;
+      } else {
+        isWinner = false;
+      }
+      gameOver(id, cash, wins, losses, isWinner);
       socket.emit('update game state', { isGameOver: true }, homeTeam)
     }
   }
@@ -65,14 +76,14 @@ class Play extends Component {
 
   onKeyPressed(e) {
     const { half, homeTeam, awayTeam, turn, result, totalPAs, isGameOver } = this.props.gameState;
-    const { userTeamName } = this.props;
+    const { teamName } = this.props.userInfo;
 
-    if (!isGameOver && (e.keyCode === 82) && ((half === 'top' && homeTeam === userTeamName) || (half === 'bottom' && awayTeam === userTeamName)) && (result.length > 0 || totalPAs === 0)) this.handleRoll();
+    if (!isGameOver && (e.keyCode === 82) && ((half === 'top' && homeTeam === teamName) || (half === 'bottom' && awayTeam === teamName)) && (result.length > 0 || totalPAs === 0)) this.handleRoll();
 
-    if ((e.keyCode === 80) && ((half === 'top' && homeTeam === userTeamName && turn === 'pitcher') ||
-      (half === 'top' && awayTeam === userTeamName && turn === 'batter') ||
-      (half === 'bottom' && awayTeam === userTeamName && turn === 'pitcher') ||
-      (half === 'bottom' && homeTeam === userTeamName && turn === 'batter')) &&
+    if ((e.keyCode === 80) && ((half === 'top' && homeTeam === teamName && turn === 'pitcher') ||
+      (half === 'top' && awayTeam === teamName && turn === 'batter') ||
+      (half === 'bottom' && awayTeam === teamName && turn === 'pitcher') ||
+      (half === 'bottom' && homeTeam === teamName && turn === 'batter')) &&
       (result.length === 0 && totalPAs !== 0)) pitchAndSwing.call(this);
   }
 
@@ -118,8 +129,16 @@ const mapState = state => {
     awayTeam: state.gameSetUp.awayTeam,
     homeTeam: state.gameSetUp.homeTeam,
     gameState: state.play,
-    userTeamName: state.user.activeUser.userInfo.teamName
+    userInfo: state.user.activeUser.userInfo
   }
 }
 
-export default withRouter(connect(mapState)(Play));
+const mapDispatch = dispatch => {
+  return {
+    gameOver(userId, userCash, wins, losses, isWinner) {
+      dispatch(gameOverGetCash(userId, userCash, wins, losses, isWinner));
+    }
+  }
+}
+
+export default withRouter(connect(mapState, mapDispatch)(Play));

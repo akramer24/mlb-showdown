@@ -19,6 +19,19 @@ const User = db.define('user', {
   },
   teamName: {
     type: Sequelize.STRING,
+    unique: true
+  },
+  wins: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  losses: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  cash: {
+    type: Sequelize.INTEGER,
+    defaultValue: 30
   },
   salt: {
     type: Sequelize.STRING,
@@ -40,6 +53,10 @@ module.exports = User
  */
 User.prototype.correctPassword = function (candidatePwd) {
   return User.encryptPassword(candidatePwd, this.salt()) === this.password()
+}
+
+User.prototype.getWinningPercentage = function () {
+  return this.wins / (this.wins + this.losses);
 }
 
 /**

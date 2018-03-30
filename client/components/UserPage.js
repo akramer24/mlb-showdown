@@ -26,22 +26,24 @@ class UserPage extends React.Component {
   render() {
     const { match, activeUser, inactiveUser, buyPack } = this.props;
 
-
     let active;
-    let team;
+    let user;
 
     if (Number(match.params.userId) === activeUser.userInfo.id) {
       active = true;
-      team = activeUser.userInfo.teamName;
+      user = activeUser.userInfo;
     } else {
       active = false;
-      team = inactiveUser.userInfo.teamName;
+      user = inactiveUser.userInfo;
     }
-
 
     return (
       <div id="user-page">
-        <h3>{team}</h3>
+        <h3>{user.teamName}</h3>
+        <p>Record: {user.wins}-{user.losses}</p>
+        {
+          activeUser.userInfo.id === Number(match.params.userId) && <p>Cash: ${user.cash}</p>
+        }
         {
           this.state.displayPack
           && activeUser.newPack
@@ -51,7 +53,7 @@ class UserPage extends React.Component {
         {
           activeUser.userInfo.id === Number(match.params.userId) &&
           <button onClick={() => {
-            buyPack(activeUser.userInfo.id, true)
+            buyPack(activeUser.userInfo.id, activeUser.userInfo.cash, true)
             this.displayPack(true)
           }
           }>Buy a pack</button>
@@ -80,8 +82,8 @@ const mapDispatch = dispatch => {
     loadInactiveUser(id) {
       dispatch(fetchInactiveUser(id))
     },
-    buyPack: async (id, active) => {
-      await dispatch(userBuyPack(id));
+    buyPack: async (id, cash, active) => {
+      await dispatch(userBuyPack(id, cash));
       await dispatch(fetchUserBatters(id, active));
       await dispatch(fetchUserPitchers(id, active));
     },

@@ -1,9 +1,12 @@
-const { Batter, Pitcher, UserBatter, UserPitcher } = require('../db/models');
+const { Batter, Pitcher, UserBatter, UserPitcher, User } = require('../db/models');
 
 const buyPack = async userId => {
   const numPitchers = Math.round(Math.random() * 2);
   const allBatters = await Batter.findAll();
   const allPitchers = await Pitcher.findAll();
+  const user = await User.findById(Number(userId));
+  const updatedCash = Number(user.cash) - 5;
+  user.update({cash: updatedCash}).catch(console.error);
   const pack = [];
   const pitcherIds = [];
   const batterIds = [];

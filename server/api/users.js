@@ -67,6 +67,13 @@ router.post('/:userId/buy-pack', (req, res, next) => {
 //   })
 // })
 
+router.put('/:userId', (req, res, next) => {
+  User.findById(Number(req.params.userId))
+    .then(user => user.update(req.body))
+    .then(updatedUser => res.json(updatedUser))
+    .catch(next);
+})
+
 router.delete('/:userId/remove-batter/:batterId', (req, res, next) => {
   UserBatter.destroy({
     where: {
