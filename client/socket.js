@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import store, { addOnlineUser, removeOnlineUser, sendChallenge, setUserSocket, setAwayTeam, setHomeTeam, setHomeLineup, setAwayLineup, setHomeRotation, setAwayRotation, updateGameState, updateChallenge, removeChallenge } from './store';
+import store, { addOnlineUser, removeOnlineUser, receiveChallenge, setUserSocket, setAwayTeam, setHomeTeam, setHomeLineup, setAwayLineup, setHomeRotation, setAwayRotation, updateGameState, updateChallenge, removeChallenge } from './store';
 import history from './history';
 
 const socket = io(window.location.origin);
@@ -10,13 +10,14 @@ socket.on('connect', () => {
     const userTeam = store.getState().user.activeUser.userInfo.teamName;
     store.dispatch(addOnlineUser(onlineUsers.filter(userObj => {
       if (userObj.teamName !== userTeam) {
-        
+
         return userObj;
       } else {
         store.dispatch(setUserSocket(userObj.socketId))
       }
     }))
-  )});
+    )
+  });
 
   socket.on('online user removed', onlineUsers => {
     store.dispatch(removeOnlineUser(onlineUsers))
@@ -43,20 +44,22 @@ socket.on('connect', () => {
   })
 
   socket.on('send challenge', challenge => {
-    store.dispatch(sendChallenge(challenge))
     const int = setInterval(() => {
       if (challenge.timeRemaining === 0) {
         clearInterval(int);
-        store.dispatch(removeChallenge())
+        store.dispatch(removeChallenge(challenge))
+        socket.emit('challenge rejected', challenge)
       }
-      store.dispatch(updateChallenge(challenge));
       challenge.timeRemaining--;
+      store.dispatch(updateChallenge(challenge));
     }, 1000)
+    store.dispatch(receiveChallenge(challenge))
+  })
+  
+  socket.on('challenge rejected', rejectedChallenge => {
+    store.dispatch(removeChallenge(rejectedChallenge))
   })
 
-  socket.on('update time remaining on challenge', (timeRemaining, challenge) => {
-
-  })
 })
 
 

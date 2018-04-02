@@ -5,25 +5,8 @@ import { Login, Signup, OnlineUsers, NewChallenge } from './index';
 
 class Home extends React.Component {
 
-  constructor() {
-    super();
-    this.state = {
-      challenge: {},
-      displayNewChallenge: false
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.challenges.length > this.props.challenges.length) {
-      this.setState({ challenge: nextProps.challenges[nextProps.challenges.length - 1], displayNewChallenge: true })
-    } else if (nextProps.challenges.length < this.props.challenges.length) {
-      this.setState({ displayNewChallenge: false })
-    }
-  }
-
   render() {
-    const { isLoggedIn } = this.props;
-    const { displayNewChallenge, challenge } = this.state;
+    const { isLoggedIn, challenges } = this.props;
     return (
       <div id="home-page">
         <div id="home-page-welcome-container">
@@ -38,7 +21,7 @@ class Home extends React.Component {
               : <Login />
           }
           {
-            displayNewChallenge && <NewChallenge teamName={challenge.teamName} socketId={challenge.socketId} timeRemaining={challenge.timeRemaining} />
+            challenges.received.map(challengeObj => <NewChallenge key={challengeObj.to.teamName} teamName={challengeObj.teamName} socketId={challengeObj.socketId} timeRemaining={challengeObj.timeRemaining} />)
           }
         </div>
       </div>
@@ -49,7 +32,7 @@ class Home extends React.Component {
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.activeUser.userInfo.id,
-    challenges: state.user.activeUser.challenges
+    challenges: state.challenges
   }
 }
 

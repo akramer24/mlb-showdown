@@ -7,13 +7,15 @@ import batters from './batters';
 import pitchers from './pitchers';
 import gameSetUp from './gameSetUp';
 import play from './play';
+import challenges from './challenge';
 
 const reducer = combineReducers({
   user,
   batters,
   pitchers,
   gameSetUp,
-  play
+  play,
+  challenges
 })
 
 const middleware = composeWithDevTools(applyMiddleware(
@@ -29,3 +31,4 @@ export * from './batters';
 export * from './pitchers';
 export * from './gameSetUp';
 export * from './play';
+export * from './challenge';

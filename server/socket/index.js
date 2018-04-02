@@ -26,13 +26,16 @@ module.exports = (io) => {
       io.emit('online user removed', onlineUsers)
     })
 
-    socket.on('send challenge', userObj => {
-      const recipient = io.sockets.connected[userObj.socketId];
-      const challenge = { teamName: socket.teamName, socketId: socket.id, timeRemaining: 60 }
+    socket.on('send challenge', challenge => {
+      const recipient = io.sockets.connected[challenge.to.socketId];
       recipient.challengesReceived
         ? recipient.challengesReceived.push(challenge)
         : recipient.challengesReceived = [challenge];
       socket.broadcast.to(recipient.id).emit('send challenge', challenge);
+    })
+
+    socket.on('challenge rejected', challenge => {
+      io.to(challenge.from.socketId).emit('challenge rejected', challenge)
     })
 
     socket.on('play ball', (challenger, user) => {

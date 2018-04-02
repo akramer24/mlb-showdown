@@ -156,6 +156,35 @@ button:focus {
   display: flex;
 }
 
+#accept-challenge-button {
+  background-color: green;
+  border: none;
+  color: white;
+  box-shadow: 1px 1px 20px 1px black;
+  margin-right: 5px;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5s ease;
+}
+
+#accept-challenge-button:hover {
+  background-color: #33e933;
+  color: green;
+}
+
+#reject-challenge-button {
+  background-color: red;
+  color: white;
+  border: none;
+  box-shadow: 1px 1px 20px 1px black;
+  transition: 1.5s ease;
+  -webkit-transition: 1.5s ease;
+}
+
+#reject-challenge-button:hover {
+  background-color: maroon;
+  color: beige;
+}
+
 /*************************************NEW PACK************************/
 
 #new-pack {

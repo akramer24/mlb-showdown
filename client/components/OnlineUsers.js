@@ -1,22 +1,22 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { sendChallenge } from '../store';
+import store, { sendChallenge } from '../store';
 import socket from '../socket';
 
 class OnlineUsers extends React.Component {
-  state = {
-    sentChallenge: false
-  }
 
   handleChallenge(userObj) {
-    socket.emit('send challenge', userObj)
-    this.setState({ sentChallenge: true })
+    const { teamName } = this.props.activeUser.userInfo;
+    const { socketId } = this.props.activeUser
+    const challenge = { to: userObj, from: { teamName, socketId }, timeRemaining: 60 };
+    socket.emit('send challenge', challenge)
+    store.dispatch(sendChallenge(challenge))
   }
 
   render() {
-    const { onlineUsers, activeUser } = this.props;
-    const { sentChallenge } = this.state;
+    const { onlineUsers, activeUser, sentChallenges } = this.props;
+
     return (
       <div id="online-users">
         <h3>Online Users</h3>
@@ -24,8 +24,11 @@ class OnlineUsers extends React.Component {
           onlineUsers && onlineUsers.map(userObj => {
             if (userObj.teamName !== activeUser.userInfo.teamName) {
               return (
-                <p key={userObj.teamName}>{userObj.teamName} <button onClick={() => this.handleChallenge(userObj)}>vs.</button> {sentChallenge && <span>Active</span>}</p>
-                
+                <p key={userObj.teamName}>{userObj.teamName} <button onClick={() => this.handleChallenge(userObj)}>vs.</button>
+                  {
+                    sentChallenges.find(challenge => challenge.to.teamName === userObj.teamName) && <span>Active</span>
+                  }</p>
+
               )
             }
           })
@@ -38,17 +41,9 @@ class OnlineUsers extends React.Component {
 const mapState = state => {
   return {
     onlineUsers: state.user.onlineUsers,
-    challenges: state.user.activeUser.challenges,
+    sentChallenges: state.challenges.sent,
     activeUser: state.user.activeUser
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    challenge(team) {
-      dispatch(sendChallenge(team))
-    }
-  }
-}
-
-export default withRouter(connect(mapState, mapDispatch)(OnlineUsers));
+export default withRouter(connect(mapState)(OnlineUsers));

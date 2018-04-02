@@ -18,9 +18,6 @@ const BUY_PACK = 'BUY_PACK';
 const CLEAR_PACK = 'CLEAR_PACK';
 const ADD_ONLINE_USER = 'ADD_ONLINE_USER';
 const REMOVE_ONLINE_USER = 'REMOVE_ONLINE_USER';
-const CHALLENGE_USER = 'CHALLENGE_USER';
-const REMOVE_CHALLENGE = 'REMOVE_CHALLENGE';
-const UPDATE_CHALLENGE = 'UPDATE_CHALLENGE';
 const SET_USER_SOCKET = 'SET_USER_SOCKET';
 
 /**
@@ -31,8 +28,7 @@ const defaultUser = {
     userInfo: {},
     batters: [],
     pitchers: [],
-    newPack: [],
-    challenges: []
+    newPack: []
   },
   inactiveUser: {
     userInfo: {},
@@ -109,26 +105,6 @@ export function removeOnlineUser(onlineUsers) {
   return {
     type: REMOVE_ONLINE_USER,
     onlineUsers
-  }
-}
-
-export function challengeUser(challenge) {
-  return {
-    type: CHALLENGE_USER,
-    challenge
-  }
-}
-
-export function removeChallenge() {
-  return {
-    type: REMOVE_CHALLENGE
-  }
-}
-
-export function updateChallenge(challenge) {
-  return {
-    type: UPDATE_CHALLENGE,
-    challenge
   }
 }
 
@@ -240,12 +216,6 @@ export function removePack() {
   }
 }
 
-export function sendChallenge(challenge) {
-  return function (dispatch) {
-    dispatch(challengeUser(challenge))
-  }
-}
-
 export function gameOverGetCash(userId, userCash, wins, losses, isWinner) {
   return function (dispatch) {
     let cash = isWinner ? (10 + Number(userCash)) : (3 + Number(userCash));
@@ -298,14 +268,6 @@ export default function (state = defaultUser, action) {
       return { ...state, activeUser: { ...state.activeUser, socketId: action.socketId } };
     case REMOVE_ONLINE_USER:
       return { ...state, onlineUsers: action.onlineUsers };
-    case CHALLENGE_USER:
-      return { ...state, activeUser: { ...state.activeUser, challenges: [...state.activeUser.challenges, action.challenge] } };
-    case REMOVE_CHALLENGE:
-      return { ...state, activeUser: { ...state.activeUser, challenges: [] } };
-    case UPDATE_CHALLENGE:
-      return { ...state, activeUser: { ...state.activeUser, challenges: state.activeUser.challenges.filter(challenge => {
-        if (challenge.teamName === action.challenge.teamName) return action.challenge;
-      }) } };
     default:
       return state;
   }
