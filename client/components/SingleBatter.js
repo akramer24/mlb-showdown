@@ -19,10 +19,11 @@ class SingleBatter extends Component {
 
   handleClickOutside(evt) {
     const {clickStats} = this.props
+    console.log(evt.target)
     if (clickStats) {
       const targetClass = evt.target.classList.value;
       if (targetClass.startsWith('lineup-full-card-button')) {
-        const id = Number(targetClass.slice(24))
+        const id = Number(targetClass.slice(24, 25))
         clickStats(id, true)
       } else {
         clickStats(null, false)
@@ -33,7 +34,6 @@ class SingleBatter extends Component {
   render() {
     const { thisBatter, isLineup } = this.props;
     let batter = thisBatter;
-    let id = batter.id;
     let lineupClass;
     if (isLineup) {
       lineupClass = 'lineup-single-player animated zoomIn';

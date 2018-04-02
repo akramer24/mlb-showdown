@@ -47,7 +47,7 @@ class AllBatters extends Component {
           {
             batters && batters.map((batter, idx) => {
               return (
-                <SingleBatter key={batter.id} isLineup={false} thisBatter={batter} />
+                <SingleBatter key={batter.id} isLineup={false} thisBatter={batter} isBatter={true} />
               )
             })
           }

@@ -6,8 +6,8 @@ import { fetchUserBatters, setLineup, fetchUserPitchers, setRotation } from '../
 import { SingleBatter, SinglePitcher } from './index';
 import socket from '../socket';
 
-const Player = SortableElement(({ value, spot, clickStats, idx, isBatter }) => {
-  const { firstName, lastName, image, position } = value;
+const Player = SortableElement(({ player, spot, clickStats, idx, isBatter }) => {
+  const { firstName, lastName, position } = player;
   let place;
   if (isBatter) {
     !isNaN(Number(spot)) ? place = ((Number(spot) + 1) + '.') : place = '';
@@ -19,7 +19,7 @@ const Player = SortableElement(({ value, spot, clickStats, idx, isBatter }) => {
       <td className="lineup-table-column">{place}</td>
       <td className="lineup-table-column">{firstName + ' ' + lastName}</td>
       <td className="lineup-table-column">{position}</td>
-      <td className="lineup-table-column"><button className="lineup-full-card-button" onClick={() => clickStats(idx, true)}>Stats</button></td>
+      <td className="lineup-table-column"><button className={`lineup-full-card-button-${idx} lineup-full-card-button`} onClick={() => clickStats(idx, true)}>Stats</button></td>
     </tr>
   )
 }
@@ -50,8 +50,8 @@ const Lineup = SortableContainer((props) => {
             }
             return (
               isBatter
-                ? <Player key={`item-${index}`} index={index} spot={spot} idx={index} value={player} clickStats={clickStats} isBatter={true} />
-                : <Player key={`item-${index}`} index={index} spot={spot} idx={index} value={player} clickStats={clickStats} isBatter={false} />
+                ? <Player key={`item-${index}`} index={index} spot={spot} idx={index} player={player} clickStats={clickStats} isBatter={true} />
+                : <Player key={`item-${index}`} index={index} spot={spot} idx={index} player={player} clickStats={clickStats} isBatter={false} />
             )
           })}
         </tbody>
