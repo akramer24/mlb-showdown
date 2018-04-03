@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { AllBatters, AllPitchers, NewPack } from './index';
+import { AllBatters, AllPitchers, NewPack, NewChallenge } from './index';
 import { fetchInactiveUser, userBuyPack, removePack, fetchUserBatters, fetchUserPitchers } from '../store';
 
 class UserPage extends React.Component {
@@ -24,7 +24,7 @@ class UserPage extends React.Component {
   }
 
   render() {
-    const { match, activeUser, inactiveUser, buyPack } = this.props;
+    const { match, activeUser, inactiveUser, buyPack, challenges } = this.props;
 
     let active;
     let user;
@@ -54,7 +54,10 @@ class UserPage extends React.Component {
           {
             activeUser.userInfo.id === Number(match.params.userId) && activeUser.userInfo.cash > 5
               ?
-              <button className="user-page-header-item" onClick={() => {
+              <button
+                id="buy-pack-button"
+                className="user-page-header-item"
+                onClick={() => {
                 buyPack(activeUser.userInfo.id, activeUser.userInfo.cash, true)
                 this.displayPack(true)
               }
@@ -63,6 +66,9 @@ class UserPage extends React.Component {
               <p className="user-page-header-item">Packs cost $5. Play a game to earn money so you can buy one.</p>
           }
         </div>
+        {
+          challenges.map(challengeObj => <NewChallenge key={challengeObj.to.teamName} teamName={challengeObj.teamName} socketId={challengeObj.socketId} timeRemaining={challengeObj.timeRemaining} />)
+        }
         {
           activeUser.userInfo.id &&
           [
@@ -78,7 +84,8 @@ class UserPage extends React.Component {
 const mapState = state => {
   return {
     activeUser: state.user.activeUser,
-    inactiveUser: state.user.inactiveUser
+    inactiveUser: state.user.inactiveUser,
+    challenges: state.challenges.received
   }
 }
 

@@ -31,8 +31,12 @@ button {
   height: 30px;
   font-size: 16px;
   border-radius: 5px;
+  border: none;
   cursor: pointer;
   font-family: 'PT Sans', sans-serif;
+  box-shadow: 1px 1px 20px 1px black;
+  transition: 1s ease;
+  -webkit-transition: 1s ease;
 }
 
 button:focus {
@@ -129,6 +133,13 @@ button:focus {
   text-align: center;
 }
 
+#home-page-welcome {
+  color: #c5c5c5;
+  text-shadow: 1px 2px 2px black;
+  font-size: 30px;
+  margin-bottom: 0;
+}
+
 #home-page-users-and-challenge-container {
   display: flex;
   justify-content: space-around;
@@ -137,6 +148,28 @@ button:focus {
 
 #online-users {
   text-align: center;
+}
+
+@keyframes button-pulse {
+  0% {background-color: orange; margin-left: 0px}
+  50% {background-color: maroon; margin-left: 10px}
+  1000% {background-color: orange; margin-left: 0px}
+}
+
+.vs-button {
+  background-color: orange;
+  color: wheat;
+  animation-name: button-pulse;
+  -webkit-animation-name: button-pulse;
+  animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+}
+
+.vs-button:hover {
+  background-color: wheat;
+  color: orange;
 }
 
 /***********************************NEW CHALLENGE*********************/
@@ -158,12 +191,8 @@ button:focus {
 
 #accept-challenge-button {
   background-color: green;
-  border: none;
   color: white;
-  box-shadow: 1px 1px 20px 1px black;
   margin-right: 5px;
-  transition: 1.5s ease;
-  -webkit-transition: 1.5s ease;
 }
 
 #accept-challenge-button:hover {
@@ -174,10 +203,6 @@ button:focus {
 #reject-challenge-button {
   background-color: red;
   color: white;
-  border: none;
-  box-shadow: 1px 1px 20px 1px black;
-  transition: 1.5s ease;
-  -webkit-transition: 1.5s ease;
 }
 
 #reject-challenge-button:hover {
@@ -192,6 +217,7 @@ button:focus {
   height: 301px;
   position: absolute;
   left: 50%;
+  top: 29%;
   margin-left: -107px;
   box-shadow: 1px 1px 21px 3px black;
   z-index: 5;
@@ -272,10 +298,6 @@ button:focus {
   background-color: #3db33d;
   color: #e0e0e0;
   cursor: pointer;
-  box-shadow: 1px 1px 20px 1px black;
-  border: none;
-  transition: 1.5s ease;
-  -webkit-transition: 1.5s ease;
 }
 
 .lineup-advance-button:hover {
@@ -286,11 +308,7 @@ button:focus {
 #back-to-lineup-button {
   background-color: #a21818;
   color: #e0e0e0;
-  border: none;
-  box-shadow: 1px 1px 20px 1px black;
   margin-left: 10px;
-  transition: 1.5s ease;
-  -webkit-transition: 1.5 ease;
 }
 
 #back-to-lineup-button:hover {
@@ -301,10 +319,7 @@ button:focus {
 .lineup-full-card-button {
   background-color: #c4daff;
   color: #b73030;
-  border: none;
   box-shadow: 1px 1px 10px 1px black;
-  transition: 1.5s ease;
-  -webkit-transition: 1.5s ease;
 }
 
 .lineup-full-card-button:hover {
@@ -688,10 +703,6 @@ button:focus {
 .play-button {
   background-color: #797979;
   color: white;
-  border: none;
-  box-shadow: 1px 1px 20px 1px black;
-  transition: 1.5s ease;
-  -webkit-transition: 1.5s ease;
 }
 
 .play-button:hover {
@@ -702,11 +713,7 @@ button:focus {
 #show-rules-button {
   background-color: #c57e53;
   color: #c5c5c5;
-  border: none;
-  box-shadow: 1px 1px 20px 1px black;
   margin-left: 5px;
-  transition: 1.5s ease;
-  -webkit-transition: 1.5s ease;
 }
 
 #show-rules-button:hover {
@@ -822,12 +829,7 @@ button:focus {
 .sub-button {
   background-color: #176f02;
   color: #efdddd;
-  border: none;
   float: right;
-  cursor: pointer;
-  box-shadow: 1px 1px 20px 1px black;
-  transition: 1.5s ease;
-  -webkit-transition: 1.5s ease;
 }
 
 .sub-button:hover {
@@ -984,4 +986,14 @@ button:focus {
 
 .user-page-header-item {
   margin-bottom: 0;
+}
+
+#buy-pack-button {
+  background-color: #4b4646;
+  color: #c4bebe;
+}
+
+#buy-pack-button:hover {
+  background-color: #c4bebe;
+  color: #4b4646;
 }

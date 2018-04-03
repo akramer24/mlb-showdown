@@ -21,7 +21,7 @@ class Play extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isGameOver, inning, half, currentScore, awayScore, homeScore, homeTeam } = nextProps.gameState;
+    const { isGameOver, inning, half, currentScore, awayScore, homeScore, homeTeam, awayTeam } = nextProps.gameState;
     const { gameOver, userInfo } = this.props;
     const { id, cash, teamName, wins, losses } = userInfo;
     if (!isGameOver && ((inning >= 9 && half === 'bottom' && currentScore > awayScore) || (inning >= 10 && half === 'top' && homeScore < awayScore))) {

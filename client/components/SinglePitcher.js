@@ -24,7 +24,7 @@ class SinglePitcher extends Component {
     if (clickStats) {
       const targetClass = evt.target.classList.value;
       if (targetClass.startsWith('lineup-full-card-button')) {
-        const id = Number(targetClass.slice(24))
+        const id = Number(targetClass.slice(24, 25))
         clickStats(id, true)
       } else {
         clickStats(null, false)
@@ -36,7 +36,6 @@ class SinglePitcher extends Component {
     const { thisPitcher, isLineup } = this.props;
 
     let pitcher = thisPitcher;
-    let id = pitcher.id;
     let lineupClass;
     if (isLineup) {
       lineupClass = 'lineup-single-player animated zoomIn';

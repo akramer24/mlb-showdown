@@ -19,7 +19,6 @@ class SingleBatter extends Component {
 
   handleClickOutside(evt) {
     const {clickStats} = this.props
-    console.log(evt.target)
     if (clickStats) {
       const targetClass = evt.target.classList.value;
       if (targetClass.startsWith('lineup-full-card-button')) {

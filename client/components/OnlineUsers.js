@@ -24,7 +24,7 @@ class OnlineUsers extends React.Component {
           onlineUsers && onlineUsers.map(userObj => {
             if (userObj.teamName !== activeUser.userInfo.teamName) {
               return (
-                <p key={userObj.teamName}>{userObj.teamName} <button onClick={() => this.handleChallenge(userObj)}>vs.</button>
+                <p key={userObj.teamName}>{userObj.teamName} <button className="vs-button" onClick={() => this.handleChallenge(userObj)}>vs.</button>
                   {
                     sentChallenges.find(challenge => challenge.to.teamName === userObj.teamName) && <span>Active</span>
                   }</p>
