@@ -37,16 +37,23 @@ const defaultState = {
   displayBench: false,
   displayBullpen: false,
   isGameOver: false,
-  displayRules: true
+  displayRules: true,
+  userSocketId: null,
+  challengerSocketId: null
 }
 
 const UPDATE_GAME_STATE = 'UPDATE_GAME_STATE';
-export const updateGameState = newState => ({ type: UPDATE_GAME_STATE, newState});
+const RESET_GAME_STATE = 'RESET_GAME_STATE';
 
-export default function (state = defaultState, action ) {
+export const updateGameState = newState => ({ type: UPDATE_GAME_STATE, newState });
+export const resetGameState = () => ({ type: RESET_GAME_STATE });
+
+export default function (state = defaultState, action) {
   switch (action.type) {
     case UPDATE_GAME_STATE:
-      return {...state, ...action.newState};
+      return { ...state, ...action.newState };
+    case RESET_GAME_STATE:
+      return defaultState;
     default:
       return state;
   }

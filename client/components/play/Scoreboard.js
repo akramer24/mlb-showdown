@@ -59,7 +59,7 @@ class Scoreboard extends Component {
   render() {
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
-    const { awayTeam, homeTeam, half, inning, awayScore, homeScore, currentScore, inningRuns, outs, awayHits, homeHits, currentHits } = this.props.gameState;
+    const { awayTeam, homeTeam, half, inning, awayScore, homeScore, currentScore, inningRuns, outs, awayHits, homeHits, currentHits, isGameOver } = this.props.gameState;
     return (
       <div id="scoreboard">
         <table id='full-scoreboard'>
@@ -176,15 +176,20 @@ class Scoreboard extends Component {
             </tr>
             <tr className='scoreboard-stuff'>
               {
-                half === 'top'
-                  ?
+                half === 'top' && !isGameOver && 
                   <td className='score-name-value'>
                     <span className="half-caret">&#9650;</span>{inning} Outs: {outs}
                   </td>
-                  :
+              }
+              {
+                half === 'bottom' && !isGameOver &&
                   <td className='score-name-value'>
                     <span className="half-caret">&#9660;</span>{inning} Outs: {outs}
                   </td>
+              }
+              {
+                isGameOver &&
+                  <td className="score-name-value">FINAL</td>
               }
             </tr>
           </tbody>

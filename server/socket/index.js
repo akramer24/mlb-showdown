@@ -59,6 +59,15 @@ module.exports = (io) => {
       io.to(homeTeam).emit('update game state', newState);
     })
 
+    socket.on('game over', (homeTeam, userSocketId, challengerSocketId, id) => {
+      // io.to(homeTeam).emit('game over', id);
+      const userSocket = io.sockets.connected[userSocketId];
+      const challengerSocket = io.sockets.connected[challengerSocketId];
+      userSocket.leave(homeTeam);
+      challengerSocket.leave(homeTeam);
+      // socket.leave(homeTeam)
+    })
+
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
       onlineUsers = onlineUsers.filter(userObj => userObj.socketId !== socket.id)

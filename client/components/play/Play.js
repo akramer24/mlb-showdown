@@ -3,8 +3,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { rollDice, setTurn, pitchAndSwing, handleNextInning } from '../utils/play';
 import { BoardButtons, Diamond, Scoreboard, Lineup } from './index';
-import store, { updateGameState, gameOverGetCash } from '../../store';
+import store, { updateGameState, gameOverGetCash, resetGameState } from '../../store';
 import socket from '../../socket';
+import history from '../../history';
 
 class Play extends Component {
 
@@ -21,7 +22,7 @@ class Play extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isGameOver, inning, half, currentScore, awayScore, homeScore, homeTeam, awayTeam } = nextProps.gameState;
+    const { isGameOver, inning, half, currentScore, awayScore, homeScore, homeTeam, awayTeam, userSocketId, challengerSocketId } = nextProps.gameState;
     const { gameOver, userInfo } = this.props;
     const { id, cash, teamName, wins, losses } = userInfo;
     if (!isGameOver && ((inning >= 9 && half === 'bottom' && currentScore > awayScore) || (inning >= 10 && half === 'top' && homeScore < awayScore))) {
@@ -34,7 +35,12 @@ class Play extends Component {
         isWinner = false;
       }
       gameOver(id, cash, wins, losses, isWinner);
-      socket.emit('update game state', { isGameOver: true }, homeTeam)
+      socket.emit('update game state', { isGameOver: true }, homeTeam);
+      setTimeout(() => {
+        socket.emit('game over', homeTeam, userSocketId, challengerSocketId, id);
+        store.dispatch(resetGameState());
+        history.push(`/users/${id}`)
+      }, 5000)
     }
   }
 

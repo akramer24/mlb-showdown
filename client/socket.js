@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import store, { addOnlineUser, removeOnlineUser, receiveChallenge, setUserSocket, setAwayTeam, setHomeTeam, setHomeLineup, setAwayLineup, setHomeRotation, setAwayRotation, updateGameState, updateChallenge, removeChallenge } from './store';
+import store, { addOnlineUser, removeOnlineUser, receiveChallenge, setUserSocket, setAwayTeam, setHomeTeam, setHomeLineup, setAwayLineup, setHomeRotation, setAwayRotation, updateGameState, updateChallenge, removeChallenge, resetGameState } from './store';
 import history from './history';
 
 const socket = io(window.location.origin);
@@ -27,6 +27,7 @@ socket.on('connect', () => {
     history.push('/game/choose-lineup');
     store.dispatch(setAwayTeam(user.teamName));
     store.dispatch(setHomeTeam(challenger.teamName));
+    store.dispatch(updateGameState({ userSocketId: user.socketId, challengerSocketId: challenger.socketId }))
     console.log(welcome)
   })
 
@@ -55,10 +56,14 @@ socket.on('connect', () => {
     }, 1000)
     store.dispatch(receiveChallenge(challenge))
   })
-  
+
   socket.on('challenge rejected', rejectedChallenge => {
     store.dispatch(removeChallenge(rejectedChallenge))
   })
+
+  // socket.on('game over', id => {
+  //   store.dispatch(resetGameState());
+  // })
 
 })
 
