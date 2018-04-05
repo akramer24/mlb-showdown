@@ -6,11 +6,16 @@ import { BoardButtons, Diamond, Scoreboard, Lineup } from './index';
 import store, { updateGameState, gameOverGetCash, resetGameState } from '../../store';
 import socket from '../../socket';
 import history from '../../history';
+import webrtc from '../../SimpleWebRTC';
 
 class Play extends Component {
 
   constructor() {
     super();
+    this.state = {
+      displayVideo: false
+    }
+
     this.handleRoll = this.handleRoll.bind(this);
     this.display = this.display.bind(this);
     this.onKeyPressed = this.onKeyPressed.bind(this);
@@ -104,6 +109,8 @@ class Play extends Component {
       homeTeam
     } = this.props.gameState;
 
+    const { displayVideo } = this.state;
+
     return (
       <div id="board" autoFocus onKeyDown={this.onKeyPressed} tabIndex="0" >
         {
@@ -111,6 +118,29 @@ class Play extends Component {
         }
         {
           (inning >= 10 && half === 'top' && homeScore < awayScore) && <h1 className="board-winner-alert animated zoomIn">{awayTeam} wins!</h1>
+        }
+        {
+          displayVideo &&
+          [
+            <video id="localVideo" key={1}></video>,
+            <div id="remoteVideos" key={2}></div>,
+            <button
+              id="disconnect-video-button"
+              key={3}
+              onClick={() => {
+                webrtc.emit('disconnect video feed from room', homeTeam);
+                this.setState({ displayVideo: false });
+              }}>End video stream</button>
+          ]
+        }
+        {
+          !displayVideo &&
+          <button
+            id="connect-video-button"
+            onClick={() => {
+              webrtc.emit('connect video feed to room', homeTeam);
+              this.setState({ displayVideo: true });
+            }}>Connect video</button>
         }
         <BoardButtons
           key={'board-buttons'}

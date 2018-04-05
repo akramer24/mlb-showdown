@@ -997,3 +997,38 @@ button:focus {
   background-color: #c4bebe;
   color: #4b4646;
 }
+
+
+/******************VIDEO!!!!!!************************/
+#remoteVideos {
+  position: absolute;
+  right: 0%;
+}
+
+#remoteVideos video {
+  height: 200px;
+}
+
+#localVideo {
+  height: 85px;
+  position: absolute;
+  right: 0%;
+  z-index: 1;
+  box-shadow: 1px 1px 20px 1px black;
+}
+
+#connect-video-button {
+  top: 90px;
+  position: absolute;
+  right: 7%;
+  z-index: 1;
+  box-shadow: 1px 1px 20px 1px black;
+}
+
+#disconnect-video-button {
+  top: 200px;
+  position: absolute;
+  right: 6%;
+  z-index: 1;
+  box-shadow: 1px 1px 20px 1px black;
+}

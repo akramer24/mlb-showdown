@@ -68,6 +68,10 @@ module.exports = (io) => {
       // socket.leave(homeTeam)
     })
 
+    socket.on('start video', () => {
+      console.log('hit start video')
+    })
+
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
       onlineUsers = onlineUsers.filter(userObj => userObj.socketId !== socket.id)
