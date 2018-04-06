@@ -1,12 +1,8 @@
 import SimpleWebRTC from 'simplewebrtc';
 
 const webrtc = new SimpleWebRTC({
-  // the id/element dom element that will hold "our" video
   localVideoEl: 'localVideo',
-  // the id/element dom element that will hold remote videos
-  remoteVideosEl: 'remoteVideos',
-  // immediately ask for camera access
-  // autoRequestMedia: true
+  remoteVideosEl: 'remoteVideos'
 });
 
 webrtc.on('connectionReady', sessionId => {
@@ -15,8 +11,11 @@ webrtc.on('connectionReady', sessionId => {
     webrtc.startLocalVideo();
   });
 
-  webrtc.on('disconnect video feed from room', () => {
-    // webrtc.leaveRoom();
+  webrtc.on('pause stream', () => webrtc.pause());
+
+  webrtc.on('resume stream', () => webrtc.resume());
+
+  webrtc.on('stop stream', () => {
     webrtc.stopLocalVideo();
   })
 })

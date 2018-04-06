@@ -1025,6 +1025,18 @@ button:focus {
   box-shadow: 1px 1px 20px 1px black;
 }
 
+#resume-stream-button {
+  position: absolute;
+  right: 11.5%;
+  top: 169px;
+}
+
+#pause-stream-button {
+  position: absolute;
+  right: 6%;
+  top: 169px;
+}
+
 #disconnect-video-button {
   top: 200px;
   position: absolute;

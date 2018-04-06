@@ -43,6 +43,8 @@ class Play extends Component {
       socket.emit('update game state', { isGameOver: true }, homeTeam);
       setTimeout(() => {
         socket.emit('game over', homeTeam, userSocketId, challengerSocketId, id);
+        webrtc.stopLocalVideo();
+        webrtc.leaveRoom();
         store.dispatch(resetGameState());
         history.push(`/users/${id}`)
       }, 5000)
@@ -106,8 +108,10 @@ class Play extends Component {
       homeScore,
       currentScore,
       awayTeam,
-      homeTeam
+      homeTeam,
     } = this.props.gameState;
+
+    const { awayRotation, homeRotation } = this.props;
 
     const { displayVideo } = this.state;
 
@@ -125,16 +129,21 @@ class Play extends Component {
             <video id="localVideo" key={1}></video>,
             <div id="remoteVideos" key={2}></div>,
             <button
-              id="disconnect-video-button"
-              key={3}
+              key={4}
+              id="pause-stream-button"
               onClick={() => {
-                webrtc.emit('disconnect video feed from room', homeTeam);
-                this.setState({ displayVideo: false });
-              }}>End video stream</button>
+                webrtc.emit('pause stream', homeTeam);
+              }}>Pause</button>,
+            <button
+              key={5}
+              id="resume-stream-button"
+              onClick={() => {
+                webrtc.emit('resume stream', homeTeam);
+              }}>Resume</button>
           ]
         }
         {
-          !displayVideo &&
+          !displayVideo && (homeRotation.length && awayRotation.length) &&
           <button
             id="connect-video-button"
             onClick={() => {
