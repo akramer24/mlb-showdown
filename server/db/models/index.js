@@ -1,4 +1,4 @@
-const User = require('./User');
+const User = require('./user');
 const Batter = require('./Batter');
 const Pitcher = require('./Pitcher');
 const UserBatter = require('./UserBatter');
