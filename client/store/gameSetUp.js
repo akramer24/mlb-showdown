@@ -15,6 +15,7 @@ const SET_HOME_TEAM = 'SET_HOME_TEAM';
 const SET_HOME_LINEUP = 'SET_HOME_LINEUP';
 const SET_HOME_ROTATION = 'SET_HOME_ROTATION';
 const TOGGLE_LINEUP_SET = 'TOGGLE_LINEUP_SET';
+const RESET_GAME_SETUP = 'RESET_GAME_SETUP';
 
 export function setAwayLineup(lineup) {
   return {
@@ -80,6 +81,12 @@ export function setRotation(rotation, isHome) {
   }
 }
 
+export function resetGameSetup() {
+  return {
+    type: RESET_GAME_SETUP
+  }
+}
+
 export default function gameSetUp(state = defaultGame, action) {
   switch (action.type) {
     case SET_AWAY_LINEUP:
@@ -100,6 +107,8 @@ export default function gameSetUp(state = defaultGame, action) {
       return { ...state, awayTeam: action.name };
     case SET_HOME_TEAM:
       return { ...state, homeTeam: action.name };
+    case RESET_GAME_SETUP:
+      return defaultGame;
     default:
       return state;
   }

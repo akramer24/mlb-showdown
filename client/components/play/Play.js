@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { rollDice, setTurn, pitchAndSwing, handleNextInning } from '../utils/play';
 import { BoardButtons, Diamond, Scoreboard, Lineup } from './index';
-import store, { updateGameState, gameOverGetCash, resetGameState } from '../../store';
+import store, { updateGameState, gameOverGetCash, resetGameState, resetGameSetup } from '../../store';
 import socket from '../../socket';
 import history from '../../history';
 import webrtc from '../../SimpleWebRTC';
@@ -46,6 +46,7 @@ class Play extends Component {
         webrtc.stopLocalVideo();
         webrtc.leaveRoom();
         store.dispatch(resetGameState());
+        store.dispatch(resetGameSetup());
         history.push(`/users/${id}`)
       }, 5000)
     }
