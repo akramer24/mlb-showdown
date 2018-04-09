@@ -1,7 +1,6 @@
 const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
-const { Batter, Pitcher, UserBatter, UserPitcher } = require('./index');
 
 const User = db.define('user', {
   email: {
