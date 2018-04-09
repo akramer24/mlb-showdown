@@ -51,10 +51,10 @@ class NavBar extends React.Component {
             <h3 id="navbar-title-text" className="navbar-text" onClick={() => navTo('/')}>MLB SHOWDOWN</h3>
           </div>
           <div id="navbar-options">
-            {
+            {/*
               isLoggedIn &&
               <p onClick={() => navTo('/quick-game')} className="navbar-text">Quick Game</p>
-            }
+            */}
           </div>
         </div>
         <div id="navbar-right">
