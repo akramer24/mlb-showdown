@@ -18,10 +18,6 @@ nav a {
   margin: 1em;
 }
 
-form div {
-  margin: 1em;
-  display: inline-block;
-}
 
 * {
   box-sizing: border-box;
@@ -1043,4 +1039,73 @@ button:focus {
   right: 6%;
   z-index: 1;
   box-shadow: 1px 1px 20px 1px black;
+}
+
+/*******************AUTH FORM********************/
+#credentials-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid gray;
+  border-radius: 10px;
+  box-shadow: 1px 1px 20px 1px black;
+  padding-top: 1em;
+  background-color: #c5c5c5;
+}
+
+#credentials-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1em;
+}
+
+#credentials-buttons-row {
+  margin-bottom: 5px;
+}
+
+#credentials-buttons-row button {
+  margin: 0px 2px;
+}
+
+#credentials-submit-button {
+  background-color: #57ab48;
+  color: white;
+}
+
+#credentials-submit-button:hover {
+  background-color: green;
+  color: wheat;
+}
+
+#create-account-button {
+  background-color: #fcbc08;
+  color: white;
+}
+
+#create-account-button:hover {
+  background-color: orange;
+  color: wheat;
+}
+
+#google-signin-button {
+  box-shadow: 1px 1px 20px 1px black;
+  border-radius: 5px;
+}
+
+.form-field {
+  margin: 0.3em;
+  display: inline-block;
+}
+
+.form-field input {
+  height: 40px;
+  font-size: 16px;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  box-shadow: 0px 0px 10px 0px black;
 }

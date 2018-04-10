@@ -145,7 +145,7 @@ export const logout = () =>
       .then(res => {
         dispatch(removeUser())
         socket.emit('remove online user', res.data.teamName)
-        history.push('/login')
+        history.push('/')
       })
       .catch(err => console.log(err))
 

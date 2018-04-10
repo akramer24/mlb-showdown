@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { auth } from '../store';
 import { NavLink } from 'react-router-dom';
+import navTo from './utils/navTo';
 
 /**
  * COMPONENT
@@ -11,31 +12,28 @@ const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props
 
   return (
-    <div id="credentials-box">
-      <form onSubmit={handleSubmit} name={name}>
-        {
-          name === 'signup' &&
-            <div key={3}>
-              <label htmlFor="team"><small>Team Name</small></label>
-              <input name="team" type="text" />
-            </div>
-        }
-        <div>
-          <label htmlFor="email"><small>Email</small></label>
-          <input name="email" type="text" />
+    <form id="credentials-form" onSubmit={handleSubmit} name={name}>
+      {
+        name === 'signup' &&
+        <div className="form-field">
+          <input name="team" type="text" placeholder="Team Name" />
         </div>
-        <div>
-          <label htmlFor="password"><small>Password</small></label>
-          <input name="password" type="password" />
+      }
+      <div className="form-field">
+        <input name="email" type="text" placeholder="Email" />
+      </div>
+      <div className="form-field">
+        <input name="password" type="password" placeholder="Password" />
+      </div>
+      <div id="credentials-buttons">
+        <div id="credentials-buttons-row">
+          <button id="credentials-submit-button" type="submit">{displayName}</button>
+          {name === 'login' && <button id="create-account-button" onClick={() => navTo('/signup')}>Create an account</button>}
         </div>
-        <div>
-          <button type="submit">{displayName}</button>
-          {name === 'login' && <NavLink to="/signup">Create an account</NavLink>}
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
-    </div>
+        <a href="/auth/google"><img src="/btn_google_signin_dark_normal_web.png" id="google-signin-button" /></a>
+      </div>
+      {error && error.response && <div> {error.response.data} </div>}
+    </form>
   )
 }
 
