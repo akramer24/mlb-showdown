@@ -54,10 +54,6 @@ User.prototype.correctPassword = function (candidatePwd) {
   return User.encryptPassword(candidatePwd, this.salt()) === this.password()
 }
 
-User.prototype.getWinningPercentage = function () {
-  return this.wins / (this.wins + this.losses);
-}
-
 /**
  * classMethods
  */
