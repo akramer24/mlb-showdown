@@ -51,22 +51,6 @@ router.post('/:userId/buy-pack', (req, res, next) => {
     .catch(next)
 })
 
-// router.post('/add-pitcher', (req, res, next) => {
-//   User.findOne({
-//       where: {
-//           teamName: req.body.userTeam
-//       }
-//   })
-//   .then(user => {
-//       UserPitcher.create({
-//           userId: user.id,
-//           pitcherId: req.body.pitcherId
-//       })
-//           .then(result => res.send(result))
-//           .catch(next)
-//   })
-// })
-
 router.put('/:userId', (req, res, next) => {
   User.findById(Number(req.params.userId))
     .then(user => user.update(req.body))
