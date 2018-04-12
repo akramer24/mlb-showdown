@@ -377,7 +377,8 @@ const data = {
       lastName: 'Kramer',
       email: 'arikramer24@gmail.com',
       password: 'Cosmo14!',
-      teamName: 'Diggity Dingers'
+      teamName: 'Diggity Dingers',
+      isAdmin: true
     },
 
     {

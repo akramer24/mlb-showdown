@@ -2,16 +2,17 @@ const router = require('express').Router();
 const { User, UserBatter, UserPitcher, Batter, Pitcher } = require('../db/models');
 const db = require('../db');
 const buyPack = require('../utils/buyPack');
+const {isLoggedIn, isAdmin, isAdminOrSelf, isSelf } = require('./utils/gatekeeperMiddleware');
 module.exports = router;
 
 router.get('/', (req, res, next) => {
-  User.findAll()
+  User.findAll({ attributes: { exclude: ['googleId', 'email', 'isAdmin']}})
     .then(users => res.send(users))
     .catch(next);
 })
 
 router.get('/:userId', (req, res, next) => {
-  User.findById(req.params.userId)
+  User.findById(req.params.userId, { attributes: { exclude: ['googleId', 'email', 'isAdmin']}})
     .then(user => res.send(user))
     .catch(next);
 })
@@ -44,21 +45,21 @@ router.post('/', (req, res, next) => {
     .catch(next);
 })
 
-router.post('/:userId/buy-pack', (req, res, next) => {
+router.post('/:userId/buy-pack', isSelf, (req, res, next) => {
   User.findById(Number(req.params.userId))
     .then(user => buyPack(user.id))
     .then(pack => res.json(pack))
     .catch(next)
 })
 
-router.put('/:userId', (req, res, next) => {
+router.put('/:userId', isAdminOrSelf, (req, res, next) => {
   User.findById(Number(req.params.userId))
     .then(user => user.update(req.body))
     .then(updatedUser => res.json(updatedUser))
     .catch(next);
 })
 
-router.delete('/:userId/remove-batter/:batterId', (req, res, next) => {
+router.delete('/:userId/remove-batter/:batterId', isAdminOrSelf, (req, res, next) => {
   UserBatter.destroy({
     where: {
       userId: req.params.userId,
@@ -69,7 +70,7 @@ router.delete('/:userId/remove-batter/:batterId', (req, res, next) => {
     .catch(next);
 })
 
-router.delete('/:userId/remove-pitcher/:pitcherId', (req, res, next) => {
+router.delete('/:userId/remove-pitcher/:pitcherId', isAdminOrSelf, (req, res, next) => {
   UserPitcher.destroy({
     where: {
       userId: req.params.userId,
