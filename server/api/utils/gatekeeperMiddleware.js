@@ -9,7 +9,7 @@ gatekeeperMiddleware.isLoggedIn = (req, res, next) => {
 }
 
 gatekeeperMiddleware.isSelf = (req, res, next) => {
-  if (req.user.id === req.params.userId) {
+  if (req.user.id === Number(req.params.userId)) {
     next();
   } else {
     res.sendStatus(403);
@@ -25,7 +25,7 @@ gatekeeperMiddleware.isAdmin = (req, res, next) => {
 }
 
 gatekeeperMiddleware.isAdminOrSelf = (req, res, next) => {
-  if (req.user.isAdmin || req.user.id === req.params.userId) {
+  if (req.user.isAdmin || req.user.id === Number(req.params.userId)) {
     next();
   } else {
     res.sendStatus(403);

@@ -52,8 +52,7 @@ class UserPage extends React.Component {
             && <NewPack displayPack={this.displayPack} />
           }
           {
-            activeUser.userInfo.id === Number(match.params.userId) && activeUser.userInfo.cash > 5
-              ?
+            activeUser.userInfo.id === Number(match.params.userId) && activeUser.userInfo.cash >= 5 &&
               <button
                 id="buy-pack-button"
                 className="user-page-header-item"
@@ -62,9 +61,11 @@ class UserPage extends React.Component {
                 this.displayPack(true)
               }
               }>Buy a pack</button>
-              :
+            }
+            {
+              activeUser.userInfo.id === Number(match.params.userId) && activeUser.userInfo.cash < 5 &&
               <p className="user-page-header-item">Packs cost $5. Play a game to earn money so you can buy one.</p>
-          }
+            }
         </div>
         {
           challenges.map(challengeObj => <NewChallenge key={challengeObj.to.teamName} teamName={challengeObj.teamName} socketId={challengeObj.socketId} timeRemaining={challengeObj.timeRemaining} />)
