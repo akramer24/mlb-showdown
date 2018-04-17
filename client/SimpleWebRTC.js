@@ -7,8 +7,8 @@ const webrtc = new SimpleWebRTC({
 
 webrtc.on('connectionReady', sessionId => {
   webrtc.on('connect video feed to room', homeTeam => {
-    webrtc.joinRoom(homeTeam);
     webrtc.startLocalVideo();
+    webrtc.joinRoom(homeTeam);
   });
 
   webrtc.on('pause stream', () => webrtc.pause());

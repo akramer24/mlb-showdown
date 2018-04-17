@@ -78,9 +78,10 @@ class ChooseLineup extends Component {
 
   componentDidMount() {
     const { activeUser } = this.props;
-    const batters = activeUser.lineup.length ? activeUser.lineup : activeUser.batters;
-    const pitchers = activeUser.rotation.length ? activeUser.rotation : activeUser.pitchers;
-    this.setState({ batters, pitchers })
+    const { lineup, batters, rotation, pitchers } = activeUser;
+    const displayedBatters = (!lineup.length || lineup.length < batters.length) ? batters : lineup;
+    const displayedPitchers = (!rotation.length || rotation.length < pitchers.length) ? pitchers : rotation;
+    this.setState({ batters: displayedBatters, pitchers: displayedPitchers })
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
