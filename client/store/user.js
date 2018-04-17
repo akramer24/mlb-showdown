@@ -19,6 +19,8 @@ const CLEAR_PACK = 'CLEAR_PACK';
 const ADD_ONLINE_USER = 'ADD_ONLINE_USER';
 const REMOVE_ONLINE_USER = 'REMOVE_ONLINE_USER';
 const SET_USER_SOCKET = 'SET_USER_SOCKET';
+const GET_MOST_RECENT_LINEUP = 'GET_MOST_RECENT_LINEUP';
+const GET_MOST_RECENT_ROTATION = 'GET_MOST_RECENT_ROTATION';
 
 /**
  * INITIAL STATE
@@ -28,6 +30,8 @@ const defaultUser = {
     userInfo: {},
     batters: [],
     pitchers: [],
+    lineup: [],
+    rotation: [],
     newPack: []
   },
   inactiveUser: {
@@ -112,6 +116,20 @@ export function setUserSocket(socketId) {
   return {
     type: SET_USER_SOCKET,
     socketId
+  }
+}
+
+export function getMostRecentLineup(lineup) {
+  return {
+    type: GET_MOST_RECENT_LINEUP,
+    lineup
+  }
+}
+
+export function getMostRecentRotation(rotation) {
+  return {
+    type: GET_MOST_RECENT_ROTATION,
+    rotation
   }
 }
 
@@ -227,6 +245,43 @@ export function gameOverGetCash(userId, userCash, wins, losses, isWinner) {
   }
 }
 
+export function fetchMostRecentLineup(userId) {
+  return function (dispatch) {
+    return axios.get(`/api/users/${userId}/lineup`)
+      .then(res => {
+        if (res.data) dispatch(getMostRecentLineup(res.data));
+      })
+      .catch(console.error);
+  }
+}
+
+export function saveMostRecentLineup(userId, lineup) {
+  return function (dispatch) {
+    return axios.put(`/api/users/${userId}/lineup`, { mostRecentLineup: lineup })
+      .then(res => dispatch(getMostRecentLineup(res.data)))
+      .catch(console.error);
+  }
+}
+
+export function fetchMostRecentRotation(userId) {
+  return function (dispatch) {
+    return axios.get(`/api/users/${userId}/rotation`)
+      .then(res => {
+        if (res.data) dispatch(getMostRecentRotation(res.data));
+      })
+      .catch(console.error);
+  }
+}
+
+export function saveMostRecentRotation(userId, rotation) {
+  return function (dispatch) {
+    return axios.put(`/api/users/${userId}/rotation`, { mostRecentRotation: rotation })
+      .then(res => dispatch(getMostRecentRotation(res.data)))
+      .catch(console.error);
+  }
+}
+
+
 /**
  * REDUCER
  */
@@ -268,6 +323,12 @@ export default function (state = defaultUser, action) {
       return { ...state, activeUser: { ...state.activeUser, socketId: action.socketId } };
     case REMOVE_ONLINE_USER:
       return { ...state, onlineUsers: action.onlineUsers };
+    case GET_MOST_RECENT_LINEUP: {
+      return { ...state, activeUser: { ...state.activeUser, lineup: action.lineup } };
+    }
+    case GET_MOST_RECENT_ROTATION: {
+      return { ...state, activeUser: { ...state.activeUser, rotation: action.rotation } };
+    }
     default:
       return state;
   }

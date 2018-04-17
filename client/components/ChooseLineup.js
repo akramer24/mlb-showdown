@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
-import { fetchUserBatters, setLineup, fetchUserPitchers, setRotation } from '../store';
+import { fetchUserBatters, setLineup, fetchUserPitchers, setRotation, saveMostRecentLineup, saveMostRecentRotation } from '../store';
 import { SingleBatter, SinglePitcher } from './index';
 import socket from '../socket';
 
@@ -30,32 +30,34 @@ const Lineup = SortableContainer((props) => {
   const firstCol = isBatter ? 'Order' : 'Role';
   return (
     <div id="clipboard" className="animated slideInLeft">
-      <table id="choose-lineup-lineup">
-        <tbody>
-          <tr>
-            <th className="lineup-table-column">{firstCol}</th>
-            <th className="lineup-table-column">Player</th>
-            <th className="lineup-table-column">Position</th>
-            <th className="lineup-table-column">Stats</th>
-          </tr>
-          {players.map((player, index) => {
-            let spot;
-            if (isBatter) {
-              if (index < 9) spot = index
-              if (index >= 9 && index <= 13) spot = 'Bench: '
-              if (index > 13) spot = 'Inactive';
-            } else {
-              index === 0 && index < 5 ? spot = 'SP' : spot = 'RP'
-              if (index >= 5) spot = 'Inactive'
-            }
-            return (
-              isBatter
-                ? <Player key={`item-${index}`} index={index} spot={spot} idx={index} player={player} clickStats={clickStats} isBatter={true} />
-                : <Player key={`item-${index}`} index={index} spot={spot} idx={index} player={player} clickStats={clickStats} isBatter={false} />
-            )
-          })}
-        </tbody>
-      </table>
+      <div id="lineup-container">
+        <table id="choose-lineup-lineup">
+          <tbody>
+            <tr>
+              <th className="lineup-table-column">{firstCol}</th>
+              <th className="lineup-table-column">Player</th>
+              <th className="lineup-table-column">Position</th>
+              <th className="lineup-table-column">Stats</th>
+            </tr>
+            {players.map((player, index) => {
+              let spot;
+              if (isBatter) {
+                if (index < 9) spot = index
+                if (index >= 9 && index <= 13) spot = 'Bench: '
+                if (index > 13) spot = 'Inactive';
+              } else {
+                index === 0 && index < 5 ? spot = 'SP' : spot = 'RP'
+                if (index >= 5) spot = 'Inactive'
+              }
+              return (
+                isBatter
+                  ? <Player key={`item-${index}`} index={index} spot={spot} idx={index} player={player} clickStats={clickStats} isBatter={true} />
+                  : <Player key={`item-${index}`} index={index} spot={spot} idx={index} player={player} clickStats={clickStats} isBatter={false} />
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 });
@@ -76,7 +78,9 @@ class ChooseLineup extends Component {
 
   componentDidMount() {
     const { activeUser } = this.props;
-    this.setState({ batters: activeUser.batters, pitchers: activeUser.pitchers })
+    const batters = activeUser.lineup.length ? activeUser.lineup : activeUser.batters;
+    const pitchers = activeUser.rotation.length ? activeUser.rotation : activeUser.pitchers;
+    this.setState({ batters, pitchers })
   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
@@ -93,12 +97,14 @@ class ChooseLineup extends Component {
 
   saveLineup(lineup, isHome, bool, isComputer) {
     this.props.setLineup(lineup, isHome, bool, isComputer);
+    this.props.saveMostRecentLineup(this.props.activeUser.userInfo.id, lineup)
     const { awayTeam, homeTeam } = this.props.gameSetUp;
     socket.emit('lineup saved', lineup, isHome, awayTeam, homeTeam);
   }
 
   saveRotation(rotation, isHome) {
     this.props.setRotation(rotation, isHome);
+    this.props.saveMostRecentRotation(this.props.activeUser.userInfo.id, rotation)
     const { awayTeam, homeTeam } = this.props.gameSetUp;
     socket.emit('rotation saved', rotation, isHome, awayTeam, homeTeam);
   }
@@ -166,6 +172,12 @@ const mapDispatch = dispatch => {
     },
     setRotation(rotation, isHome) {
       dispatch(setRotation(rotation, isHome));
+    },
+    saveMostRecentLineup(id, lineup) {
+      dispatch(saveMostRecentLineup(id, lineup));
+    },
+    saveMostRecentRotation(id, rotation) {
+      dispatch(saveMostRecentRotation(id, rotation));
     }
   }
 }

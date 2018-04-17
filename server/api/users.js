@@ -7,13 +7,13 @@ module.exports = router;
 
 router.get('/', (req, res, next) => {
   User.findAll({ attributes: { exclude: ['googleId', 'email', 'isAdmin']}})
-    .then(users => res.send(users))
+    .then(users => res.json(users))
     .catch(next);
 })
 
 router.get('/:userId', (req, res, next) => {
-  User.findById(req.params.userId, { attributes: { exclude: ['googleId', 'email', 'isAdmin']}})
-    .then(user => res.send(user))
+  User.findById(Number(req.params.userId), { attributes: { exclude: ['googleId', 'email', 'isAdmin', 'mostRecentLineup', 'mostRecentRotation']}})
+    .then(user => res.json(user))
     .catch(next);
 })
 
@@ -39,6 +39,18 @@ router.get('/:userId/pitchers', async (req, res, next) => {
   res.json(result);
 })
 
+router.get('/:userId/lineup', (req, res, next) => {
+  User.findById(Number(req.params.userId))
+    .then(user => res.json(user.mostRecentLineup))
+    .catch(next);
+})
+
+router.get('/:userId/rotation', (req, res, next) => {
+  User.findById(Number(req.params.userId))
+    .then(user => res.json(user.mostRecentRotation))
+    .catch(next);
+})
+
 router.post('/', (req, res, next) => {
   User.create(req.body)
     .then(user => res.send(user))
@@ -56,6 +68,20 @@ router.put('/:userId', isAdminOrSelf, (req, res, next) => {
   User.findById(Number(req.params.userId))
     .then(user => user.update(req.body))
     .then(updatedUser => res.json(updatedUser))
+    .catch(next);
+})
+
+router.put('/:userId/lineup', isSelf, (req, res, next) => {
+  User.findById(Number(req.params.userId))
+    .then(user => user.update(req.body))
+    .then(updatedUser => res.json(updatedUser.mostRecentLineup))
+    .catch(next);
+})
+
+router.put('/:userId/rotation', isSelf, (req, res, next) => {
+  User.findById(Number(req.params.userId))
+    .then(user => user.update(req.body))
+    .then(updatedUser => res.json(updatedUser.mostRecentRotation))
     .catch(next);
 })
 

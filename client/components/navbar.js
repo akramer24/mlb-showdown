@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { logout, fetchUserBatters, fetchUserPitchers } from '../store';
+import { logout, fetchUserBatters, fetchUserPitchers, fetchMostRecentLineup, fetchMostRecentRotation } from '../store';
 import navTo from './utils/navTo';
 import onClickOutside from 'react-onclickoutside';
 
@@ -113,6 +113,8 @@ const mapDispatch = dispatch => {
     loadUserPlayers(id, active) {
       dispatch(fetchUserBatters(id, active));
       dispatch(fetchUserPitchers(id, active));
+      dispatch(fetchMostRecentLineup(id));
+      dispatch(fetchMostRecentRotation(id));
     }
   }
 }

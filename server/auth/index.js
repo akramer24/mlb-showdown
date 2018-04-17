@@ -38,7 +38,8 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
-  res.json(req.user)
+  const {id, teamName, wins, losses, cash} = req.user
+  res.json({id, teamName, wins, losses, cash})
 })
 
 router.use('/google', require('./google'))
