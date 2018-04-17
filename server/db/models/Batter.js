@@ -15,6 +15,14 @@ const Batter = db.define('batter', {
     type: Sequelize.INTEGER,
     allowNull: false
   },
+  superSeason: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+  allStar: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
   onBase: {
     type: Sequelize.INTEGER,
     allowNull: false
@@ -31,6 +39,7 @@ const Batter = db.define('batter', {
   speed: Sequelize.INTEGER,
   bats: Sequelize.STRING,
   position: Sequelize.STRING,
+  secondaryPosition: Sequelize.STRING,
   image: {
     type: Sequelize.STRING,
     defaultValue: 'https://cdn6.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/70292/66725/2003-mlb-showdown-booster-pack-9-cards-14__20186.1461137719.jpg?c=2'
