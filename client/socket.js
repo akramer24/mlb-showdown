@@ -66,10 +66,6 @@ socket.on('connect', () => {
   socket.on('created video room', () => store.dispatch(updateGameState({ videoRoomCreated: true })));
   socket.on('join video room', homeTeam => webrtc.emit('join video room', homeTeam));
 
-  // socket.on('game over', id => {
-  //   store.dispatch(resetGameState());
-  // })
-
 })
 
 

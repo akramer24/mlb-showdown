@@ -1048,6 +1048,33 @@ button:focus {
   box-shadow: 1px 1px 20px 1px black;
 }
 
+@keyframes video-box-pulse {
+  0% {background-color: wheat; color: #b16c43;}
+  50% {background-color: #b16c43; color: #e2e2e5;}
+  100% {background-color: wheat; color: #b16c43;}
+}
+
+.accept-video-buttons {
+  position: absolute;
+  z-index: 1;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 20px 1px black;
+  right: 0;
+  animation-name: video-box-pulse;
+  -webkit-animation-name: video-box-pulse;
+  animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+}
+
+#accept-reject-video-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 /*******************AUTH FORM********************/
 #credentials-form {
   display: flex;

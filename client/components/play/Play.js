@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { rollDice, setTurn, pitchAndSwing, handleNextInning } from '../utils/play';
-import { BoardButtons, Diamond, Scoreboard, Lineup } from './index';
+import { BoardButtons, Diamond, Scoreboard, Lineup, Video } from './index';
 import store, { updateGameState, gameOverGetCash, resetGameState, resetGameSetup } from '../../store';
 import socket from '../../socket';
 import history from '../../history';
@@ -12,11 +12,6 @@ class Play extends Component {
 
   constructor() {
     super();
-    this.state = {
-      displayVideo: false,
-      sentVideoRequest: false
-    }
-
     this.handleRoll = this.handleRoll.bind(this);
     this.display = this.display.bind(this);
     this.onKeyPressed = this.onKeyPressed.bind(this);
@@ -110,16 +105,10 @@ class Play extends Component {
       homeScore,
       currentScore,
       awayTeam,
-      homeTeam,
-      videoRoomCreated,
-      displayVideo,
-      videoRequestSentBy,
-      videoRequestAcceptedBy
+      homeTeam
     } = this.props.gameState;
 
     const { awayRotation, homeRotation, userInfo } = this.props;
-
-    const { sentVideoRequest } = this.state;
 
     return (
       <div id="board" autoFocus onKeyDown={this.onKeyPressed} tabIndex="0" >
@@ -129,48 +118,7 @@ class Play extends Component {
         {
           (inning >= 10 && half === 'top' && homeScore < awayScore) && <h1 className="board-winner-alert animated zoomIn">{awayTeam} wins!</h1>
         }
-        {
-          displayVideo &&
-          [
-            <video id="localVideo" key={1}></video>,
-            <div id="remoteVideos" key={2}></div>,
-            <button
-              key={4}
-              id="pause-stream-button"
-              onClick={() => {
-                webrtc.emit('pause stream', homeTeam);
-              }}>Pause</button>,
-            <button
-              key={5}
-              id="resume-stream-button"
-              onClick={() => {
-                webrtc.emit('resume stream', homeTeam);
-              }}>Resume</button>
-          ]
-        }
-        {
-          !displayVideo && (homeRotation.length && awayRotation.length) &&
-          <button
-            id="connect-video-button"
-            onClick={() => {
-              webrtc.emit('video chat requested', homeTeam);
-              // this.setState({ displayVideo: true });
-              // this.setState({ sentVideoRequest: true })
-              socket.emit('update game state', { videoRequestSentBy: userInfo.teamName }, homeTeam)
-            }}>Send video chat request</button>
-        }
-        {
-          videoRoomCreated && userInfo.teamName !== null && userInfo.teamName !== videoRequestSentBy && <button onClick={() => {
-            socket.emit('join video room', homeTeam)
-            socket.emit('update game state', { videoRequestAcceptedBy: userInfo.teamName }, homeTeam)
-          }}>Accept</button>
-        }
-        {
-          videoRoomCreated && userInfo.teamName !== null && userInfo.teamName !== videoRequestAcceptedBy && <button onClick={() => {
-            socket.emit('join video room', homeTeam)
-            socket.emit('update game state', { displayVideo: true }, homeTeam)
-          }}>Accept opponent's video</button>
-        }
+        <Video />
         <BoardButtons
           key={'board-buttons'}
           handleNextInning={handleNextInning.bind(this)}
