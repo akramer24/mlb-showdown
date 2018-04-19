@@ -38,8 +38,12 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
-  const {id, teamName, wins, losses, cash} = req.user
-  res.json({id, teamName, wins, losses, cash})
+  if (req.user && req.user.id) {
+    const {id, teamName, wins, losses, cash} = req.user
+    res.json({id, teamName, wins, losses, cash})
+  } else {
+    res.json(req.user);
+  }
 })
 
 router.use('/google', require('./google'))

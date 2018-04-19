@@ -281,6 +281,21 @@ export function saveMostRecentRotation(userId, rotation) {
   }
 }
 
+function sortByLastName(array) {
+  array.sort((a, b) => {
+  const nameA = a.lastName.toUpperCase();
+  const nameB = b.lastName.toUpperCase();
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+  return 0;
+  })
+  return array
+}
+
 
 /**
  * REDUCER
@@ -294,13 +309,13 @@ export default function (state = defaultUser, action) {
     case REMOVE_USER:
       return defaultUser;
     case GET_ACTIVE_USER_BATTERS:
-      return { ...state, activeUser: { ...state.activeUser, batters: action.batters } };
+      return { ...state, activeUser: { ...state.activeUser, batters: sortByLastName(action.batters) } };
     case GET_ACTIVE_USER_PITCHERS:
-      return { ...state, activeUser: { ...state.activeUser, pitchers: action.pitchers } };
+      return { ...state, activeUser: { ...state.activeUser, pitchers: sortByLastName(action.pitchers) } };
     case GET_INACTIVE_USER_BATTERS:
-      return { ...state, inactiveUser: { ...state.inactiveUser, batters: action.batters } };
+      return { ...state, inactiveUser: { ...state.inactiveUser, batters: sortByLastName(action.batters) } };
     case GET_INACTIVE_USER_PITCHERS:
-      return { ...state, inactiveUser: { ...state.inactiveUser, pitchers: action.pitchers } };
+      return { ...state, inactiveUser: { ...state.inactiveUser, pitchers: sortByLastName(action.pitchers) } };
     case DELETE_ACTIVE_USER_BATTER:
       return { ...state, activeUser: { ...state.activeUser, batters: state.activeUser.batters.filter(batter => action.batterId !== batter.id) } }
     case DELETE_ACTIVE_USER_PITCHER:

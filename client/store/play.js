@@ -39,7 +39,11 @@ const defaultState = {
   isGameOver: false,
   displayRules: true,
   userSocketId: null,
-  challengerSocketId: null
+  challengerSocketId: null,
+  videoRoomCreated: false,
+  displayVideo: false,
+  videoRequestSentBy: null,
+  videoRequestAcceptedBy: null
 }
 
 const UPDATE_GAME_STATE = 'UPDATE_GAME_STATE';
