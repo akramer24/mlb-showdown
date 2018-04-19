@@ -5,10 +5,9 @@ import navTo from './utils/navTo';
 import onClickOutside from 'react-onclickoutside';
 
 class NavBar extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      didLoad: false,
       displayRightDropdown: false,
       fade: 'fadeIn'
     }
@@ -17,9 +16,8 @@ class NavBar extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { loadUserPlayers, isLoggedIn, activeUser } = nextProps;
-    if (isLoggedIn && !this.state.didLoad) {
+    if (isLoggedIn && !this.props.isLoggedIn) {
       loadUserPlayers(Number(activeUser.userInfo.id), true);
-      this.setState({ didLoad: true })
     }
   }
 
@@ -44,6 +42,7 @@ class NavBar extends React.Component {
 
   render() {
     const { handleLogout, isLoggedIn, activeUser } = this.props;
+
     return (
       <div id="navbar">
         <div id="navbar-left">
