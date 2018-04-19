@@ -48,6 +48,10 @@ class Play extends Component {
     }
   }
 
+  componentWillUnmount() {
+    webrtc.emit('stop stream')
+  }
+
   initializeState() {
     const { awayLineup, homeLineup, awayRotation, homeRotation, awayTeam, homeTeam } = this.props;
     socket.emit('update game state', {
