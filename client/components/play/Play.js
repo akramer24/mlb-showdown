@@ -49,7 +49,9 @@ class Play extends Component {
   }
 
   componentWillUnmount() {
-    webrtc.emit('stop stream')
+    webrtc.emit('stop stream');
+    store.dispatch(resetGameState());
+    store.dispatch(resetGameSetup());
   }
 
   initializeState() {
