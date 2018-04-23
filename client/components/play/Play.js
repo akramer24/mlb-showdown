@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { rollDice, setTurn, pitchAndSwing, handleNextInning } from '../utils/play';
-import { BoardButtons, Diamond, Scoreboard, Lineup, Video } from './index';
+import { BoardButtons, Diamond, Scoreboard, Lineup, Video, Dice } from './index';
 import store, { updateGameState, gameOverGetCash, resetGameState, resetGameSetup } from '../../store';
 import socket from '../../socket';
 import history from '../../history';
@@ -83,7 +83,7 @@ class Play extends Component {
     setTimeout(() => {
       clearInterval(int);
       setTurn.call(this, this.props.gameState.roll, pitcher.control, batter.onBase, totalPAs, homeTeam)
-    }, 650)
+    }, 1450)
   }
 
   display(displayType, bool) {
@@ -111,7 +111,8 @@ class Play extends Component {
       homeScore,
       currentScore,
       awayTeam,
-      homeTeam
+      homeTeam,
+      roll
     } = this.props.gameState;
 
     const { awayRotation, homeRotation, userInfo } = this.props;
@@ -125,6 +126,7 @@ class Play extends Component {
           (inning >= 10 && half === 'top' && homeScore < awayScore) && <h1 className="board-winner-alert animated zoomIn">{awayTeam} wins!</h1>
         }
         <Video />
+        { roll && <Dice />}
         <BoardButtons
           key={'board-buttons'}
           handleNextInning={handleNextInning.bind(this)}

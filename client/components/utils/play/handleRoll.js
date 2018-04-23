@@ -1,7 +1,7 @@
 import socket from '../../../socket';
 
 export function rollDice(homeTeam) {
-  let count = 6;
+  let count = 14;
   if (count > 0) {
     count--;
     let roll = Math.ceil(Math.random() * 20);
