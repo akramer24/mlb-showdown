@@ -13,3 +13,4 @@ export { Play } from './play';
 export { default as OnlineUsers } from './OnlineUsers';
 export { default as Challenges } from './Challenges';
 export { default as NewChallenge } from './NewChallenge';
+export { default as Search } from './Search';
