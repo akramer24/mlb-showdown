@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchUserBatters, deleteUserBatter } from '../store';
 import SingleBatter from './SingleBatter';
+import Search from './Search';
 
 class AllBatters extends Component {
 
@@ -18,7 +19,7 @@ class AllBatters extends Component {
 
   componentDidMount() {
     const { isUserPage, loadBatters, match, isActive } = this.props
-    isUserPage && loadBatters(Number(match.params.userId), isActive);
+    isUserPage && !isActive && loadBatters(Number(match.params.userId), isActive);
   }
 
   handleDelete(batterId) {
@@ -27,7 +28,7 @@ class AllBatters extends Component {
   }
 
   render() {
-    const { isUserPage, activeUser, activeUserBatters, inactiveUserBatters, allBatters, match } = this.props;
+    const { isUserPage, activeUser, activeUserBatters, inactiveUserBatters, allBatters, match, searchResults, isActive } = this.props;
     let batters;
 
     if (isUserPage) {
@@ -39,10 +40,14 @@ class AllBatters extends Component {
     } else {
       batters = allBatters;
     }
+
+    if (searchResults.length) batters = searchResults;
+
     return (
-      batters && batters.length > 1 &&
+      batters && batters.length > 0 &&
       <div className='display-players'>
         <h1 className='page-header'>Batters</h1>
+        {isActive && <Search />}
         <div id='all-batters'>
           {
             batters && batters.map((batter, idx) => {
@@ -62,7 +67,8 @@ const mapStateToProps = (state) => {
     allBatters: state.batters.batters,
     activeUserBatters: state.user.activeUser.batters,
     inactiveUserBatters: state.user.inactiveUser.batters,
-    activeUser: state.user.activeUser
+    activeUser: state.user.activeUser,
+    searchResults: state.user.activeUser.trieSearchResults
   }
 }
 

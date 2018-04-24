@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { AllBatters, AllPitchers, NewPack, NewChallenge } from './index';
+import { AllBatters, AllPitchers, NewPack, NewChallenge, Search } from './index';
 import { fetchInactiveUser, userBuyPack, removePack, fetchUserBatters, fetchUserPitchers } from '../store';
 
 class UserPage extends React.Component {

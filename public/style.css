@@ -396,6 +396,8 @@ button:focus {
   text-shadow: 2px 2px 2px black;
   color: #cec3c3;
   padding: 1px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -1177,4 +1179,15 @@ button:focus {
   -webkit-animation: rollDie 1.5s;
   animation-timing-function: ease-in;
   -webkit-animation-timing-function: ease-in;
+}
+
+/*****************SEARCH**********************/
+#search-input {
+  width: 300px;
+  height: 40px;
+  align-self: center;
+  font-size: 30px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px 1px black;
+  color: #77889f;
 }

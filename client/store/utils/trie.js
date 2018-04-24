@@ -30,16 +30,18 @@ class Trie {
     let node = this;
     let idx = 0;
     string = string.toLowerCase();
-    
+    console.log(string)
     while (string[idx]) {
       let letter = string[idx];
       if (!node.children[letter]) {
         return [];
       } else {
+        console.log(node)
         node = node.children[letter];
         idx++;
       }
     }
+    console.log(node)
     return node.dataObjects;
   }
 }

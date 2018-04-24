@@ -1,6 +1,7 @@
 import axios from 'axios';
 import history from '../history';
 import socket from '../socket';
+import Trie from './utils/trie';
 
 /**
  * ACTION TYPES
@@ -21,6 +22,8 @@ const REMOVE_ONLINE_USER = 'REMOVE_ONLINE_USER';
 const SET_USER_SOCKET = 'SET_USER_SOCKET';
 const GET_MOST_RECENT_LINEUP = 'GET_MOST_RECENT_LINEUP';
 const GET_MOST_RECENT_ROTATION = 'GET_MOST_RECENT_ROTATION';
+const SEARCH_FOR_USER_BATTER = 'SEARCH_FOR_USER_BATTER';
+
 
 /**
  * INITIAL STATE
@@ -32,7 +35,9 @@ const defaultUser = {
     pitchers: [],
     lineup: [],
     rotation: [],
-    newPack: []
+    newPack: [],
+    battersTrie: new Trie(),
+    trieSearchResults: []
   },
   inactiveUser: {
     userInfo: {},
@@ -130,6 +135,13 @@ export function getMostRecentRotation(rotation) {
   return {
     type: GET_MOST_RECENT_ROTATION,
     rotation
+  }
+}
+
+export function searchForUserBatter(search) {
+  return {
+    type: SEARCH_FOR_USER_BATTER,
+    search
   }
 }
 
@@ -283,15 +295,15 @@ export function saveMostRecentRotation(userId, rotation) {
 
 function sortByLastName(array) {
   array.sort((a, b) => {
-  const nameA = a.lastName.toUpperCase();
-  const nameB = b.lastName.toUpperCase();
-  if (nameA < nameB) {
-    return -1;
-  }
-  if (nameA > nameB) {
-    return 1;
-  }
-  return 0;
+    const nameA = a.lastName.toUpperCase();
+    const nameB = b.lastName.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
   })
   return array
 }
@@ -309,7 +321,7 @@ export default function (state = defaultUser, action) {
     case REMOVE_USER:
       return defaultUser;
     case GET_ACTIVE_USER_BATTERS:
-      return { ...state, activeUser: { ...state.activeUser, batters: sortByLastName(action.batters) } };
+      return { ...state, activeUser: { ...state.activeUser, batters: sortByLastName(action.batters), battersTrie: state.activeUser.battersTrie.buildTrie(action.batters) } };
     case GET_ACTIVE_USER_PITCHERS:
       return { ...state, activeUser: { ...state.activeUser, pitchers: sortByLastName(action.pitchers) } };
     case GET_INACTIVE_USER_BATTERS:
@@ -343,6 +355,9 @@ export default function (state = defaultUser, action) {
     }
     case GET_MOST_RECENT_ROTATION: {
       return { ...state, activeUser: { ...state.activeUser, rotation: action.rotation } };
+    }
+    case SEARCH_FOR_USER_BATTER: {
+      return { ...state, activeUser: { ...state.activeUser, trieSearchResults: state.activeUser.battersTrie.searchFor(action.search) } }
     }
     default:
       return state;
