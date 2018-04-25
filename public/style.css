@@ -1182,6 +1182,11 @@ button:focus {
 }
 
 /*****************SEARCH**********************/
+#search-container {
+  display: flex;
+  flex-direction: column;
+}
+
 #search-input {
   width: 300px;
   height: 40px;
@@ -1190,4 +1195,33 @@ button:focus {
   border-radius: 5px;
   box-shadow: 1px 1px 3px 1px black;
   color: #77889f;
+}
+
+.search-card {
+  position: fixed;
+  margin: 0;
+  align-self: center;
+}
+
+#autocomplete {
+  width: 300px;
+  align-self: center;
+  background-color: rgba(0,0,0,0.8);
+  margin-top: 2px;
+  border: 1px solid black;
+  font-size: 20px;
+  position: absolute;
+  top: 370px;
+  border-radius: 5px;
+}
+
+#autocomplete p {
+  margin: 0;
+  padding: 5px;
+  width: 100%;
+}
+
+#autocomplete p:hover {
+  cursor: pointer;
+  background-color: rgba(60,60,60,0.8);
 }

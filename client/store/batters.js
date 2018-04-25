@@ -91,7 +91,7 @@ export default function battersReducer(state = defaultState, action) {
     case GET_BATTER:
       return { ...state, singleBatter: action.batter };
     case SEARCH_FOR_BATTER:
-      return { ...state, trieSearchResults: state.battersTrie.searchFor(action.search) }
+      return { ...state, trieSearchResults: state.battersTrie.searchFor(action.search) };
     default:
       return state;
   }

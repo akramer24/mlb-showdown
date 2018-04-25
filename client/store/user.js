@@ -23,6 +23,8 @@ const SET_USER_SOCKET = 'SET_USER_SOCKET';
 const GET_MOST_RECENT_LINEUP = 'GET_MOST_RECENT_LINEUP';
 const GET_MOST_RECENT_ROTATION = 'GET_MOST_RECENT_ROTATION';
 const SEARCH_FOR_USER_BATTER = 'SEARCH_FOR_USER_BATTER';
+const GET_SEARCHED_USER_BATTER = 'GET_SEARCHED_USER_BATTER';
+const CLEAR_USER_BATTER = 'CLEAR_USER_BATTER';
 
 
 /**
@@ -37,7 +39,8 @@ const defaultUser = {
     rotation: [],
     newPack: [],
     battersTrie: new Trie(),
-    trieSearchResults: []
+    trieSearchResults: [],
+    singleBatter: {}
   },
   inactiveUser: {
     userInfo: {},
@@ -142,6 +145,19 @@ export function searchForUserBatter(search) {
   return {
     type: SEARCH_FOR_USER_BATTER,
     search
+  }
+}
+
+export function getSearchedBatter(name) {
+  return {
+    type: GET_SEARCHED_USER_BATTER,
+    name
+  }
+}
+
+export function clearBatter() {
+  return {
+    type: CLEAR_USER_BATTER
   }
 }
 
@@ -357,8 +373,12 @@ export default function (state = defaultUser, action) {
       return { ...state, activeUser: { ...state.activeUser, rotation: action.rotation } };
     }
     case SEARCH_FOR_USER_BATTER: {
-      return { ...state, activeUser: { ...state.activeUser, trieSearchResults: state.activeUser.battersTrie.searchFor(action.search) } }
+      return { ...state, activeUser: { ...state.activeUser, trieSearchResults: state.activeUser.battersTrie.searchFor(action.search) } };
     }
+    case GET_SEARCHED_USER_BATTER:
+      return { ...state, activeUser: { ...state.activeUser, singleBatter: state.activeUser.batters.find(batter => batter.name === action.name) } };
+    case CLEAR_USER_BATTER:
+      return { ...state, activeUser: { ...state.activeUser, singleBatter: {} } };
     default:
       return state;
   }

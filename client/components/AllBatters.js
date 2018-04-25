@@ -28,7 +28,7 @@ class AllBatters extends Component {
   }
 
   render() {
-    const { isUserPage, activeUser, activeUserBatters, inactiveUserBatters, allBatters, match, searchResults, isActive } = this.props;
+    const { isUserPage, activeUser, activeUserBatters, inactiveUserBatters, allBatters, match, searchResults, isActive, singleBatter } = this.props;
     let batters;
 
     if (isUserPage) {
@@ -41,13 +41,12 @@ class AllBatters extends Component {
       batters = allBatters;
     }
 
-    if (searchResults.length) batters = searchResults;
-
     return (
       batters && batters.length > 0 &&
       <div className='display-players'>
         <h1 className='page-header'>Batters</h1>
         {isActive && <Search />}
+        {isActive && activeUser.singleBatter.name && <SingleBatter isLineup={false} thisBatter={activeUser.singleBatter} isBatter={true} isSearch={true} />}
         <div id='all-batters'>
           {
             batters && batters.map((batter, idx) => {
@@ -68,7 +67,7 @@ const mapStateToProps = (state) => {
     activeUserBatters: state.user.activeUser.batters,
     inactiveUserBatters: state.user.inactiveUser.batters,
     activeUser: state.user.activeUser,
-    searchResults: state.user.activeUser.trieSearchResults
+    searchResults: state.user.activeUser.trieSearchResults,
   }
 }
 

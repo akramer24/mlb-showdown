@@ -11,7 +11,6 @@ class Home extends React.Component {
       <div id="home-page">
         <div id="home-page-welcome-container">
           <h3 id="home-page-welcome">Welcome to MLB SHOWDOWN</h3>
-          <Search />
           <p>Challenge another online user to a showdown by clicking the "vs." button next to their name.</p>
           <p>They will have one minute to respond, and if they choose to play ball, you will be taken directly to the lineup page.</p>
         </div>

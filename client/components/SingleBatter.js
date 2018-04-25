@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import onClickOutside from 'react-onclickoutside';
+import store, {clearBatter} from '../store';
 
 class SingleBatter extends Component {
   constructor() {
@@ -18,7 +19,7 @@ class SingleBatter extends Component {
   }
 
   handleClickOutside(evt) {
-    const {clickStats} = this.props
+    const {clickStats, isSearch} = this.props
     if (clickStats) {
       const targetClass = evt.target.classList.value;
       if (targetClass.startsWith('lineup-full-card-button')) {
@@ -27,17 +28,21 @@ class SingleBatter extends Component {
       } else {
         clickStats(null, false)
       }
+    } else if (isSearch) {
+      store.dispatch(clearBatter())
     }
   };
 
   render() {
-    const { thisBatter, isLineup } = this.props;
+    const { thisBatter, isLineup, isSearch } = this.props;
     let batter = thisBatter;
     let lineupClass;
     if (isLineup) {
       lineupClass = 'lineup-single-player animated zoomIn';
-    } else {
+    } else if (!isLineup && !isSearch) {
       lineupClass = 'lineup-single-player';
+    } else if (isSearch) {
+      lineupClass = 'lineup-single-player search-card animated zoomIn';
     }
 
     return (
@@ -45,7 +50,7 @@ class SingleBatter extends Component {
         <div className="single-batter-column-container">
           <h2>{batter.name}</h2>
           {
-            !isLineup && <small>Quantity: {batter.quantity}</small>
+            !isLineup && <small>Quantity: {batter.quantity} {isSearch && <button onClick={() => this.handleClickOutside()}>Hide</button>}</small>
           }
           <div className="single-batter-info">
             <div className="single-batter-column">

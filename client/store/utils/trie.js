@@ -1,48 +1,46 @@
 class Trie {
   constructor() {
     this.children = {};
-    this.dataObjects = [];
+    this.names = [];
+    this.isEndOfWord = false;
   }
-  
-  add(string, player) {
+
+  add(player) {
     let node = this;
-    string = string.toLowerCase();
-    for (let i = 0; i < string.length; i++) {
-      let letter = string[i];
-      
+    const name = player.name.toLowerCase();
+    for (let i = 0; i < name.length; i++) {
+      let letter = name[i];
       if (!node.children[letter]) {
         node.children[letter] = new Trie();
       }
       node = node.children[letter];
-      if (i > 1) node.dataObjects.push(player);
+      if (i > 1) node.names.push(player.name);
+      if (i === name.length - 1) node.isEndOfWord = true;
     }
   }
 
   buildTrie(array) {
     for (let i = 0; i < array.length; i++) {
       let player = array[i];
-      this.add(player.name, player);
+      this.add(player);
     }
     return this;
   }
-  
+
   searchFor(string) {
     let node = this;
     let idx = 0;
     string = string.toLowerCase();
-    console.log(string)
     while (string[idx]) {
       let letter = string[idx];
       if (!node.children[letter]) {
         return [];
       } else {
-        console.log(node)
         node = node.children[letter];
         idx++;
       }
     }
-    console.log(node)
-    return node.dataObjects;
+    return node.names;
   }
 }
 
