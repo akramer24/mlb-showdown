@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import store, { sendChallenge } from '../store';
 import socket from '../socket';
@@ -19,19 +19,30 @@ class OnlineUsers extends React.Component {
 
     return (
       <div id="online-users">
-        <h3>Online Users</h3>
         {
-          onlineUsers && onlineUsers.map(userObj => {
-            if (userObj.teamName !== activeUser.userInfo.teamName) {
-              return (
-                <p key={userObj.teamName}>{userObj.teamName} <button className="vs-button" onClick={() => this.handleChallenge(userObj)}>vs.</button>
-                  {
-                    sentChallenges.find(challenge => challenge.to.teamName === userObj.teamName) && <span>Active</span>
-                  }</p>
+          onlineUsers.length > 0
+            ?
+            <div>
+              <h3>Online Users</h3>
+              {
+                onlineUsers && onlineUsers.map(userObj => {
+                  if (userObj.teamName !== activeUser.userInfo.teamName) {
+                    return (
+                      <p key={userObj.teamName}>{userObj.teamName} <button className="vs-button" onClick={() => this.handleChallenge(userObj)}>vs.</button>
+                        {
+                          sentChallenges.find(challenge => challenge.to.teamName === userObj.teamName) && <span>Active</span>
+                        }</p>
 
-              )
-            }
-          })
+                    )
+                  }
+                })
+              }
+            </div>
+            :
+            <div>
+              <h3>No users online</h3>
+              <p>While you wait, you can visit your <NavLink to={`/users/${activeUser.userInfo.id}`}>team page.</NavLink></p>
+            </div>
         }
       </div>
     )
