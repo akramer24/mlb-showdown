@@ -24,10 +24,13 @@ class BoardButtons extends React.Component {
             }
             {
               ((half === 'top' && homeTeam === userTeamName && turn === 'pitcher') ||
-                (half === 'top' && awayTeam === userTeamName && turn === 'batter') ||
-                (half === 'bottom' && awayTeam === userTeamName && turn === 'pitcher') ||
-                (half === 'bottom' && homeTeam === userTeamName && turn === 'batter')) &&
+                (half === 'bottom' && awayTeam === userTeamName && turn === 'pitcher')) && 
               (result.length === 0 && totalPAs !== 0) && <button className="play-button" onClick={pitchAndSwing}>Pitch</button>
+            }
+            {
+              ((half === 'top' && awayTeam === userTeamName && turn === 'batter') ||
+              (half === 'bottom' && homeTeam === userTeamName && turn === 'batter')) &&
+              (result.length === 0 && totalPAs !== 0) && <button className="play-button" onClick={pitchAndSwing}>Swing</button>
             }
             <button id="show-rules-button" onClick={() => store.dispatch(updateGameState({ displayRules: true }))}>Rules</button>
             <h4>Pitcher Control: {pitcher && pitcher.control}</h4>

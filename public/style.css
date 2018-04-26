@@ -270,7 +270,7 @@ button:focus {
 
 #choose-lineup-lineup {
   position: absolute;
-  left: 27px;
+  left: 23px;
   width: 345px;
 }
 
@@ -288,7 +288,7 @@ button:focus {
 
 #lineup-container {
   height: 476px;
-  width: 400px;
+  width: 370px;
   position: absolute;
   top: 77px;
   overflow: scroll;
