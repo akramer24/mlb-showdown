@@ -13,6 +13,7 @@ const AuthForm = (props) => {
 
   return (
     <form id="credentials-form" onSubmit={handleSubmit} name={name}>
+      <h5>You must be logged in to use this app.</h5>
       {
         name === 'signup' &&
         <div className="form-field">
@@ -25,6 +26,7 @@ const AuthForm = (props) => {
       <div className="form-field">
         <input name="password" type="password" placeholder="Password" />
       </div>
+      {error && error.response && <div> {error.response.data} </div>}
       <div id="credentials-buttons">
         <div id="credentials-buttons-row">
           <button id="credentials-submit-button" type="submit">{displayName}</button>
@@ -32,7 +34,6 @@ const AuthForm = (props) => {
         </div>
         <a href="/auth/google"><img src="/btn_google_signin_dark_normal_web.png" id="google-signin-button" /></a>
       </div>
-      {error && error.response && <div> {error.response.data} </div>}
     </form>
   )
 }
@@ -48,7 +49,7 @@ const mapLogin = (state) => {
   return {
     name: 'login',
     displayName: 'Login',
-    error: state.user.error
+    error: state.user.activeUser.userInfo.error
   }
 }
 
@@ -56,7 +57,7 @@ const mapSignup = (state) => {
   return {
     name: 'signup',
     displayName: 'Sign Up',
-    error: state.user.error
+    error: state.user.activeUser.userInfo.error
   }
 }
 
