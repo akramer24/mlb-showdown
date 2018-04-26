@@ -6,43 +6,63 @@ import socket from '../socket';
 
 class OnlineUsers extends React.Component {
 
+  state = { error: false };
+
+  componentWillUnmount() {
+    this.setState({ error: false });
+  }
+
   handleChallenge(userObj) {
     const { teamName } = this.props.activeUser.userInfo;
-    const { socketId } = this.props.activeUser
+    const { socketId, batters, pitchers } = this.props.activeUser
     const challenge = { to: userObj, from: { teamName, socketId }, timeRemaining: 60 };
-    socket.emit('send challenge', challenge)
-    store.dispatch(sendChallenge(challenge))
+    if (batters.length > 8 && pitchers.length > 1) {
+      socket.emit('send challenge', challenge);
+      store.dispatch(sendChallenge(challenge));
+    } else {
+      this.setState({ error: true });
+    }
   }
 
   render() {
     const { onlineUsers, activeUser, sentChallenges } = this.props;
+    const { error } = this.state;
 
     return (
       <div id="online-users">
         {
-          onlineUsers.length > 0
-            ?
-            <div>
-              <h3>Online Users</h3>
-              {
-                onlineUsers && onlineUsers.map(userObj => {
-                  if (userObj.teamName !== activeUser.userInfo.teamName) {
-                    return (
-                      <p key={userObj.teamName}>{userObj.teamName} <button className="vs-button" onClick={() => this.handleChallenge(userObj)}>vs.</button>
-                        {
-                          sentChallenges.find(challenge => challenge.to.teamName === userObj.teamName) && <span>Active</span>
-                        }</p>
+          error &&
+          <div id="not-enough-players-error-box">
+            <h3>You need more players!</h3>
+            <p>You must have at least 9 batters and 2 pitchers to play a game.</p>
+            <p>Vist your <NavLink className="navlink" to={`/users/${activeUser.userInfo.id}`}>team page</NavLink> to buy more cards!</p>
+          </div>
+        }
+        {
+          onlineUsers.length > 0 && !error &&
+          <div>
+            <h3>Online Users</h3>
+            {
+              onlineUsers && onlineUsers.map(userObj => {
+                if (userObj.teamName !== activeUser.userInfo.teamName) {
+                  return (
+                    <p key={userObj.teamName}>{userObj.teamName} <button className="vs-button" onClick={() => this.handleChallenge(userObj)}>vs.</button>
+                      {
+                        sentChallenges.find(challenge => challenge.to.teamName === userObj.teamName) && <span>Active</span>
+                      }</p>
 
-                    )
-                  }
-                })
-              }
-            </div>
-            :
-            <div>
-              <h3>No users online</h3>
-              <p>While you wait, you can visit your <NavLink to={`/users/${activeUser.userInfo.id}`}>team page.</NavLink></p>
-            </div>
+                  )
+                }
+              })
+            }
+          </div>
+        }
+        {
+          !onlineUsers.length && !error &&
+          <div>
+            <h3>No users online</h3>
+            <p>While you wait, you can visit your <NavLink to={`/users/${activeUser.userInfo.id}`}>team page.</NavLink></p>
+          </div>
         }
       </div>
     )

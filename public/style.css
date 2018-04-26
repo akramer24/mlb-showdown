@@ -18,6 +18,15 @@ nav a {
   margin: 1em;
 }
 
+.navlink {
+  color: #978282;
+  transition: 1s;
+  -webkit-trasition: 1s;
+}
+
+.navlink:hover {
+  color: #c78585;
+}
 
 * {
   box-sizing: border-box;
@@ -143,7 +152,9 @@ button:focus {
 }
 
 #online-users {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @keyframes button-pulse {
@@ -166,6 +177,14 @@ button:focus {
 .vs-button:hover {
   background-color: wheat;
   color: orange;
+}
+
+#not-enough-players-error-box {
+  background-color: rgba(60,60,60,1);
+  color: #cfcfcf;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 20px 1px black;
 }
 
 /***********************************NEW CHALLENGE*********************/
