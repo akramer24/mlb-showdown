@@ -2,14 +2,14 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const Challenges = (props) => {
+export const Challenges = (props) => {
 
   const { challenges } = props;
   return (
     <div>
       <h3>These are my challenges</h3>
       {
-        challenges && challenges.map(challenge => <p key={challenge.teamName}>{challenge.teamName}</p>)
+        challenges && challenges.map(challenge => <p className="challenge" key={challenge.teamName}>{challenge.teamName}</p>)
       }
     </div>
   )
