@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import store, { sendChallenge } from '../store';
 import socket from '../socket';
 
-class OnlineUsers extends React.Component {
+export class OnlineUsers extends React.Component {
 
   state = { error: false };
 
@@ -40,13 +40,13 @@ class OnlineUsers extends React.Component {
         }
         {
           onlineUsers.length > 0 && !error &&
-          <div>
+          <div id="online-users-list">
             <h3>Online Users</h3>
             {
               onlineUsers && onlineUsers.map(userObj => {
                 if (userObj.teamName !== activeUser.userInfo.teamName) {
                   return (
-                    <p key={userObj.teamName}>{userObj.teamName} <button className="vs-button" onClick={() => this.handleChallenge(userObj)}>vs.</button>
+                    <p key={userObj.teamName} className="online-user">{userObj.teamName} <button className="vs-button" onClick={() => this.handleChallenge(userObj)}>vs.</button>
                       {
                         sentChallenges.find(challenge => challenge.to.teamName === userObj.teamName) && <span>Active</span>
                       }</p>
@@ -59,7 +59,7 @@ class OnlineUsers extends React.Component {
         }
         {
           !onlineUsers.length && !error &&
-          <div>
+          <div id="no-online-users">
             <h3>No users online</h3>
             <p>While you wait, you can visit your <NavLink to={`/users/${activeUser.userInfo.id}`}>team page.</NavLink></p>
           </div>
