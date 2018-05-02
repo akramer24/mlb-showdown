@@ -5,7 +5,7 @@ import { fetchUserBatters, deleteUserBatter } from '../store';
 import SingleBatter from './SingleBatter';
 import Search from './Search';
 
-class AllBatters extends Component {
+export class AllBatters extends Component {
 
   constructor() {
     super();

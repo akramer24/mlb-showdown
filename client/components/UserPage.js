@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { AllBatters, AllPitchers, NewPack, NewChallenge, Search } from './index';
 import { fetchInactiveUser, userBuyPack, removePack, fetchUserBatters, fetchUserPitchers } from '../store';
 
-class UserPage extends React.Component {
+export class UserPage extends React.Component {
 
   constructor() {
     super();
@@ -41,9 +41,9 @@ class UserPage extends React.Component {
       <div id="user-page">
         <div id="user-page-header">
           <h3 id="user-page-team-name" className="user-page-header-item">{user.teamName}</h3>
-          <p className="user-page-header-item"><span className="bold">Record:</span> {user.wins}-{user.losses}</p>
+          <p id="user-page-user-record" className="user-page-header-item"><span className="bold">Record:</span> {user.wins}-{user.losses}</p>
           {
-            activeUser.userInfo.id === Number(match.params.userId) && <p className="user-page-header-item"><span className="bold">Cash:</span> ${user.cash}</p>
+            activeUser.userInfo.id === Number(match.params.userId) && <p id="user-cash" className="user-page-header-item"><span className="bold">Cash:</span> ${user.cash}</p>
           }
           {
             this.state.displayPack
@@ -53,22 +53,22 @@ class UserPage extends React.Component {
           }
           {
             activeUser.userInfo.id === Number(match.params.userId) && activeUser.userInfo.cash >= 5 &&
-              <button
-                id="buy-pack-button"
-                className="user-page-header-item"
-                onClick={() => {
+            <button
+              id="buy-pack-button"
+              className="user-page-header-item"
+              onClick={() => {
                 buyPack(activeUser.userInfo.id, activeUser.userInfo.cash, true)
                 this.displayPack(true)
               }
               }>Buy a pack</button>
-            }
-            {
-              activeUser.userInfo.id === Number(match.params.userId) && activeUser.userInfo.cash < 5 &&
-              <p className="user-page-header-item">Packs cost $5. Play a game to earn money so you can buy one.</p>
-            }
+          }
+          {
+            activeUser.userInfo.id === Number(match.params.userId) && activeUser.userInfo.cash < 5 &&
+            <p id="user-page-not-enough-money-warning" className="user-page-header-item">Packs cost $5. Play a game to earn money so you can buy one.</p>
+          }
         </div>
         {
-          challenges.map(challengeObj => <NewChallenge key={challengeObj.to.teamName} teamName={challengeObj.teamName} socketId={challengeObj.socketId} timeRemaining={challengeObj.timeRemaining} />)
+          activeUser.userInfo.id === Number(match.params.userId) && challenges.map(challengeObj => <NewChallenge key={challengeObj.to.teamName} teamName={challengeObj.teamName} socketId={challengeObj.socketId} timeRemaining={challengeObj.timeRemaining} />)
         }
         {
           activeUser.userInfo.id &&
