@@ -26,6 +26,13 @@ const SEARCH_FOR_USER_BATTER = 'SEARCH_FOR_USER_BATTER';
 const GET_SEARCHED_USER_BATTER = 'GET_SEARCHED_USER_BATTER';
 const CLEAR_USER_BATTER = 'CLEAR_USER_BATTER';
 
+export const actions = { 
+  GET_ACTIVE_USER, GET_INACTIVE_USER, REMOVE_USER, GET_ACTIVE_USER_BATTERS, GET_ACTIVE_USER_PITCHERS,
+  GET_INACTIVE_USER_BATTERS, GET_INACTIVE_USER_PITCHERS, DELETE_ACTIVE_USER_BATTER, DELETE_ACTIVE_USER_PITCHER,
+  BUY_PACK, CLEAR_PACK, ADD_ONLINE_USER, SET_USER_SOCKET, REMOVE_ONLINE_USER, GET_MOST_RECENT_LINEUP, GET_MOST_RECENT_ROTATION,
+  SEARCH_FOR_USER_BATTER, GET_SEARCHED_USER_BATTER, CLEAR_USER_BATTER
+}
+
 
 /**
  * INITIAL STATE
@@ -309,7 +316,7 @@ export function saveMostRecentRotation(userId, rotation) {
   }
 }
 
-function sortByLastName(array) {
+export function sortByLastName(array) {
   array.sort((a, b) => {
     const nameA = a.lastName.toUpperCase();
     const nameB = b.lastName.toUpperCase();
@@ -328,7 +335,7 @@ function sortByLastName(array) {
 /**
  * REDUCER
  */
-export default function (state = defaultUser, action) {
+export default function reducer(state = defaultUser || null, action) {
   switch (action.type) {
     case GET_ACTIVE_USER:
       return { ...state, activeUser: { ...state.activeUser, userInfo: action.user } };

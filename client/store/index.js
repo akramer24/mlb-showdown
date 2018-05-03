@@ -9,7 +9,7 @@ import gameSetUp from './gameSetUp';
 import play from './play';
 import challenges from './challenge';
 
-const reducer = combineReducers({
+export const reducer = combineReducers({
   user,
   batters,
   pitchers,
