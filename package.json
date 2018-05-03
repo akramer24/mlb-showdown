@@ -18,7 +18,7 @@
     "start": "node server",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & npm run start-server",
     "start-server": "nodemon server -e html,js,scss --ignore public --ignore client",
-    "test-client": "mocha ./client/**/*.spec.js --require @babel/polyfill --require @babel/register --require ./client/test/setup.js -w",
+    "test-client": "NODE_ENV='test' mocha ./client/**/*.spec.js --require @babel/polyfill --require @babel/register --require ./client/test/setup.js -w",
     "test-server": "NODE_ENV='test' mocha ./server/**/*.spec.js ./server/**/**/*.spec.js -w",
     "test": "npm run test-server & npm run test-client"
   },
