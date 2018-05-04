@@ -9,6 +9,7 @@ class Home extends React.Component {
     const { isLoggedIn, challenges } = this.props;
     return (
       <div id="home-page">
+        <div className="layer"></div>
         <div id="home-page-users-and-challenge-container">
           {
             isLoggedIn

@@ -48,7 +48,7 @@ class SingleBatter extends Component {
     return (
       <div className={lineupClass}>
         <div className="single-batter-column-container">
-          <h2>{batter.name}</h2>
+          <h2 className="single-batter-name">{batter.name}</h2>
           {
             !isLineup && <small>Quantity: {batter.quantity} {isSearch && <button onClick={() => this.handleClickOutside()}>Hide</button>}</small>
           }

@@ -35,7 +35,7 @@ export class OnlineUsers extends React.Component {
           <div id="not-enough-players-error-box">
             <h3>You need more players!</h3>
             <p>You must have at least 9 batters and 2 pitchers to play a game.</p>
-            <p>Vist your <NavLink className="navlink" to={`/users/${activeUser.userInfo.id}`}>team page</NavLink> to buy more cards!</p>
+            <p>Visit your <NavLink className="navlink" to={`/users/${activeUser.userInfo.id}`}>team page</NavLink> to buy more cards!</p>
           </div>
         }
         {
@@ -61,7 +61,7 @@ export class OnlineUsers extends React.Component {
           !onlineUsers.length && !error &&
           <div id="no-online-users">
             <h3>No users online</h3>
-            <p>While you wait, you can visit your <NavLink to={`/users/${activeUser.userInfo.id}`}>team page.</NavLink></p>
+            <p>While you wait, you can visit your <NavLink className="navlink" to={`/users/${activeUser.userInfo.id}`}>team page.</NavLink></p>
           </div>
         }
       </div>

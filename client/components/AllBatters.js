@@ -44,10 +44,9 @@ export class AllBatters extends Component {
     return (
       batters && batters.length > 0 &&
       <div className='display-players'>
-        <h1 className='page-header'>Batters</h1>
-        {isActive && <Search />}
-        {isActive && activeUser.singleBatter.name && <SingleBatter isLineup={false} thisBatter={activeUser.singleBatter} isBatter={true} isSearch={true} />}
-        <div id='all-batters'>
+          <h1 className='page-header'>Batters</h1>
+          {isActive && <Search />}
+          <div id='all-batters'>
           {
             batters && batters.map((batter, idx) => {
               return (
@@ -55,7 +54,8 @@ export class AllBatters extends Component {
               )
             })
           }
-        </div>
+          </div>
+          {isActive && activeUser.singleBatter.name && <SingleBatter isLineup={false} thisBatter={activeUser.singleBatter} isBatter={true} isSearch={true} />}
       </div>
     )
   }
