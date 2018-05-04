@@ -270,7 +270,6 @@ button:focus {
 
 #choose-lineup-lineup {
   position: absolute;
-  left: 23px;
   width: 345px;
 }
 
@@ -291,6 +290,7 @@ button:focus {
   width: 370px;
   position: absolute;
   top: 77px;
+  left: 27px;
   overflow: scroll;
 }
 
@@ -990,6 +990,7 @@ button:focus {
   color: #47ea94;
   box-shadow: 1px 1px 20px 5px black;
   border-radius: 10px;
+  margin: 10px;
 }
 
 /**************************USER PAGE**************************/
